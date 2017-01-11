@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_good_details"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.bigshark.smartlight.pro.market.view.GoodDetailsActivity"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
+    <com.youth.banner.Banner
+        android:id="@+id/bn_goodImgs"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E1E1E1"/>
+
+<com.allen.library.SuperTextView
+    android:id="@+id/stv_goodTitle"
+    app:sLineShow="none"
+    app:sLeftTextString="coach羊绒波士顿包"
+    app:sLeftTextColor="@color/text_fist"
+    app:sLeftTextSize="@dimen/title_text_size"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_moeny"
+        android:textColor="@color/red"
+        android:background="@color/white"
+        android:paddingLeft="14dp"
+        android:text="￥1058"/>
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/stv_googDeatil"
+        app:sLeftTextString="快递：免运费"
+        app:sLeftTextColor="@color/text_secend"
+        app:sCenterTextString="库存：34"
+        app:sCenterTextColor="@color/text_secend"
+        app:sRightTextString="颜色：黑色"
+        app:sRightTextColor="@color/text_secend"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        app:sLineColor="#E1E1E1"
+        />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="end"
+        android:background="@color/mian_bottom_bar_bg"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+        <Button
+            android:id="@+id/bt_addCar"
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:text="加入购物车"
+            android:textColor="@color/white"
+            android:background="#FCC36D"/>
+        <Button
+            android:id="@+id/bt_buy"
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:text="立即购买"
+            android:textColor="@color/white"
+            android:background="#EE5656"/>
+    </LinearLayout>
+</RelativeLayout>

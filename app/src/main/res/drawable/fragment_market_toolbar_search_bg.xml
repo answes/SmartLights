@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 填充 -->
+    <solid android:color="@color/mian_toolbar_search_bg" />
+    <corners android:radius="4dp"/>
+    <stroke android:color="@color/mian_toolbar_search_bg"
+            android:width="1dp"
+        />
+</shape>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:padding="8dp"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:background="@color/aqua"
+              android:layout_height="100dp">
+    <CheckBox
+        android:id="@+id/cb_select"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/iv_img"
+        android:layout_width="100dp"
+        android:src="@drawable/hander"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginLeft="8dp"
+        android:layout_height="match_parent">
+        <com.allen.library.SuperTextView
+            android:id="@+id/stv_title"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:sLeftTextString="coach羊绒波士顿包"
+            app:sLeftTextColor="@color/text_fist"
+            app:sRightIconRes="@drawable/market_car_delete"
+            app:sLineShow="none"
+            app:sRightIconMarginRight="0dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:id="@+id/tv_price"
+            android:textColor="#EF6464"
+            android:text="价格：￥1057"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingTop="8dp"
+            android:orientation="horizontal">
+
+            <Button
+
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/market_sub"
+                android:textColor="#222222"
+                android:textSize="16sp"
+                android:background="@android:color/transparent"
+                android:layout_height="match_parent"
+                android:id="@+id/bt_sub"/>
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:layout_height="match_parent"
+                android:inputType="number"
+                android:singleLine="true"
+                android:textColor="#222222"
+                android:text="1"
+                android:gravity="center"
+                android:maxLength="3"
+                android:id="@+id/et_number"/>
+
+            <Button
+                android:id="@+id/bt_add"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textColor="#222222"
+                android:textSize="16sp"
+                android:text="@string/market_add"
+                android:background="@android:color/transparent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

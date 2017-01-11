@@ -8,6 +8,6 @@ import com.bigshark.smartlight.mvp.view.impl.MvpActivity;
  * Created by bigShark on 2016/12/19.
  */
 
-public abstract class BaseActivity <P extends MVPBasePresenter> extends MvpActivity{
+public abstract class BaseActivity <P extends MVPBasePresenter> extends MvpActivity<P>{
 
 }

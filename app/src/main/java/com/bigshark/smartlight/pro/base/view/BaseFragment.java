@@ -13,7 +13,7 @@ import com.bigshark.smartlight.mvp.view.impl.MVPBaseFragment;
  * Created by bigShark on 2016/12/19.
  */
 
-public abstract class BaseFragment<P extends MVPBasePresenter> extends MVPBaseFragment {
+public abstract class BaseFragment<P extends MVPBasePresenter> extends MVPBaseFragment<P> {
     private View viewContent;   //缓存视图
 
     @Override
@@ -45,5 +45,6 @@ public abstract class BaseFragment<P extends MVPBasePresenter> extends MVPBaseFr
     public abstract void initContentView(View viewContent);
 
     public void initData() {
+
     }
 }
