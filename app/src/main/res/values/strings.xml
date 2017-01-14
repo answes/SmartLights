@@ -21,4 +21,5 @@
     <string name="market_settlement">结算(2)</string>
     <string name="market_add">+</string>
     <string name="market_sub">-</string>
+    <string name="mine_ride_count_distance">总里程</string>
 </resources>

@@ -1,17 +1,25 @@
-package com.bigshark.smartlight.pro.market.view;
+package com.bigshark.smartlight.pro.mine.view;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.bigshark.smartlight.R;
-import com.bigshark.smartlight.bean.Market;
-import com.bigshark.smartlight.pro.base.view.BaseFragment;
+import com.bigshark.smartlight.bean.Ride;
+import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
+import com.bigshark.smartlight.pro.base.view.BaseActivity;
+import com.bigshark.smartlight.pro.market.view.GoodDetailsActivity;
 import com.bigshark.smartlight.pro.market.view.adapter.viewholder.MarketViewHolder;
-import com.bigshark.smartlight.pro.market.view.navigation.MarketNavigationBuilder;
+import com.bigshark.smartlight.pro.mine.view.adapter.RideViewHolder;
+import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
 import com.bigshark.smartlight.utils.DividerGridItemDecoration;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
@@ -23,49 +31,44 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by bigShark on 2016/12/28.
- */
+public class RideActivity extends BaseActivity implements RecyclerArrayAdapter.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
 
-public class MarketFragment extends BaseFragment implements RecyclerArrayAdapter.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
     @BindView(R.id.erv_content)
     EasyRecyclerView ervContent;
-    private RecyclerArrayAdapter adapter;
-    private List<Market> datas;
+    @BindView(R.id.activity_ride)
+    LinearLayout activityRide;
+
     private Handler handler = new Handler();
     private boolean hasNetWork = true;
+    private List<Ride> datas = new ArrayList<>();
+    private RecyclerArrayAdapter adapter;
 
     @Override
-    public int getContentView() {
-        return R.layout.fragment_market;
-    }
-
-    @Override
-    public void initContentView(View viewContent) {
-        ButterKnife.bind(this, viewContent);
-        initToolbar(viewContent);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_ride);
+        ButterKnife.bind(this);
+        initToolbar();
         initData();
         initRecyclerView();
     }
 
-    @Override
-    public void initData() {
-        super.initData();
-        datas = new ArrayList<>();
-        for (int i = 0; i < 21; i++) {
-            Market market = new Market();
-            datas.add(market);
+    private void initData() {
+        for(int i = 0;i<2;i++){
+            Ride r = new Ride();
+            r.setDistance(4.99);
+            r.setTime("2016-09-11 12:12:22");
+            datas.add(r);
         }
     }
 
-    private void initRecyclerView() {
-        ervContent.setLayoutManager(new GridLayoutManager(getActivity(),2));
-       ervContent.addItemDecoration(new DividerGridItemDecoration(getActivity()));
 
-        ervContent.setAdapterWithProgress( adapter = new RecyclerArrayAdapter(getActivity()) {
+    private void initRecyclerView() {
+        ervContent.setLayoutManager(new LinearLayoutManager(this));
+        ervContent.setAdapterWithProgress( adapter = new RecyclerArrayAdapter(this) {
             @Override
             public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
-                return new MarketViewHolder(parent);
+                return new RideViewHolder(parent);
             }
 
             @Override
@@ -88,12 +91,9 @@ public class MarketFragment extends BaseFragment implements RecyclerArrayAdapter
         });
         ervContent.setRefreshListener(this);
         onRefresh();
-
-
         adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                GoodDetailsActivity.openGoodDetailsActivity(getActivity());
             }
         });
 
@@ -130,14 +130,25 @@ public class MarketFragment extends BaseFragment implements RecyclerArrayAdapter
         }, 100);
     }
 
-    private void initToolbar(View viewContent) {
-        MarketNavigationBuilder toolbar = new MarketNavigationBuilder(getContext());
-        toolbar.setRightIcon(R.drawable.main_bottom_market_press)
-                .setRightIconOnClickListener(new View.OnClickListener() {
+
+    private void initToolbar() {
+        MineNavigationBuilder toolbar = new MineNavigationBuilder(this);
+        toolbar.setLeftIcon(R.drawable.left_back)
+                .setLeftIconOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        CarActivity.openCarActivity(getActivity());
+                        finish();
                     }
-                }).createAndBind((ViewGroup) viewContent);
+                }).setTitle("我的骑行") .createAndBind(activityRide);
+    }
+
+
+    public static void openRideActivity(Activity activity){
+        activity.startActivity(new Intent(activity,RideActivity.class));
+    }
+
+    @Override
+    public MVPBasePresenter bindPresneter() {
+        return null;
     }
 }

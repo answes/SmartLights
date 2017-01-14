@@ -18,7 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".pro.mine.view.StrokeActivity">
+        <activity android:name=".pro.mine.view.MarketActivity">
         </activity>
         <activity android:name=".pro.mine.view.SetActivity">
         </activity>
@@ -27,6 +27,14 @@
         <activity android:name=".pro.market.view.GoodDetailsActivity">
         </activity>
         <activity android:name=".pro.market.view.CarActivity">
+        </activity>
+        <activity android:name=".pro.market.view.ConfirmOrederActivity">
+        </activity>
+        <activity android:name=".pro.mine.view.MessgeActivity">
+        </activity>
+        <activity android:name=".pro.mine.view.RideActivity">
+        </activity>
+        <activity android:name=".pro.mine.view.EquipmentActivity">
         </activity>
     </application>
 

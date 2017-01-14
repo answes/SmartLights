@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity implements TabHost.OnTabChan
                 , R.drawable.main_bottom_index_press, R.string.main_index_text, IndexFragment.class));
 
         //添加商场Tab
-        tabItemList.add(new TabItem(R.drawable.main_bottom_shopping_normal
-                , R.drawable.main_bottom_shopping_press, R.string.main_shopping_text, MarketFragment.class));
+        tabItemList.add(new TabItem(R.drawable.main_bottom_market_normal
+                , R.drawable.main_bottom_market_press, R.string.main_shopping_text, MarketFragment.class));
 
         //添加我的Tab
         tabItemList.add(new TabItem(R.drawable.main_bottom_mine_normal

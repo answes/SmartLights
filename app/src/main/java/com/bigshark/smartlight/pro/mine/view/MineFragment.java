@@ -1,7 +1,5 @@
 package com.bigshark.smartlight.pro.mine.view;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -50,6 +48,12 @@ public class MineFragment extends BaseFragment {
     private void initToolbar(View viewContent) {
         MineNavigationBuilder toolbar = new MineNavigationBuilder(getActivity());
         toolbar.setRightIcon(R.drawable.fragment_mine_messge)
+                .setRightIconOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MessgeActivity.openMessgeActivity(getActivity());
+                    }
+                })
                 .createAndBind((ViewGroup) viewContent);
     }
 
@@ -57,12 +61,15 @@ public class MineFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.stv_myStroke:
+                RideActivity.openRideActivity(getActivity());
                 break;
             case R.id.stv_myorder:
                 break;
             case R.id.stv_myEquipment:
+                EquipmentActivity.openEquipmentActivity(getActivity());
                 break;
             case R.id.stv_market:
+                MarketActivity.openMarketActivity(getActivity());
                 break;
             case R.id.stv_set:
                 SetActivity.openSetActivity(getActivity());

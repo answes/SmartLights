@@ -4,18 +4,21 @@
               android:padding="8dp"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
-              android:background="@color/aqua"
+              android:background="@color/white"
               android:layout_height="100dp">
     <CheckBox
         android:id="@+id/cb_select"
         android:layout_width="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_marginRight="8dp"
+        android:button="@drawable/car_list_item_check_state"
         android:layout_height="wrap_content"/>
 
-    <ImageView
+    <com.bigshark.smartlight.weight.XCRoundRectImageView
         android:id="@+id/iv_img"
         android:layout_width="100dp"
         android:src="@drawable/hander"
+        app:round_radius="4dp"
         android:layout_height="match_parent"/>
 
     <LinearLayout
@@ -24,16 +27,21 @@
         android:orientation="vertical"
         android:layout_marginLeft="8dp"
         android:layout_height="match_parent">
+
         <com.allen.library.SuperTextView
             android:id="@+id/stv_title"
             android:layout_width="match_parent"
             android:layout_height="30dp"
+            app:sLeftTextMarginLeft="0dp"
             app:sLeftTextString="coach羊绒波士顿包"
             app:sLeftTextColor="@color/text_fist"
             app:sRightIconRes="@drawable/market_car_delete"
             app:sLineShow="none"
             app:sRightIconMarginRight="0dp"
+            app:sRightIconWidth="25dp"
+            app:sRightIconHeight="25dp"
             />
+
         <TextView
             android:layout_width="match_parent"
             android:id="@+id/tv_price"
@@ -45,11 +53,11 @@
             android:layout_width="100dp"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:paddingTop="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/car_list_item_bt_bg"
             android:orientation="horizontal">
 
             <Button
-
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:text="@string/market_sub"
@@ -62,7 +70,7 @@
             <EditText
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
+                android:background="@drawable/car_list_item_bt_bg"
                 android:layout_height="match_parent"
                 android:inputType="number"
                 android:singleLine="true"

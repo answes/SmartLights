@@ -19,6 +19,8 @@
         android:id="@+id/bn_goodImgs"
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        app:indicator_width="10dp"
+        app:indicator_height="10dp"
         />
     <View
         android:layout_width="match_parent"

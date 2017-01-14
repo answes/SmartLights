@@ -12,6 +12,7 @@
     <color name="text_three">#C4C4C4</color>
     <color name="text_secend">#6C6C6C</color>
     <color name="text_fist">#222222</color>
+    <color name="tongming">@android:color/transparent</color>
 
 
 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:padding="8dp"
+              android:layout_height="110dp">
+
+    <com.bigshark.smartlight.weight.XCRoundRectImageView
+        android:id="@+id/iv_img"
+        android:layout_width="130dp"
+        android:src="@drawable/hander"
+        app:round_radius="4dp"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="12dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="coach羊绒波士顿包"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textSize="@dimen/title_text_size"
+            android:textColor="@color/text_fist"/>
+        <com.allen.library.SuperTextView
+            android:id="@+id/stv_details"
+            android:layout_width="match_parent"
+            app:sLeftTopTextString="颜色：黑色"
+            app:sLeftBottomTextString="数量：1件"
+            app:sLineShow="none"
+            app:sBackgroundColor="@android:color/transparent"
+            app:sLeftTopTextColor="#999999"
+            app:sLeftTopTextMarginLeft="0dp"
+            app:sLeftBottomTextMarginLeft="0dp"
+            app:sLeftBottomTextColor="#999999"
+            android:layout_height="40dp"/>
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="match_parent"
+            android:textColor="#ee5656"
+            android:gravity="bottom"
+            android:text="价格：￥1057"
+            android:textSize="15sp"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+</LinearLayout>

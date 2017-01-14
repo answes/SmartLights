@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:background="@drawable/mine_equipment_item_bg"
+              android:layout_marginTop="12dp"
+              android:layout_marginLeft="12dp"
+              android:layout_marginRight="12dp"
+              android:layout_height="120dp">
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+    <TextView
+        android:id="@+id/tv_name"
+        android:textColor="#022222"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:paddingLeft="12dp"
+        android:text="设备名称：Amy的设备1"/>
+
+    <TextView
+        android:id="@+id/tv_numbering"
+        android:textColor="#022222"
+        android:layout_width="match_parent"
+        android:layout_marginTop="12dp"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:paddingLeft="12dp"
+        android:text="设备编号：20160708201"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+</LinearLayout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:background="@color/white"
+              android:layout_height="100dp">
+    <com.allen.library.SuperTextView
+        android:layout_width="match_parent"
+        android:id="@+id/stv_title"
+        app:sLeftTextString="平台信息"
+        app:sRightTextString="2016-09-11"
+        app:sLeftTextSize="@dimen/title_text_size"
+        app:sLeftTextColor="@color/text_fist"
+        app:sRightTextColor="#999999"
+        app:sLineShow="none"
+        android:layout_height="40dp"/>
+    <TextView
+        android:id="@+id/tv_messge"
+        android:layout_width="match_parent"
+        android:text="双12豪礼送亲友，现特价商品5折销售，更多优惠净瓶请进入商场进行抢购...."
+        android:lineSpacingMultiplier="1.5"
+        android:layout_marginLeft="16dp"
+        android:maxLines="2"
+        android:textColor="#3A3A3A"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

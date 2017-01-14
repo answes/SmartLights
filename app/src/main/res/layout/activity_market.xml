@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_stroke"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.bigshark.smartlight.pro.mine.view.MarketActivity">
+
+    <com.jude.easyrecyclerview.EasyRecyclerView
+        android:id="@+id/erv_content"
+        android:layout_width="match_parent"
+        app:layout_empty="@layout/view_empty"
+        app:layout_progress="@layout/view_progress"
+        app:layout_error="@layout/view_error"
+        app:recyclerClipToPadding="true"
+        app:scrollbarStyle="insideOverlay"
+        app:scrollbars="none"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
