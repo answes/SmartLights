@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.mvp.view.impl.MVPBaseFragment;
+import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 
 /**
  * baseFragment
@@ -15,13 +16,15 @@ import com.bigshark.smartlight.mvp.view.impl.MVPBaseFragment;
 
 public abstract class BaseFragment<P extends MVPBasePresenter> extends MVPBaseFragment<P> {
     private View viewContent;   //缓存视图
+    private boolean isInit;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (viewContent == null) {
             viewContent = inflater.inflate(getContentView(), container, false);
+            SupportMultipleScreensUtil.scale(viewContent);
             initContentView(viewContent);
-            initData();
         }
 
         //判断Fragment 对应的activity是否纯在这个视图
@@ -36,9 +39,15 @@ public abstract class BaseFragment<P extends MVPBasePresenter> extends MVPBaseFr
     }
 
     @Override
-    public P bindPresenter() {
-        return null;
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (!isInit){
+            this.isInit = true;
+            initData();
+        }
     }
+
+
 
     public abstract int getContentView();
 

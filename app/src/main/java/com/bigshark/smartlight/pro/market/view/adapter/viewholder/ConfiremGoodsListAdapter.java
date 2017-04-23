@@ -21,10 +21,10 @@ import java.util.List;
  * Created by luyanhong on 16/9/28.
  */
 public class ConfiremGoodsListAdapter extends RecyclerView.Adapter<ConfiremGoodsListAdapter.MyViewHolder> {
-    private List<CarGoods> list;
+    private List<CarGoods.Good> list;
     private Context context;
 
-    public ConfiremGoodsListAdapter(Context context, List<CarGoods> list){
+    public ConfiremGoodsListAdapter(Context context, List<CarGoods.Good> list){
         this.list = list;
         this.context = context;
     }
@@ -37,8 +37,10 @@ public class ConfiremGoodsListAdapter extends RecyclerView.Adapter<ConfiremGoods
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
       holder.name.setText(list.get(position).getName());
-      //holder.details.setLeftTopString(list.get(position).getName());
-      holder.price.setText("价格：￥".concat(list.get(position).getPrice()+""));
+        VolleyUtils.loadImage(context,holder.goodImg,list.get(position).getImgUrl());
+        //holder.details.setLeftTopString(list.get(position).getName());
+        holder.details.setLeftBottomString("数量:"+list.get(position).getNum());
+        holder.price.setText("价格：￥".concat(list.get(position).getPrice()));
         VolleyUtils.loadImage(context,holder.goodImg,list.get(position).getImgUrl());
     }
 

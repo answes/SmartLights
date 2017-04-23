@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_modify_info"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:background="@color/root_view_bg"
+    tools:context="com.bigshark.smartlight.pro.mine.view.ModifyInfoActivity">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="130px"
+        android:background="@color/white"
+        android:hint="请输入姓名"
+        android:textSize="40px"
+        android:padding="20px"
+        android:textColorHint="#d7d7d7"
+        android:singleLine="true"
+        android:id="@+id/et_info"
+        android:layout_marginTop="30px"/>
+</LinearLayout>

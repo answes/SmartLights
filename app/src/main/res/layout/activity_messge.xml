@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/root_view_bg"
     tools:context="com.bigshark.smartlight.pro.mine.view.MessgeActivity">
 
     <android.support.v7.widget.RecyclerView

@@ -6,29 +6,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/root_view_bg"
     tools:context="com.bigshark.smartlight.pro.market.view.CarActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:id="@+id/tv_null"
+        android:visibility="gone"
+        android:text="购物车为空"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_carlist"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="127px"
         android:layout_width="match_parent"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="141px"
         android:layout_height="match_parent"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="141px"
         android:background="@color/mian_bottom_bar_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+       >
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:paddingRight="8dp"
+            android:layout_marginLeft="30px"
+            android:paddingRight="30px"
             android:button="@drawable/car_all_selet_check_state"
             android:id="@+id/cb_AllSelet"/>
 
@@ -36,23 +45,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
+            android:textSize="43px"
             android:text="@string/market_all"/>
         <Space
-            android:layout_width="0dp"
+            android:layout_width="0px"
             android:layout_height="match_parent"
             android:layout_weight="1"/>
+
         <TextView
             android:id="@+id/tv_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:layout_marginRight="12dp"
+            android:textSize="43px"
+            android:layout_marginRight="86px"
             android:text="合计：￥360"/>
+
         <Button
             android:id="@+id/bt_settlement"
-            android:layout_width="120dp"
+            android:layout_width="288px"
             android:background="#EE5656"
             android:text="@string/market_settlement"
+            android:textSize="43px"
             android:textColor="@color/white"
             android:layout_height="match_parent"/>
     </LinearLayout>

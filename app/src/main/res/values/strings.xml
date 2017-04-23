@@ -1,6 +1,8 @@
 <resources>
+    <item name="is_scale_size_tag" type="id" />
+    <item name="is_scale_font_tag" type="id" />
     <string name="app_name">智能车灯</string>
-    <string name="main_index_text">首页</string>
+    <string name="main_index_text">骑行</string>
     <string name="main_shopping_text">商场</string>
     <string name="main_mine_text">我的</string>
     <string name="toolbar_search_text">搜索您想要的商品</string>
@@ -22,4 +24,18 @@
     <string name="market_add">+</string>
     <string name="market_sub">-</string>
     <string name="mine_ride_count_distance">总里程</string>
+
+    <array name="mine_order_tab">
+        <item>全部@bigShark@-1</item>
+        <item>待付款@bigShark@0</item>
+        <item>待收货@bigShark@1</item>
+    </array>
+
+
+    <string name="del">删除</string>
+    <string name="edit">编辑</string>
+    <string name="market_add_adress">新增地址</string>
+    <string name="market_save">保存</string>
+
+
 </resources>

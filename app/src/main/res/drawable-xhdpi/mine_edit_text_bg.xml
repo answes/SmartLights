@@ -3,7 +3,7 @@
     <!-- 填充 -->
     <solid android:color="@android:color/transparent" />
     <corners android:radius="5dp"/>
-    <stroke android:color="#F4F4F4"
+    <stroke android:color="#E3E3E3"
             android:width="1dp"/>
     <padding android:bottom="10dp"
              android:top="10dp"

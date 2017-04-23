@@ -1,5 +1,7 @@
 package com.bigshark.smartlight;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import com.bigshark.smartlight.pro.index.view.IndexFragment;
 import com.bigshark.smartlight.pro.market.view.MarketFragment;
 import com.bigshark.smartlight.pro.mine.view.MineFragment;
+import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,15 +24,19 @@ public class MainActivity extends AppCompatActivity implements TabHost.OnTabChan
 
     private List<TabItem> tabItemList;
 
+    public static void oppenMainActivity(Activity activity){
+        activity.startActivity(new Intent(activity,MainActivity.class));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FragmentTabHost rootView = (FragmentTabHost) findViewById(android.R.id.tabhost);
+        SupportMultipleScreensUtil.init(getApplication());
         initTabData();
         initTabHost();
+        SupportMultipleScreensUtil.scale(rootView);
     }
-
-
 
     //初始化Tab数据
     private void initTabData() {

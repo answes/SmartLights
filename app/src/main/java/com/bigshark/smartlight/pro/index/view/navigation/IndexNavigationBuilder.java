@@ -24,5 +24,7 @@ public class IndexNavigationBuilder extends NavigationBuilderAdapter {
     public void createAndBind(ViewGroup parent) {
         super.createAndBind(parent);
         setTitleTextView(R.id.tv_titlte,getTitle());
+        setImageViewStyle(R.id.iv_left,getLeftIconRes(),getLeftIconOnClickListener());
+        setImageViewStyle(R.id.iv_right,getRightIconRes(),getRightIconOnClickListener());
     }
 }

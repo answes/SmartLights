@@ -14,6 +14,8 @@ import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
+import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
+import com.bigshark.smartlight.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +33,8 @@ public class SetActivity extends BaseActivity {
     SuperTextView stvEmptyCache;
     @BindView(R.id.bt_logout)
     Button btLogout;
+    @BindView(R.id.activity_set)
+    LinearLayout rootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +42,10 @@ public class SetActivity extends BaseActivity {
         setContentView(R.layout.activity_set);
         ButterKnife.bind(this);
         initToolbar();
+        SupportMultipleScreensUtil.scale(rootView);
     }
 
     private void initToolbar() {
-        LinearLayout rootView = (LinearLayout) findViewById(R.id.activity_set);
         MineNavigationBuilder toolbar = new MineNavigationBuilder(this);
         toolbar.setLeftIcon(R.drawable.left_back)
                 .setLeftIconOnClickListener(new View.OnClickListener() {
@@ -66,8 +70,10 @@ public class SetActivity extends BaseActivity {
                 ChangePswActivity.openChangePswActivity(this);
                 break;
             case R.id.stv_emptyCache:
+                ToastUtil.showToast(this,"已清除30k缓存");
                 break;
             case R.id.bt_logout:
+                LoginActivity.openLoginActivity(this);
                 break;
         }
     }

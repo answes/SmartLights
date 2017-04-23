@@ -3,12 +3,13 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:padding="8dp"
-              android:layout_height="110dp">
+              android:layout_height="288px">
 
     <com.bigshark.smartlight.weight.XCRoundRectImageView
         android:id="@+id/iv_img"
-        android:layout_width="130dp"
+        android:layout_width="288px"
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="30px"
         android:src="@drawable/hander"
         app:round_radius="4dp"
         android:layout_height="match_parent"/>
@@ -16,16 +17,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="30px"
         android:orientation="vertical">
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="coach羊绒波士顿包"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:textSize="@dimen/title_text_size"
+            android:paddingTop="12px"
+            android:paddingBottom="12px"
+            android:layout_marginTop="17px"
+            android:textSize="43px"
             android:textColor="@color/text_fist"/>
         <com.allen.library.SuperTextView
             android:id="@+id/stv_details"
@@ -35,17 +37,19 @@
             app:sLineShow="none"
             app:sBackgroundColor="@android:color/transparent"
             app:sLeftTopTextColor="#999999"
-            app:sLeftTopTextMarginLeft="0dp"
-            app:sLeftBottomTextMarginLeft="0dp"
+            app:sLeftTopTextMarginLeft="0px"
+            app:sLeftBottomTextMarginLeft="0px"
+            app:sLeftTopTextSize="35px"
+            app:sLeftBottomTextSize="35px"
             app:sLeftBottomTextColor="#999999"
-            android:layout_height="40dp"/>
+            android:layout_height="130px"/>
         <TextView
             android:id="@+id/tv_price"
             android:layout_width="match_parent"
             android:textColor="#ee5656"
             android:gravity="bottom"
             android:text="价格：￥1057"
-            android:textSize="15sp"
+            android:textSize="40px"
             android:layout_height="match_parent"/>
     </LinearLayout>
 

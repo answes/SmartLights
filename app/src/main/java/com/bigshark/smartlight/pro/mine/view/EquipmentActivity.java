@@ -13,8 +13,10 @@ import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.bean.Equipment;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
+import com.bigshark.smartlight.pro.mine.presenter.MinePresenter;
 import com.bigshark.smartlight.pro.mine.view.adapter.EquipmentListAdapter;
 import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
+import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 我的设备为本地数据库提供的数据
+ */
 public class EquipmentActivity extends BaseActivity {
 
     @BindView(R.id.rv_equipment)
@@ -34,6 +39,7 @@ public class EquipmentActivity extends BaseActivity {
 
     private List<Equipment> datas = new ArrayList<>();
     private EquipmentListAdapter adapter;
+    private MinePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +47,7 @@ public class EquipmentActivity extends BaseActivity {
         setContentView(R.layout.activity_equipment);
         ButterKnife.bind(this);
         initToolbar();
+        SupportMultipleScreensUtil.scale(activityEquipment);
         initData();
     }
 
@@ -68,7 +75,8 @@ public class EquipmentActivity extends BaseActivity {
 
     @Override
     public MVPBasePresenter bindPresneter() {
-        return null;
+        presenter = new MinePresenter(this);
+        return presenter;
     }
 
     public static void openEquipmentActivity(Activity activity) {

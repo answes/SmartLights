@@ -3,13 +3,13 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:background="@drawable/mine_ride_item_bg"
-              android:layout_marginLeft="12dp"
-              android:layout_marginTop="12dp"
-              android:layout_marginRight="12dp"
-              android:layout_height="150dp">
+              android:layout_marginTop="30px"
+              android:layout_marginLeft="30px"
+              android:layout_marginRight="30px"
+              android:layout_height="288px">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="0px"
         android:layout_weight="1"
         android:orientation="horizontal">
         <TextView
@@ -17,42 +17,39 @@
             android:layout_height="wrap_content"
             android:text="@string/mine_ride_count_distance"
             android:textColor="#022222"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="18dp"
-            android:textSize="26sp"/>
+            android:layout_marginLeft="43px"
+            android:textSize="55px"/>
         <Space
-            android:layout_width="0dp"
+            android:layout_width="0px"
             android:layout_weight="1"
             android:layout_height="match_parent"/>
         <TextView
             android:id="@+id/tv_distance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:text="4.99"
-            android:textSize="45sp"
+            android:textSize="86px"
             android:textColor="#ee3c57"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:textSize="26sp"
+            android:textSize="49px"
             android:text="km"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="18dp"
+            android:layout_marginLeft="32px"
+            android:layout_marginRight="43px"
             android:textColor="#666666"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:background="#d7d7d7"/>
     <TextView
         android:id="@+id/tv_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:layout_marginRight="10dp"
-        android:textSize="18sp"
+        android:padding="32px"
+        android:textSize="43px"
         android:textColor="#666666"
         android:text="2016-09-11 12:12:22"
         android:gravity="right"/>

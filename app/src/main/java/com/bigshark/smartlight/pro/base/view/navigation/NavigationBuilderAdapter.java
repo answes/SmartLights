@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
+
 /**
  * Created by bigShark on 2016/12/19.
  */
@@ -79,6 +81,7 @@ public abstract class NavigationBuilderAdapter implements  NavigationBuilder {
     @Override
     public void createAndBind(ViewGroup parent) {
         contentView = LayoutInflater.from(getContext()).inflate(getLayoutId(), parent, false);
+        //SupportMultipleScreensUtil.scale(contentView);
         ViewGroup viewGroup = (ViewGroup) contentView.getParent();
         if (viewGroup != null) {
             viewGroup.removeView(contentView);

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:background="@color/antiquewhite"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="288px">
+    <CheckBox
+        android:id="@+id/cb_select"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="30px"
+        android:layout_marginLeft="20px"
+        android:button="@drawable/car_list_item_check_state"
+        android:checked="true"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.allen.library.SuperTextView
+            android:id="@+id/stv_name"
+            android:layout_width="match_parent"
+            app:sLeftTextString="真是"
+            app:sLeftTextMarginLeft="0px"
+            app:sBackgroundColor="@android:color/transparent"
+            app:sRightTextString="18376757141"
+            android:layout_height="72px"/>
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="南宁职业技术学院"/>
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_marginTop="20px"
+            android:layout_height="4px"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_defAds"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="默认地址"/>
+            <Button
+                android:id="@+id/bt_del"
+                android:layout_width="160px"
+                android:background="@color/white"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="40px"
+                android:text="@string/del"
+                android:layout_height="80px" />
+
+            <Button
+                android:id="@+id/bt_edit"
+                android:layout_width="160px"
+                android:background="@color/white"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="40px"
+                android:layout_toLeftOf="@id/bt_del"
+                android:text="@string/edit"
+                android:layout_height="80px" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

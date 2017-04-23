@@ -1,21 +1,25 @@
 package com.bigshark.smartlight.pro.market.view;
 
-import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.andview.refreshview.XRefreshView;
+import com.andview.refreshview.XRefreshViewFooter;
 import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.bean.Market;
+import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
+import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseFragment;
-import com.bigshark.smartlight.pro.market.view.adapter.viewholder.MarketViewHolder;
+import com.bigshark.smartlight.pro.market.presenter.MarketListPresenter;
+import com.bigshark.smartlight.pro.market.view.adapter.viewholder.MarKetListAdapter;
 import com.bigshark.smartlight.pro.market.view.navigation.MarketNavigationBuilder;
+import com.bigshark.smartlight.pro.mine.view.MarketActivity;
 import com.bigshark.smartlight.utils.DividerGridItemDecoration;
-import com.jude.easyrecyclerview.EasyRecyclerView;
-import com.jude.easyrecyclerview.adapter.BaseViewHolder;
-import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.bigshark.smartlight.utils.ToastUtil;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +31,15 @@ import butterknife.ButterKnife;
  * Created by bigShark on 2016/12/28.
  */
 
-public class MarketFragment extends BaseFragment implements RecyclerArrayAdapter.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
-    @BindView(R.id.erv_content)
-    EasyRecyclerView ervContent;
-    private RecyclerArrayAdapter adapter;
-    private List<Market> datas;
-    private Handler handler = new Handler();
-    private boolean hasNetWork = true;
+public class MarketFragment extends BaseFragment {
+    @BindView(R.id.xrefreshview)
+    XRefreshView xRefreshView;
+    @BindView(R.id.rv_content)
+    RecyclerView rvContent;
+
+    private MarKetListAdapter goodsAdapter;
+    private List<Market.Goods> goodsList;
+    private MarketListPresenter presenter;
 
     @Override
     public int getContentView() {
@@ -44,95 +50,99 @@ public class MarketFragment extends BaseFragment implements RecyclerArrayAdapter
     public void initContentView(View viewContent) {
         ButterKnife.bind(this, viewContent);
         initToolbar(viewContent);
-        initData();
-        initRecyclerView();
+        bindPresenter();
+        initRecycclerView();
     }
 
-    @Override
-    public void initData() {
-        super.initData();
-        datas = new ArrayList<>();
-        for (int i = 0; i < 21; i++) {
-            Market market = new Market();
-            datas.add(market);
-        }
-    }
+    private void initRecycclerView() {
+        xRefreshView.setPullRefreshEnable(true);
+        // 设置是否可以上拉加载
+        xRefreshView.setPullLoadEnable(true);
+        // 设置刷新完成以后，headerview固定的时间
+        xRefreshView.setPinnedTime(1000);
+        // 静默加载模式不能设置footerview
+        // 设置支持自动刷新
+        xRefreshView.setAutoLoadMore(true);
+        //设置静默加载时提前加载的item个数
+        //		xRefreshView.setPreLoadCount(2);
 
-    private void initRecyclerView() {
-        ervContent.setLayoutManager(new GridLayoutManager(getActivity(),2));
-       ervContent.addItemDecoration(new DividerGridItemDecoration(getActivity()));
+        rvContent.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        rvContent.addItemDecoration(new DividerGridItemDecoration(getActivity()));
+        rvContent.setHasFixedSize(true);
 
-        ervContent.setAdapterWithProgress( adapter = new RecyclerArrayAdapter(getActivity()) {
+        initData(true);
+
+        goodsAdapter = new MarKetListAdapter(getContext(), goodsList);
+        rvContent.setAdapter(goodsAdapter);
+
+        goodsAdapter.setCustomLoadMoreView(new XRefreshViewFooter(getContext()));
+        xRefreshView.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
             @Override
-            public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
-                return new MarketViewHolder(parent);
+            public void onRefresh() {
+                initData(true);
             }
 
             @Override
-            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+            public void onLoadMore(boolean isSlience) {
+                initData(false);
             }
         });
 
-        adapter.setMore(R.layout.view_more,this);
-        adapter.setNoMore(R.layout.view_nomore, new RecyclerArrayAdapter.OnNoMoreListener() {
+        goodsAdapter.setItemOnClickListener(new MarKetListAdapter.ItemOnClickListener() {
             @Override
-            public void onNoMoreShow() {
-                adapter.resumeMore();
-            }
-
-            @Override
-            public void onNoMoreClick() {
-                adapter.resumeMore();
-            }
-        });
-        ervContent.setRefreshListener(this);
-        onRefresh();
-
-
-        adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                GoodDetailsActivity.openGoodDetailsActivity(getActivity());
+            public void onItemClick(View view, int postion) {
+                GoodDetailsActivity.openGoodDetailsActivity(getActivity(),goodsList.get(postion).getId());
             }
         });
 
     }
-    @Override
-    public void onRefresh() {
-        handler.postDelayed(new Runnable() {
+
+    public void initData(final boolean isDownRefresh) {
+        goodsList = new ArrayList<>();
+        presenter.getGoodsList(isDownRefresh, new BasePresenter.OnUIThreadListener<List<Market.Goods>>() {
             @Override
-            public void run() {
-                adapter.clear();
-                //刷新
-                if (!hasNetWork) {
-                    adapter.pauseMore();
-                    return;
+            public void onResult(List<Market.Goods> result) {
+                if (isDownRefresh) {
+                    xRefreshView.stopRefresh();
+                    if (result == null) {
+                        ToastUtil.showToast(getContext(), "加载失败");
+                        return;
+                    }
+                    goodsList.clear();
+                } else {
+                    xRefreshView.stopLoadMore();
+                    if (result == null) {
+                        ToastUtil.showToast(getContext(), "没有更多数据了");
+                        return;
+                    }
                 }
-                adapter.addAll(datas);
+                goodsList.addAll(result);
+                goodsAdapter.notifyDataSetChanged();
             }
-        }, 2000);
+            @Override
+            public void onErro(String string) {
+                showMsg(string);
+            }
+        });
     }
 
+    private void showMsg(String string){
+
+    }
     @Override
-    public void onLoadMore() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //刷新
-                adapter.pauseMore();
-//                if (!hasNetWork) {
-//
-//                    return;
-//                }
-//                adapter.addAll(datas);
-            }
-        }, 100);
+    public MVPBasePresenter bindPresenter() {
+        presenter = new MarketListPresenter(getContext());
+        return presenter;
     }
 
     private void initToolbar(View viewContent) {
         MarketNavigationBuilder toolbar = new MarketNavigationBuilder(getContext());
-        toolbar.setRightIcon(R.drawable.main_bottom_market_press)
+        toolbar.setLeftIcon(R.drawable.left_back).setLeftIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        }).setRightIcon(R.drawable.main_bottom_market_press)
                 .setRightIconOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

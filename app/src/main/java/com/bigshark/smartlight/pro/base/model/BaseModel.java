@@ -20,6 +20,6 @@ public class BaseModel implements IMVPModel {
      * 服务器默认前置地址
      */
     public  String getServerUrl(){
-        return  "https://www.baidu.com";
+        return  "http://pybike.idc.zhonxing.com";
     }
 }

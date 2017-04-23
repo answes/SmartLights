@@ -21,6 +21,7 @@ import com.bigshark.smartlight.pro.market.view.adapter.viewholder.MarketViewHold
 import com.bigshark.smartlight.pro.mine.view.adapter.RideViewHolder;
 import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
 import com.bigshark.smartlight.utils.DividerGridItemDecoration;
+import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
@@ -31,6 +32,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * 我的骑行
+ */
 public class RideActivity extends BaseActivity implements RecyclerArrayAdapter.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
 
     @BindView(R.id.erv_content)
@@ -49,6 +53,7 @@ public class RideActivity extends BaseActivity implements RecyclerArrayAdapter.O
         setContentView(R.layout.activity_ride);
         ButterKnife.bind(this);
         initToolbar();
+        SupportMultipleScreensUtil.scale(activityRide);
         initData();
         initRecyclerView();
     }
