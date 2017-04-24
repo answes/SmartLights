@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import com.allen.library.SuperTextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.bigshark.smartlight.R;
-import com.bigshark.smartlight.bean.GoodDetail;
 import com.bigshark.smartlight.bean.OrderResult;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.bigshark.smartlight.utils.VolleyUtils;
@@ -96,11 +95,11 @@ public class OrderGoodListView extends LinearLayout {
         }else{
             stvTitle.setRightString("¥ ".concat(good.getPrice()));
         }
-        if(good.getFig().isEmpty()){
-            stvNumber.setLeftString("型号规格：棕色001");
-        }else{
-            stvNumber.setLeftString("型号规格：".concat(good.getFig()));
-        }
+//        if(good.getFig().isEmpty()){
+//            stvNumber.setLeftString("型号规格：棕色001");
+//        }else{
+//            stvNumber.setLeftString("型号规格：".concat(good.getFig()));
+//        }
         if(good.getNum().isEmpty()){
             stvNumber.setRightString("x 0");
         }else{

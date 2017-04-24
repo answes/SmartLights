@@ -16,7 +16,7 @@ import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.mine.presenter.MinePresenter;
-import com.bigshark.smartlight.pro.mine.view.navigation.RegiteredNavigationBuilder;
+import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 
 import butterknife.BindView;
@@ -64,8 +64,8 @@ public class ModifyInfoActivity extends BaseActivity {
     }
 
     private void initToolbar() {
-        RegiteredNavigationBuilder bar = new RegiteredNavigationBuilder(this);
-        bar.setRightText("完成").setTitle(title).setLeftIcon(R.drawable.left_back).setLeftIconOnClickListener(new View.OnClickListener() {
+        MineNavigationBuilder bar = new MineNavigationBuilder(this);
+        bar.setTitle(title).setLeftIcon(R.drawable.left_back).setLeftIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();

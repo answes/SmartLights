@@ -7,25 +7,20 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigshark.smartlight.IndexActivity;
-import com.bigshark.smartlight.MainActivity;
 import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.SmartLightsApplication;
 import com.bigshark.smartlight.bean.LoginResult;
-import com.bigshark.smartlight.bean.Market;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.mine.presenter.MinePresenter;
 import com.bigshark.smartlight.pro.mine.view.navigation.RegiteredNavigationBuilder;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
-import com.google.gson.Gson;
-
-import java.util.List;
+import com.yalantis.ucrop.dialog.SweetAlertDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,6 +71,10 @@ public class LoginActivity extends BaseActivity {
                 if(!check()){
                     return;
                 }
+
+                final SweetAlertDialog dialog = new SweetAlertDialog(this);
+                dialog.setTitleText("Loging...");
+                dialog.show();
                 if(System.currentTimeMillis() -lastOnclick >=500){
                     lastOnclick = System.currentTimeMillis();
                     presenter.login(etPhone.getText().toString(), etPsw.getText().toString(), new BasePresenter.OnUIThreadListener<LoginResult>() {

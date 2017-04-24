@@ -10,14 +10,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.allen.library.SuperTextView;
-import com.android.volley.toolbox.NetworkImageView;
 import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
 import com.bigshark.smartlight.R;
-import com.bigshark.smartlight.bean.Market;
 import com.bigshark.smartlight.bean.OrderResult;
 import com.bigshark.smartlight.utils.JSONUtil;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
-import com.bigshark.smartlight.utils.VolleyUtils;
 import com.bigshark.smartlight.weight.OrderGoodListView;
 
 import java.util.List;
@@ -53,7 +50,7 @@ public class OrderListAdapter extends BaseRecyclerAdapter<OrderListAdapter.ViewH
     @Override
     public void onBindViewHolder(ViewHolder holder, int position, boolean isItem) {
         OrderResult.Order order = datas.get(position);
-        holder.stvNo.setLeftString("订单编号：".concat(order.getOrderNum()));
+       // holder.stvNo.setLeftString("订单编号：".concat(order.getOrderNum()));
         //订单状态0:待付款,1:待发货，2:已发货,3:已完成,-1,已取消
         holder.stvNo.setRightTVColor(Color.parseColor("#ee3c57"));
         if("0".equals(order.getStatus())){

@@ -18,5 +18,4 @@
         <attr name="round_radius" format="dimension" />
     </declare-styleable>
 
-
 </resources>

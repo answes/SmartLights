@@ -20,4 +20,5 @@
         android:singleLine="true"
         android:id="@+id/et_info"
         android:layout_marginTop="30px"/>
+
 </LinearLayout>
