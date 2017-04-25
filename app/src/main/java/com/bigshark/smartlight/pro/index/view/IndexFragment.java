@@ -4,6 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bigshark.smartlight.R;
+import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseFragment;
 import com.bigshark.smartlight.pro.index.view.navigation.IndexNavigationBuilder;
 
@@ -26,5 +27,10 @@ public class IndexFragment extends BaseFragment {
         IndexNavigationBuilder toolbar = new IndexNavigationBuilder(getActivity());
         toolbar.setTitle(R.string.main_index_text)
                 .createAndBind((ViewGroup)viewContent);
+    }
+
+    @Override
+    public MVPBasePresenter bindPresenter() {
+        return null;
     }
 }

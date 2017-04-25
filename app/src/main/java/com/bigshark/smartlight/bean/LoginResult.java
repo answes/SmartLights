@@ -56,111 +56,121 @@ public class LoginResult {
         private String status;
         private String reg_tm;
         private String btel;
+       private int fig;
 
-        public User(String id, String user_num, String tel, String name, String height, String age, String weight, String sex, String status, String reg_tm, String btel) {
-            this.id = id;
-            this.user_num = user_num;
-            this.tel = tel;
-            this.name = name;
-            this.height = height;
-            this.age = age;
-            this.weight = weight;
-            this.sex = sex;
-            this.status = status;
-            this.reg_tm = reg_tm;
-            this.btel = btel;
-        }
+       public User(String id, String user_num, String tel, String name, String height, String age, String weight, String sex, String status, String reg_tm, String btel, int fig) {
+           this.id = id;
+           this.user_num = user_num;
+           this.tel = tel;
+           this.name = name;
+           this.height = height;
+           this.age = age;
+           this.weight = weight;
+           this.sex = sex;
+           this.status = status;
+           this.reg_tm = reg_tm;
+           this.btel = btel;
+           this.fig = fig;
+       }
 
-        public User() {
+       public User() {
 
-        }
+       }
 
-        public String getId() {
-            return id;
-        }
+       public String getId() {
+           return id;
+       }
 
-        public void setId(String id) {
-            this.id = id;
-        }
+       public void setId(String id) {
+           this.id = id;
+       }
 
-        public String getUser_num() {
-            return user_num;
-        }
+       public String getUser_num() {
+           return user_num;
+       }
 
-        public void setUser_num(String user_num) {
-            this.user_num = user_num;
-        }
+       public void setUser_num(String user_num) {
+           this.user_num = user_num;
+       }
 
-        public String getTel() {
-            return tel;
-        }
+       public String getTel() {
+           return tel;
+       }
 
-        public void setTel(String tel) {
-            this.tel = tel;
-        }
+       public void setTel(String tel) {
+           this.tel = tel;
+       }
 
-        public String getName() {
-            return name;
-        }
+       public String getName() {
+           return name;
+       }
 
-        public void setName(String name) {
-            this.name = name;
-        }
+       public void setName(String name) {
+           this.name = name;
+       }
 
-        public String getHeight() {
-            return height;
-        }
+       public String getHeight() {
+           return height;
+       }
 
-        public void setHeight(String height) {
-            this.height = height;
-        }
+       public void setHeight(String height) {
+           this.height = height;
+       }
 
-        public String getAge() {
-            return age;
-        }
+       public String getAge() {
+           return age;
+       }
 
-        public void setAge(String age) {
-            this.age = age;
-        }
+       public void setAge(String age) {
+           this.age = age;
+       }
 
-        public String getWeight() {
-            return weight;
-        }
+       public String getWeight() {
+           return weight;
+       }
 
-        public void setWeight(String weight) {
-            this.weight = weight;
-        }
+       public void setWeight(String weight) {
+           this.weight = weight;
+       }
 
-        public String getSex() {
-            return sex;
-        }
+       public String getSex() {
+           return sex;
+       }
 
-        public void setSex(String sex) {
-            this.sex = sex;
-        }
+       public void setSex(String sex) {
+           this.sex = sex;
+       }
 
-        public String getStatus() {
-            return status;
-        }
+       public String getStatus() {
+           return status;
+       }
 
-        public void setStatus(String status) {
-            this.status = status;
-        }
+       public void setStatus(String status) {
+           this.status = status;
+       }
 
-        public String getReg_tm() {
-            return reg_tm;
-        }
+       public String getReg_tm() {
+           return reg_tm;
+       }
 
-        public void setReg_tm(String reg_tm) {
-            this.reg_tm = reg_tm;
-        }
+       public void setReg_tm(String reg_tm) {
+           this.reg_tm = reg_tm;
+       }
 
-        public String getBtel() {
-            return btel;
-        }
+       public String getBtel() {
+           return btel;
+       }
 
-        public void setBtel(String btel) {
-            this.btel = btel;
-        }
-    }
+       public void setBtel(String btel) {
+           this.btel = btel;
+       }
+
+       public int getFig() {
+           return fig;
+       }
+
+       public void setFig(int fig) {
+           this.fig = fig;
+       }
+   }
 }

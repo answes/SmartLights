@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.allen.library.SuperTextView;
 import com.bigshark.smartlight.R;
+import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseFragment;
 import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
 
@@ -79,5 +80,10 @@ public class MineFragment extends BaseFragment {
                 MineDetailsActivity.openMineDetailsActivity(getActivity());
                 break;
         }
+    }
+
+    @Override
+    public MVPBasePresenter bindPresenter() {
+        return null;
     }
 }

@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/registered_bg"
+    android:background="@drawable/login_bg"
     tools:context="com.bigshark.smartlight.pro.mine.view.LoginActivity">
     <ImageView
         android:id="@+id/tv_logo"

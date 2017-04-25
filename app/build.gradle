@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "com.bigshark.smartlight"
         minSdkVersion 18
@@ -29,7 +29,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
-    //recyclerview 分割线
     compile 'com.github.lygttpod:SuperTextView:1.0.9'
     compile 'com.android.support:design:24.0.0'
     compile 'com.android.support:recyclerview-v7:23.3.0'
@@ -41,5 +40,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     compile files('libs/fastjson-1.1.40.jar')
     compile 'com.contrarywind:Android-PickerView:3.2.4'
+    compile 'com.github.LuckSiege.PictureSelector:picture_library:v1.2.7'   //选择相册，拍照，视频库
     compile files('libs/AMap2DMap_4.2.0_AMapLocation_3.3.0_20170120.jar')
 }

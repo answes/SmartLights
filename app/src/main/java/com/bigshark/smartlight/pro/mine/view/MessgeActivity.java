@@ -9,9 +9,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.bigshark.smartlight.R;
+import com.bigshark.smartlight.bean.MessageResult;
 import com.bigshark.smartlight.bean.Messge;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
+import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
+import com.bigshark.smartlight.pro.mine.presenter.MinePresenter;
 import com.bigshark.smartlight.pro.mine.view.adapter.MessgeListAdapter;
 import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
@@ -32,6 +35,7 @@ public class MessgeActivity extends BaseActivity {
 
     private MessgeListAdapter adapter;
     private List<Messge> datas = new ArrayList<>();
+    private MinePresenter minePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,18 +48,32 @@ public class MessgeActivity extends BaseActivity {
     }
 
     private void initData() {
-        for (int i = 0; i < 2; i++) {
-            Messge m = new Messge();
-            m.setDate("2016-09-11");
-            m.setMessge("双12豪礼送亲友，现特价商品5折销售，更多优惠净瓶请进入商场进行抢购....");
-            m.setTitle("平台消息");
-            datas.add(m);
-        }
+        logingData();
         rcContent.setLayoutManager(new LinearLayoutManager(this));
         rcContent.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).colorResId(R.color.main_bottom_text_normal).build());
         adapter = new MessgeListAdapter(this,datas);
         rcContent.setAdapter(adapter);
 
+    }
+
+    private void logingData() {
+        minePresenter.getMessages(new BasePresenter.OnUIThreadListener<MessageResult>() {
+            @Override
+            public void onResult(MessageResult result) {
+                if( null == result.getData() || result.getData().size() == 0){
+                    showMsg("获取数据失败，请稍后再试");
+                }else{
+                    datas.clear();
+                    datas.addAll(result.getData());
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onErro(String string) {
+
+            }
+        });
     }
 
 
@@ -78,6 +96,7 @@ public class MessgeActivity extends BaseActivity {
     }
     @Override
     public MVPBasePresenter bindPresneter() {
-        return null;
+        minePresenter = new MinePresenter(this);
+        return minePresenter;
     }
 }

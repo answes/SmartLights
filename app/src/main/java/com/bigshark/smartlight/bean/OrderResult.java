@@ -8,27 +8,55 @@ import java.util.List;
 
 public class OrderResult {
     private int code;
-    private Order data;
+    private List<Order> data;
     private String extra;
 
     public static  class Order{
-        private int id;
+        private String id;
+        private String orderNum;
         private String username;
         private String address;
         private String tel;
-        private List<Gitem> gitemsl;
+        private List<Gitem> gitems1;
+        private String gitems;
         private String gmoney;
         private String omoney;
+        private String buyerId;
+        private String creTm;
+        private String paytype;
+        private String status;
+        private String payTm;
+        private String sendTm;
+        private String expCom;
+        private String expNum;
+        private String finishTm;
+        private String cancelTm;
 
         public Order() {
         }
 
-        public int getId() {
+        public String getGitems() {
+            return gitems;
+        }
+
+        public void setGitems(String gitems) {
+            this.gitems = gitems;
+        }
+
+        public String getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
+        }
+
+        public String getOrderNum() {
+            return orderNum;
+        }
+
+        public void setOrderNum(String orderNum) {
+            this.orderNum = orderNum;
         }
 
         public String getUsername() {
@@ -55,12 +83,12 @@ public class OrderResult {
             this.tel = tel;
         }
 
-        public List<Gitem> getGitemsl() {
-            return gitemsl;
+        public List<Gitem> getGitems1() {
+            return gitems1;
         }
 
-        public void setGitemsl(List<Gitem> gitemsl) {
-            this.gitemsl = gitemsl;
+        public void setGitems1(List<Gitem> gitems1) {
+            this.gitems1 = gitems1;
         }
 
         public String getGmoney() {
@@ -77,6 +105,86 @@ public class OrderResult {
 
         public void setOmoney(String omoney) {
             this.omoney = omoney;
+        }
+
+        public String getBuyerId() {
+            return buyerId;
+        }
+
+        public void setBuyerId(String buyerId) {
+            this.buyerId = buyerId;
+        }
+
+        public String getCreTm() {
+            return creTm;
+        }
+
+        public void setCreTm(String creTm) {
+            this.creTm = creTm;
+        }
+
+        public String getPaytype() {
+            return paytype;
+        }
+
+        public void setPaytype(String paytype) {
+            this.paytype = paytype;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public String getPayTm() {
+            return payTm;
+        }
+
+        public void setPayTm(String payTm) {
+            this.payTm = payTm;
+        }
+
+        public String getSendTm() {
+            return sendTm;
+        }
+
+        public void setSendTm(String sendTm) {
+            this.sendTm = sendTm;
+        }
+
+        public String getExpCom() {
+            return expCom;
+        }
+
+        public void setExpCom(String expCom) {
+            this.expCom = expCom;
+        }
+
+        public String getExpNum() {
+            return expNum;
+        }
+
+        public void setExpNum(String expNum) {
+            this.expNum = expNum;
+        }
+
+        public String getFinishTm() {
+            return finishTm;
+        }
+
+        public void setFinishTm(String finishTm) {
+            this.finishTm = finishTm;
+        }
+
+        public String getCancelTm() {
+            return cancelTm;
+        }
+
+        public void setCancelTm(String cancelTm) {
+            this.cancelTm = cancelTm;
         }
     }
 
@@ -145,11 +253,11 @@ public class OrderResult {
         this.code = code;
     }
 
-    public Order getData() {
+    public List<Order> getData() {
         return data;
     }
 
-    public void setData(Order data) {
+    public void setData(List<Order>  data) {
         this.data = data;
     }
 

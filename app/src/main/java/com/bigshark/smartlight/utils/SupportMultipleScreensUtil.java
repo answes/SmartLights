@@ -14,6 +14,9 @@ import android.widget.TextView;
 
 import com.bigshark.smartlight.R;
 
+/**
+ * 这个有个缺点，父控件一定要设置为warp_content才能够进行缩放，因为这个缩放只针对控件缩放，并没有针对ViewGroup进行缩放，这个点要注意
+ */
 public class SupportMultipleScreensUtil {
 
     public static final int BASE_SCREEN_WIDTH = 1080;

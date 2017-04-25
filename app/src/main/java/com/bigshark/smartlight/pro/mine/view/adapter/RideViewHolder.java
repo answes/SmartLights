@@ -27,7 +27,7 @@ public class RideViewHolder extends BaseViewHolder<Ride> {
     @Override
     public void setData(Ride data) {
         super.setData(data);
-        distance.setText(data.getDistance()+"");
-        time.setText(data.getTime());
+        distance.setText(data.getData().get(0).getDistance()+"");
+        time.setText(data.getData().get(0).getCre_tm());
     }
 }

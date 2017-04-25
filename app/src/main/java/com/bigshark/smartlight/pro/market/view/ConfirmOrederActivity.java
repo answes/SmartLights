@@ -208,8 +208,10 @@ public class ConfirmOrederActivity extends BaseActivity {
             gitem.setNum(String.valueOf(Integer.parseInt(good.getNum())));
             gitemList.add(gitem);
         }
-        order.setGitemsl(gitemList);
-        orderResult.setData(order);
+        order.setGitems1(gitemList);
+        List<OrderResult.Order> orders = new ArrayList<>();
+        orders.add(order);
+        orderResult.setData(orders);
         return  orderResult;
     }
 }

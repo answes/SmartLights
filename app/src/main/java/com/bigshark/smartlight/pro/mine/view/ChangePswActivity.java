@@ -9,7 +9,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.bigshark.smartlight.R;
+import com.bigshark.smartlight.bean.FindPsw;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
+import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.mine.presenter.MinePresenter;
 import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
@@ -61,7 +63,42 @@ public class ChangePswActivity extends BaseActivity {
 
     @OnClick(R.id.bt_confirm)
     public void onClick() {
+        if(etOldPsw.getText().toString().trim().isEmpty()){
+            showMsg("请输入久密码");
+            return;
+        }
+        if(etNewPsw.getText().toString().trim().isEmpty()){
+            showMsg("请输入新密码");
+            return;
+        }
+        if(etNewPswS.getText().toString().trim().isEmpty()){
+            showMsg("请重复输入新密码");
+            return;
+        }
+        if(!etNewPsw.getText().toString().trim().equals(etNewPswS.getText().toString().trim())){
+            showMsg("两次密码不一样");
+            return;
+        }
+        minePresenter.resetPassword(etOldPsw.getText().toString().trim(), etNewPsw.getText().toString().trim(), etNewPswS.getText().toString().trim(), new BasePresenter.OnUIThreadListener<FindPsw>() {
+            @Override
+            public void onResult(FindPsw result) {
+                if(null != result){
+                    if(result.getCode() == 1){
+                        showMsg("修改成功");
+                        //TODO 这里是否需要跳转重新登陆
+                    }else{
+                        showMsg(result.getExtra());
+                    }
+                }else{
+                    showMsg("修改失败");
+                }
+            }
 
+            @Override
+            public void onErro(String string) {
+                showMsg("修改失败");
+            }
+        });
     }
 
 

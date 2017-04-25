@@ -5,12 +5,17 @@
               android:background="#f3f5f7"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_height="196px">
+              android:layout_height="wrap_content">
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/niv_good"
         android:layout_width="230px"
         android:layout_marginLeft="30px"
         android:layout_gravity="center_vertical"
-        android:layout_height="173px"/>
+        android:layout_height="173px"
+        android:src="@drawable/logo"
+        android:layout_marginBottom="11px"
+        android:layout_marginTop="11px"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,6 +27,7 @@
         android:id="@+id/stv_title"
         android:layout_width="match_parent"
         app:sLineShow="none"
+        android:layout_marginTop="11px"
         app:sLeftTextString="商品名称：男款钱包"
         app:sLeftTextSize="40px"
         app:sLeftTextColor="#3d444a"

@@ -136,12 +136,18 @@ public class MaketListModel extends BaseModel {
         Map requestParam = new HashMap<>();
         requestParam.put("buyer_id",SmartLightsApplication.USER.getId()+"");
         requestParam.put("username",SmartLightsApplication.USER.getName());
-        requestParam.put("address",orderResult.getData().getAddress());
-        requestParam.put("tel",orderResult.getData().getTel());
+        requestParam.put("address",orderResult.getData().get(0).getAddress());
+        requestParam.put("tel",orderResult.getData().get(0).getTel());
         //TODO 这里转换成数组有待修改
-        requestParam.put("gitems", gson.toJson(orderResult.getData().getGitemsl()));
-        requestParam.put("gmoney",orderResult.getData().getGmoney()+"");
-        requestParam.put("omoney",orderResult.getData().getOmoney()+"");
+        requestParam.put("gitems", gson.toJson(orderResult.getData().get(0).getGitems()));
+        requestParam.put("gmoney",orderResult.getData().get(0).getGmoney()+"");
+        requestParam.put("omoney",orderResult.getData().get(0).getOmoney()+"");
+        requestParam.put("buyer_id",String.valueOf(SmartLightsApplication.USER.getId()));
+        requestParam.put("username",SmartLightsApplication.USER.getName());
+        requestParam.put("address",orderResult.getData().get(0).getAddress());
+        requestParam.put("tel",orderResult.getData().get(0).getTel());
+        requestParam.put("gmoney",String.valueOf(orderResult.getData().get(0).getGmoney()));
+        requestParam.put("omoney",String.valueOf(orderResult.getData().get(0).getOmoney()));
         //发送请求
         httpUtils.postData(subOrderURL(),requestParam,onHttpResultListener);
     }

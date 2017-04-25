@@ -52,6 +52,8 @@ public abstract class BaseFragment<P extends MVPBasePresenter> extends MVPBaseFr
         return null;
     }
 
+
+
     public abstract int getContentView();
 
     public abstract void initContentView(View viewContent);
