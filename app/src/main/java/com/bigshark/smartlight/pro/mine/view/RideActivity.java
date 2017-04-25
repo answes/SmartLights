@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,18 +14,16 @@ import android.widget.LinearLayout;
 import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.bean.Ride;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
+import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
-import com.bigshark.smartlight.pro.market.view.GoodDetailsActivity;
-import com.bigshark.smartlight.pro.market.view.adapter.viewholder.MarketViewHolder;
+import com.bigshark.smartlight.pro.mine.presenter.MinePresenter;
 import com.bigshark.smartlight.pro.mine.view.adapter.RideViewHolder;
 import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
-import com.bigshark.smartlight.utils.DividerGridItemDecoration;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -43,9 +40,8 @@ public class RideActivity extends BaseActivity implements RecyclerArrayAdapter.O
     LinearLayout activityRide;
 
     private Handler handler = new Handler();
-    private boolean hasNetWork = true;
-    private List<Ride> datas = new ArrayList<>();
     private RecyclerArrayAdapter adapter;
+    private MinePresenter minePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +50,9 @@ public class RideActivity extends BaseActivity implements RecyclerArrayAdapter.O
         ButterKnife.bind(this);
         initToolbar();
         SupportMultipleScreensUtil.scale(activityRide);
-        initData();
         initRecyclerView();
     }
 
-    private void initData() {
-        for(int i = 0;i<2;i++){
-            Ride r = new Ride();
-            r.setDistance(4.99);
-            r.setTime("2016-09-11 12:12:22");
-            datas.add(r);
-        }
-    }
 
 
     private void initRecyclerView() {
@@ -99,24 +86,30 @@ public class RideActivity extends BaseActivity implements RecyclerArrayAdapter.O
         adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+
+
+
             }
         });
 
     }
     @Override
     public void onRefresh() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                adapter.clear();
-                //刷新
-                if (!hasNetWork) {
-                    adapter.pauseMore();
-                    return;
-                }
-                adapter.addAll(datas);
-            }
-        }, 2000);
+
+                minePresenter.getBikeList(true, new BasePresenter.OnUIThreadListener<List<Ride.Bike>>() {
+                    @Override
+                    public void onResult(List<Ride.Bike> result) {
+                        if(null!= result&& result.size() != 0){
+                            adapter.clear();
+                            adapter.addAll(result);
+                            adapter.pauseMore();
+                        }
+                    }
+                    @Override
+                    public void onErro(String string) {
+                        adapter.pauseMore();
+                    }
+                });
     }
 
     @Override
@@ -125,14 +118,21 @@ public class RideActivity extends BaseActivity implements RecyclerArrayAdapter.O
             @Override
             public void run() {
                 //刷新
+                minePresenter.getBikeList(false, new BasePresenter.OnUIThreadListener<List<Ride.Bike>>() {
+                    @Override
+                    public void onResult(List<Ride.Bike> result) {
+                        if(null!= result&& result.size() != 0){
+                            adapter.addAll(result);
+                        }
+                    }
+                    @Override
+                    public void onErro(String string) {
+                    }
+                });
                 adapter.pauseMore();
-//                if (!hasNetWork) {
-//
-//                    return;
-//                }
-//                adapter.addAll(datas);
+                adapter.notifyDataSetChanged();
             }
-        }, 100);
+        }, 2000);
     }
 
 
@@ -154,6 +154,7 @@ public class RideActivity extends BaseActivity implements RecyclerArrayAdapter.O
 
     @Override
     public MVPBasePresenter bindPresneter() {
-        return null;
+        minePresenter = new MinePresenter(this);
+        return minePresenter;
     }
 }
