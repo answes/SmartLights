@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/tabhost"
     android:layout_width="match_parent"
+    android:background="@color/root_view_bg"
     android:layout_height="match_parent">
     <!--   这里的id一定是这样子写 -->
     <LinearLayout
@@ -13,13 +14,13 @@
         <FrameLayout
             android:id="@android:id/tabcontent"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="0px"
             android:layout_weight="1"/>
 
         <TabWidget
             android:id="@android:id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_height="158px">
 
         </TabWidget>
     </LinearLayout>

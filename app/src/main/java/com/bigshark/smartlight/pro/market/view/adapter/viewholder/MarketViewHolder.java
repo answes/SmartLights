@@ -1,5 +1,7 @@
 package com.bigshark.smartlight.pro.market.view.adapter.viewholder;
 
+import android.support.annotation.LayoutRes;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -7,6 +9,7 @@ import android.widget.TextView;
 import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.bean.Market;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
+
 
 /**
  * Created by bigShark on 2016/12/28.

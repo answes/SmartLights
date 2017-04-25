@@ -1,91 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
-              android:padding="8dp"
+              android:padding="20px"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:background="@color/white"
-              android:layout_height="100dp">
+              android:layout_height="288px">
     <CheckBox
         android:id="@+id/cb_select"
         android:layout_width="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="37px"
         android:button="@drawable/car_list_item_check_state"
         android:layout_height="wrap_content"/>
 
     <com.bigshark.smartlight.weight.XCRoundRectImageView
         android:id="@+id/iv_img"
-        android:layout_width="100dp"
+        android:layout_width="288px"
         android:src="@drawable/hander"
         app:round_radius="4dp"
-        android:layout_height="match_parent"/>
+        android:layout_height="230px"/>
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="0px"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="30px"
         android:layout_height="match_parent">
 
-        <com.allen.library.SuperTextView
-            android:id="@+id/stv_title"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            app:sLeftTextMarginLeft="0dp"
-            app:sLeftTextString="coach羊绒波士顿包"
-            app:sLeftTextColor="@color/text_fist"
-            app:sRightIconRes="@drawable/market_car_delete"
-            app:sLineShow="none"
-            app:sRightIconMarginRight="0dp"
-            app:sRightIconWidth="25dp"
-            app:sRightIconHeight="25dp"
+            android:orientation="horizontal"
+            android:layout_height="72px">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textSize="43px"
+            android:text="coach羊绒波士顿包"
+            android:singleLine="true"
+            android:gravity="center_vertical"
+            android:textColor="@color/text_fist"
             />
+        <ImageView
+            android:id="@+id/iv_del"
+            android:layout_width="62px"
+            android:src="@drawable/market_car_delete"
+            android:layout_height="62px" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:id="@+id/tv_price"
             android:textColor="#EF6464"
             android:text="价格：￥1057"
+            android:textSize="40px"
+            android:layout_marginTop="14px"
             android:layout_height="wrap_content"/>
 
         <LinearLayout
-            android:layout_width="100dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="8dp"
+            android:layout_width="294px"
+            android:layout_height="98px"
+            android:layout_marginTop="14px"
             android:background="@drawable/car_list_item_bt_bg"
             android:orientation="horizontal">
 
             <Button
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="98px"
                 android:text="@string/market_sub"
-                android:textColor="#222222"
-                android:textSize="16sp"
+                android:textColor="@color/text_fist"
+                android:textSize="43px"
                 android:background="@android:color/transparent"
                 android:layout_height="match_parent"
                 android:id="@+id/bt_sub"/>
 
             <EditText
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="98px"
                 android:background="@drawable/car_list_item_bt_bg"
                 android:layout_height="match_parent"
                 android:inputType="number"
                 android:singleLine="true"
-                android:textColor="#222222"
+                android:textColor="@color/text_fist"
                 android:text="1"
                 android:gravity="center"
+                android:textSize="43px"
                 android:maxLength="3"
                 android:id="@+id/et_number"/>
 
             <Button
                 android:id="@+id/bt_add"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:textColor="#222222"
-                android:textSize="16sp"
+                android:layout_width="98px"
+                android:textColor="@color/text_fist"
+                android:textSize="43px"
                 android:text="@string/market_add"
                 android:background="@android:color/transparent"
                 android:layout_height="match_parent"/>

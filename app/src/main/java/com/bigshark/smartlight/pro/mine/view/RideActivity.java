@@ -21,6 +21,7 @@ import com.bigshark.smartlight.pro.market.view.adapter.viewholder.MarketViewHold
 import com.bigshark.smartlight.pro.mine.view.adapter.RideViewHolder;
 import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
 import com.bigshark.smartlight.utils.DividerGridItemDecoration;
+import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
@@ -49,6 +50,7 @@ public class RideActivity extends BaseActivity implements RecyclerArrayAdapter.O
         setContentView(R.layout.activity_ride);
         ButterKnife.bind(this);
         initToolbar();
+        SupportMultipleScreensUtil.scale(activityRide);
         initData();
         initRecyclerView();
     }

@@ -57,13 +57,14 @@ public class MineFragment extends BaseFragment {
                 .createAndBind((ViewGroup) viewContent);
     }
 
-    @OnClick({R.id.stv_myStroke, R.id.stv_myorder, R.id.stv_myEquipment,R.id.stv_market, R.id.stv_set})
+    @OnClick({R.id.stv_myStroke, R.id.stv_myorder, R.id.stv_myEquipment,R.id.stv_market, R.id.stv_set,R.id.iv_hander})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.stv_myStroke:
                 RideActivity.openRideActivity(getActivity());
                 break;
             case R.id.stv_myorder:
+                OrderActivity.openOrderActivity(getActivity());
                 break;
             case R.id.stv_myEquipment:
                 EquipmentActivity.openEquipmentActivity(getActivity());
@@ -73,6 +74,9 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.stv_set:
                 SetActivity.openSetActivity(getActivity());
+                break;
+            case R.id.iv_hander:
+                MineDetailsActivity.openMineDetailsActivity(getActivity());
                 break;
         }
     }

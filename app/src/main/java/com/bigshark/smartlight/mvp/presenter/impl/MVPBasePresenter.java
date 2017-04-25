@@ -12,11 +12,13 @@ public class MVPBasePresenter<V extends IMVPView> implements IMVPPresenter<V> {
 
     @Override
     public void attachView(V view) {
-
+        this.view = view;
     }
 
     @Override
     public void detachView() {
-
+        if (view !=null){
+            view = null;
+        }
     }
 }

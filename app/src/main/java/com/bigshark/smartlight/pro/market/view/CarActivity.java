@@ -2,11 +2,15 @@ package com.bigshark.smartlight.pro.market.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -14,9 +18,14 @@ import android.widget.TextView;
 import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.bean.CarGoods;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
+import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
+import com.bigshark.smartlight.pro.market.presenter.MarketListPresenter;
 import com.bigshark.smartlight.pro.market.view.adapter.viewholder.CarListAdapter;
 import com.bigshark.smartlight.pro.market.view.navigation.GoodDetailsNavigationBuilder;
+import com.bigshark.smartlight.utils.JSONUtil;
+import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
+import com.google.gson.Gson;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -36,9 +45,15 @@ public class CarActivity extends BaseActivity {
     Button btSettlement;
     @BindView(R.id.activity_car)
     RelativeLayout activityCar;
+    @BindView(R.id.tv_null)
+    TextView isNull;
+    @BindView(R.id.cb_AllSelet)
+    CheckBox allSelet;
 
     private CarListAdapter adapter;
-    private List<CarGoods> datas = new ArrayList<>();
+    private MarketListPresenter presenter;
+    private List<CarGoods.Good> datas = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,22 +61,183 @@ public class CarActivity extends BaseActivity {
         setContentView(R.layout.activity_car);
         ButterKnife.bind(this);
         initToolbar();
+        SupportMultipleScreensUtil.scale(activityCar);
         initData();
     }
 
     private void initData() {
-        for (int i = 0; i < 2 ; i++) {
-            CarGoods g= new CarGoods();
-            g.setImgUrl("http://img2.imgtn.bdimg.com/it/u=3537229348,2840165468&fm=23&gp=0.jpg");
-            g.setName("cocoa真皮包");
-            g.setPrice(5000);
-            g.setNumber(1);
-            datas.add(g);
-        }
+        setTotal();
         rvCarlist.setLayoutManager(new LinearLayoutManager(this));
         rvCarlist.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).size(20).colorResId(R.color.tongming).build());
-        adapter = new CarListAdapter(this,datas);
+        adapter = new CarListAdapter(this, datas);
         rvCarlist.setAdapter(adapter);
+
+        presenter.getCarGoodList(new BasePresenter.OnUIThreadListener<String>() {
+            @Override
+            public void onResult(String result) {
+                if (null != result) {
+                    CarGoods carGoods = JSONUtil.getObject(result, CarGoods.class);
+                    datas.addAll(carGoods.getData());
+                    adapter.notifyDataSetChanged();
+                } else {
+                    isNull.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onErro(String string) {
+                showMsg(string);
+            }
+        });
+
+        adapter.setOnClickAddBTListener(new CarListAdapter.OnClickAddBTListener() {
+            @Override
+            public void onResult(int postion) {
+                int num = Integer.parseInt(datas.get(postion).getNum().trim()) + 1;
+                upData(postion, 1,num);
+            }
+        });
+        adapter.setOnClickSubBTListener(new CarListAdapter.OnClickSubBTListener() {
+            @Override
+            public void onResult(int postion) {
+                if (Integer.parseInt(datas.get(postion).getNum().trim()) == 1) {
+                    delData(postion);
+                } else {
+                    int num = Integer.parseInt(datas.get(postion).getNum().trim()) - 1;
+                    upData(postion, -1,num);
+                }
+            }
+        });
+
+        adapter.setOnClickDelListenr(new CarListAdapter.OnClickDelListenr() {
+            @Override
+            public void onResult(int postion) {
+                delData(postion);
+            }
+        });
+
+        adapter.setOnCheckBoxListener(new CarListAdapter.OnCheckBoxListener() {
+            @Override
+            public void onChanged(boolean b, int postion) {
+                datas.get(postion).setCheck(b);
+                if (isAllSelet()) {
+                    allSelet.setChecked(true);
+                }
+                if (isAllNotSelet()) {
+                    allSelet.setChecked(false);
+                }
+                setTotal();
+            }
+        });
+
+        allSelet.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    for (CarGoods.Good good : datas) {
+                        good.setCheck(true);
+                    }
+                } else {
+                    for (CarGoods.Good good : datas) {
+                        good.setCheck(false);
+                    }
+                }
+                setTotal();
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private boolean isAllSelet() {
+        for (CarGoods.Good g : datas) {
+            if (!g.isCheck()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isAllNotSelet() {
+        for (CarGoods.Good g : datas) {
+            if (!g.isCheck()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void setTotal() {
+        double total = 0.00;
+        int count = 0;
+        if (datas.isEmpty()) {
+            tvTotal.setText("合计：￥".concat(String.valueOf(0.00)));
+            btSettlement.setText("结算(".concat(String.valueOf(0)).concat(")"));
+            return;
+        }
+        for (CarGoods.Good g : datas) {
+            if (g.isCheck()) {
+                total = total + Double.parseDouble(g.getPrice().trim()) * Double.parseDouble(g.getNum().trim());
+                count = count + 1;
+            }
+        }
+
+        tvTotal.setText("合计：￥".concat(String.valueOf(total)));
+        btSettlement.setText("结算(".concat(String.valueOf(count)).concat(")"));
+    }
+
+    private void upData(final int postion, final int num,final int realNumber) {
+        datas.get(postion).setNum(String.valueOf(realNumber));
+        adapter.notifyItemChanged(postion);
+        presenter.updateGoodNum(datas.get(postion).getId(), num, new BasePresenter.OnUIThreadListener<String>() {
+            @Override
+            public void onResult(String result) {
+                if(CarActivity.this.isFinishing()){
+                    return;
+                }
+               if(result == null){
+                   showMsg("操作失败");
+                   datas.get(postion).setNum(String.valueOf(realNumber+num));
+                   adapter.notifyItemChanged(postion);
+               }
+                setTotal();
+            }
+
+            @Override
+            public void onErro(String string) {
+                showMsg(string);
+            }
+        });
+    }
+
+    /**
+     * 删除数据
+     * @param postion
+     */
+    private void delData(final int postion) {
+
+        presenter.delGoodToCar(false, datas.get(postion).getId(), new BasePresenter.OnUIThreadListener<String>() {
+            @Override
+            public void onResult(String result) {
+                if(CarActivity.this.isFinishing()){
+                    return;
+                }
+               if(null == result){
+                showMsg("删除商品失败");
+               }else{
+                   datas.remove(postion);
+                   adapter.notifyDataSetChanged();
+                   if(datas.size() == 0){
+                       isNull.setVisibility(View.VISIBLE);
+                       allSelet.setChecked(false);
+                   }
+               }
+                setTotal();
+            }
+            @Override
+            public void onErro(String string) {
+                showMsg(string);
+            }
+        });
     }
 
     private void initToolbar() {
@@ -77,15 +253,31 @@ public class CarActivity extends BaseActivity {
 
     @Override
     public MVPBasePresenter bindPresneter() {
-        return null;
+        presenter = new MarketListPresenter(this);
+        return presenter;
     }
 
+    private long lastOnclick = 0;
     @OnClick(R.id.bt_settlement)
     public void onClick() {
-        ConfirmOrederActivity.openConfirmOrederActivity(this);
+        if(System.currentTimeMillis() -lastOnclick >=2000) {
+            lastOnclick = System.currentTimeMillis();
+            Gson gson = new Gson();
+            List<CarGoods.Good> data = new ArrayList<>();
+            for (CarGoods.Good g : datas) {
+                if (g.isCheck()) {
+                    data.add(g);
+                }
+            }
+            if(data.size() == 0){
+                showMsg("你还没有选择需要的商品");
+                return;
+            }
+            ConfirmOrederActivity.openConfirmOrederActivity(this, gson.toJson(data));
+        }
     }
 
-    public static void openCarActivity(Activity activity){
-        activity.startActivity(new Intent(activity,CarActivity.class));
+    public static void openCarActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, CarActivity.class));
     }
 }

@@ -14,6 +14,7 @@ import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.mine.view.adapter.MessgeListAdapter;
 import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
+import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class MessgeActivity extends BaseActivity {
         setContentView(R.layout.activity_messge);
         ButterKnife.bind(this);
         initToolbar();
+        SupportMultipleScreensUtil.scale(activityMessge);
         initData();
     }
 

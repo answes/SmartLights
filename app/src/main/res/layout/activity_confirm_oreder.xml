@@ -1,92 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_confirm_oreder"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/root_view_bg"
     tools:context="com.bigshark.smartlight.pro.market.view.ConfirmOrederActivity">
-<LinearLayout
-    android:id="@+id/ll_left"
-    android:layout_width="350dp"
-    android:layout_height="70dp"
-    android:background="@color/white"
-    android:layout_marginTop="50dp"
-    android:orientation="vertical">
 
-    <com.allen.library.SuperTextView
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        app:sLeftTextString="收货人：李晓亮"
-        app:sLeftTextMarginLeft="8dp"
-        app:sLeftTextColor="#222222"
-        app:sRightTextString="15273829086"
-        app:sRightTextColor="#222222"
-        app:sLineShow="none"
-        android:id="@+id/stv_name"/>
+    <LinearLayout
+        android:id="@+id/ll_left"
+        android:layout_width="979px"
+        android:layout_height="216px"
+        android:layout_marginTop="127px"
+        android:background="@color/white"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:id="@+id/tv_address"
-        android:textColor="#222222"
-        android:text="收货地址：广东省南山区高薪南一路1栋2号楼409室"/>
-</LinearLayout>
+        <com.allen.library.SuperTextView
+            android:id="@+id/stv_name"
+            android:layout_width="match_parent"
+            android:layout_height="101px"
+            app:sLeftTextColor="@color/text_fist"
+            app:sLeftTextMarginLeft="30px"
+            app:sLeftTextSize="40px"
+            app:sLeftTextString="收货人："
+            app:sLineShow="none"
+            app:sRightTextColor="@color/text_fist"
+            app:sRightTextSize="40px"
+            app:sRightTextString="" />
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30px"
+            android:text="收货地址:"
+            android:textColor="@color/text_fist"
+            android:textSize="40px" />
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/iv_in"
-        android:layout_width="50dp"
-        android:background="@color/white"
-        android:src="@drawable/car_confirm_oreder_in"
+        android:layout_width="match_parent"
+        android:layout_height="216px"
+        android:layout_marginTop="127px"
         android:layout_toRightOf="@id/ll_left"
-        android:layout_marginTop="50dp"
-        android:layout_height="70dp"/>
-    
+        android:background="@color/white"
+        android:src="@drawable/car_confirm_oreder_in" />
+
     <com.allen.library.SuperTextView
         android:id="@+id/stv_title"
         android:layout_width="match_parent"
-        android:layout_below="@id/ll_left"
-        android:layout_marginTop="12dp"
-        app:sLeftTextMarginLeft="8dp"
-        app:sLeftTextString="海吉星美国直邮"
-        android:layout_height="50dp"/>
+        android:layout_height="144px"
+        android:layout_below="@+id/ll_left"
+        android:layout_marginTop="30px"
+        app:sLeftTextColor="@color/text_fist"
+        app:sLeftTextMarginLeft="30px"
+        app:sLeftTextSize="40px"
+        app:sLeftTextString="海吉星美国直邮" />
 
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/rv_goods"
-    android:layout_width="match_parent"
-    android:layout_below="@id/stv_title"
-    android:layout_marginBottom="50dp"
-    android:layout_height="match_parent"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_goods"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/stv_title"
+        android:layout_marginBottom="141px" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="141px"
+        android:layout_alignParentBottom="true"
         android:background="@color/mian_bottom_bar_bg"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        android:orientation="horizontal">
 
         <Space
-            android:layout_width="0dp"
+            android:layout_width="0px"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
+
         <TextView
             android:id="@+id/tv_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="86px"
+            android:text="合计：￥360"
             android:textColor="@color/white"
-            android:layout_marginRight="12dp"
-            android:text="合计：￥360"/>
+            android:textSize="43px" />
+
         <Button
             android:id="@+id/bt_confirm"
-            android:layout_width="120dp"
+            android:layout_width="288px"
+            android:layout_height="match_parent"
             android:background="#EE5656"
             android:text="提交订单"
             android:textColor="@color/white"
-            android:layout_height="match_parent"/>
+            android:textSize="43px" />
     </LinearLayout>
+
 
 </RelativeLayout>

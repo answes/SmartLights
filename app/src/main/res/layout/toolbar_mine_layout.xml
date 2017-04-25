@@ -3,13 +3,13 @@
               android:layout_width="match_parent"
               android:background="@color/mian_toolbar_bg"
               android:gravity="center_vertical"
-              android:layout_height="50dp">
+              android:layout_height="127px">
     <ImageView
         android:id="@+id/iv_left"
         android:layout_width="wrap_content"
         android:layout_centerVertical="true"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="20px"
         />
     <TextView
         android:id="@+id/tv_titlte"
@@ -27,6 +27,6 @@
             android:layout_width="wrap_content"
             android:layout_centerVertical="true"
             android:layout_height="wrap_content"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="30px"
             />
 </RelativeLayout>

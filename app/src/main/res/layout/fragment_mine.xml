@@ -1,30 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
+              android:background="@color/root_view_bg"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
+    android:id="@+id/ll_context"
               android:layout_height="match_parent">
 
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:layout_marginTop="20dp"
+    android:layout_height="156px"
+    android:layout_marginTop="58px"
     android:gravity="center_vertical"
     android:background="@color/white"
     android:orientation="horizontal">
     
     <ImageView
         android:id="@+id/iv_hander"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:layout_marginLeft="12dp"
+        android:layout_width="127px"
+        android:layout_height="127px"
+        android:layout_marginLeft="30px"
         android:src="@drawable/hander"/>
 
     <TextView
         android:id="@+id/iv_userName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="30px"
+        android:textSize="40px"
+        android:textColor="#3d444a"
         android:text="13510344127"/>
     
 </LinearLayout>
@@ -32,8 +36,10 @@
     <com.allen.library.SuperTextView
     android:id="@+id/stv_myStroke"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:layout_marginTop="15dp"
+    app:sLeftTextSize="40px"
+    app:sLeftTextColor="#3d444a"
+    android:layout_marginTop="58px"
+    android:layout_height="130px"
     app:sLeftTextString="@string/mine_mystroke"
     app:sRightIconRes="@drawable/right_comein"
     />
@@ -41,14 +47,18 @@
     <com.allen.library.SuperTextView
         android:id="@+id/stv_myorder"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        app:sLeftTextSize="40px"
+        app:sLeftTextColor="#3d444a"
+        android:layout_height="130px"
         app:sLeftTextString="@string/mine_myorder"
         app:sRightIconRes="@drawable/right_comein"
         />
     <com.allen.library.SuperTextView
         android:id="@+id/stv_myEquipment"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        app:sLeftTextSize="40px"
+        app:sLeftTextColor="#3d444a"
+        android:layout_height="130px"
         app:sLeftTextString="@string/mine_myequipment"
         app:sRightIconRes="@drawable/right_comein"
         />
@@ -56,7 +66,9 @@
     <com.allen.library.SuperTextView
         android:id="@+id/stv_market"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        app:sLeftTextSize="40px"
+        app:sLeftTextColor="#3d444a"
+        android:layout_height="130px"
         app:sLeftTextString="@string/mine_market"
         app:sRightIconRes="@drawable/right_comein"
         />
@@ -64,7 +76,9 @@
     <com.allen.library.SuperTextView
         android:id="@+id/stv_set"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        app:sLeftTextSize="40px"
+        app:sLeftTextColor="#3d444a"
+        android:layout_height="130px"
         app:sLeftTextString="@string/mine_set"
         app:sRightIconRes="@drawable/right_comein"
         />

@@ -1,41 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.bigshark.smartlight">
+    package="com.bigshark.smartlight">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
 
+    <!--高德地图权限-->
+    <!--允许程序打开网络套接字-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--允许程序设置内置sd卡的写权限-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--允许程序获取网络状态-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--允许程序访问WiFi网络信息-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--允许程序读写手机状态和身份-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <application
+        android:name=".SmartLightsApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="85f736f35d871e2de2aafa2d679a9015"/>
+        <activity android:name=".pro.mine.view.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".pro.mine.view.MarketActivity">
-        </activity>
-        <activity android:name=".pro.mine.view.SetActivity">
-        </activity>
-        <activity android:name=".pro.mine.view.ChangePswActivity">
-        </activity>
-        <activity android:name=".pro.market.view.GoodDetailsActivity">
-        </activity>
-        <activity android:name=".pro.market.view.CarActivity">
-        </activity>
-        <activity android:name=".pro.market.view.ConfirmOrederActivity">
-        </activity>
-        <activity android:name=".pro.mine.view.MessgeActivity">
-        </activity>
-        <activity android:name=".pro.mine.view.RideActivity">
-        </activity>
-        <activity android:name=".pro.mine.view.EquipmentActivity">
-        </activity>
+        <activity android:name=".pro.mine.view.MarketActivity" />
+        <activity android:name=".pro.mine.view.SetActivity" />
+        <activity android:name=".pro.mine.view.ChangePswActivity" />
+        <activity android:name=".pro.market.view.GoodDetailsActivity" />
+        <activity android:name=".pro.market.view.CarActivity" />
+        <activity android:name=".pro.market.view.ConfirmOrederActivity" />
+        <activity android:name=".pro.mine.view.MessgeActivity" />
+        <activity android:name=".pro.mine.view.RideActivity" />
+        <activity android:name=".pro.mine.view.EquipmentActivity" />
+        <activity android:name=".pro.mine.view.OrderActivity" />
+        <activity android:name=".pro.mine.view.RegisteredActivity" />
+        <activity android:name=".IndexActivity" />
+        <activity android:name=".pro.mine.view.FindPswActivity" />
+        <activity android:name=".pro.mine.view.MineDetailsActivity" />
+        <activity android:name=".pro.mine.view.ModifyInfoActivity" />
+        <activity android:name=".pro.mine.view.MineActivity" />
+        <activity android:name=".pro.market.view.SelectAddressActivity" />
+        <activity android:name=".pro.market.view.AddAndEditAddressActivity" />
+        <activity android:name=".pro.market.view.PayActivity" />
+        <activity android:name=".pro.index.view.ScanActivity" />
+
+        <activity android:name=".pro.index.view.MapActivity"></activity>
+
+        <service android:name="com.amap.api.location.APSService"></service>
     </application>
 
 </manifest>

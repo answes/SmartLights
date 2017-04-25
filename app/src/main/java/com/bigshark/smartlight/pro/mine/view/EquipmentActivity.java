@@ -15,6 +15,7 @@ import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.mine.view.adapter.EquipmentListAdapter;
 import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
+import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,7 @@ public class EquipmentActivity extends BaseActivity {
         setContentView(R.layout.activity_equipment);
         ButterKnife.bind(this);
         initToolbar();
+        SupportMultipleScreensUtil.scale(activityEquipment);
         initData();
     }
 

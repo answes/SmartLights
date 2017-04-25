@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 连框颜色值 -->
+    <item android:width="366px" android:height="366px" android:gravity="center">
+        <shape>
+            <solid android:color="#4f505a" />
+            <corners android:radius="366px"/>
+            <size android:width="366px" android:height="366px"/>
+        </shape>
+    </item>
+    <!-- 主体背景颜色值 -->
+    <item android:width="366px" android:height="366px" android:gravity="center">
+        <shape
+            android:innerRadiusRatio="4"
+            android:shape="ring"
+            android:thicknessRatio="13"
+            android:useLevel="false">
+            <gradient
+                android:endColor="#0000ff"
+                android:startColor="#fff"
+                android:type="sweep"/>
+        </shape>
+    </item>
+    <item android:width="336px" android:height="336px" android:gravity="center">
+        <shape>
+            <solid android:color="@color/fragment_index_bg" />
+            <corners android:radius="336px"/>
+            <size android:width="336px" android:height="336px"/>
+        </shape>
+    </item>
+
+
+</layer-list>

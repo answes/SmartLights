@@ -4,23 +4,26 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:background="@color/white"
-              android:layout_height="100dp">
+              android:layout_height="288px">
     <com.allen.library.SuperTextView
         android:layout_width="match_parent"
         android:id="@+id/stv_title"
         app:sLeftTextString="平台信息"
         app:sRightTextString="2016-09-11"
-        app:sLeftTextSize="@dimen/title_text_size"
+        app:sLeftTextSize="43px"
+        app:sLeftTextMarginLeft="32px"
         app:sLeftTextColor="@color/text_fist"
-        app:sRightTextColor="#999999"
+        app:sRightTextColor="#666666"
+        app:sRightTextSize="40px"
         app:sLineShow="none"
-        android:layout_height="40dp"/>
+        android:layout_height="115px"/>
     <TextView
         android:id="@+id/tv_messge"
         android:layout_width="match_parent"
         android:text="双12豪礼送亲友，现特价商品5折销售，更多优惠净瓶请进入商场进行抢购...."
         android:lineSpacingMultiplier="1.5"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="32px"
+        android:layout_marginRight="32px"
         android:maxLines="2"
         android:textColor="#3A3A3A"
         android:layout_height="wrap_content"/>

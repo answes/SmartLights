@@ -1,44 +1,233 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:orientation="vertical"
-              android:background="@color/fragment_index_bg"
-              android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_context"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fragment_index_bg"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
-        android:layout_height="wrap_content">
-    <ImageView
-        android:layout_width="match_parent"
-        android:src="@drawable/fragment_index_search"
-        android:layout_height="180dp"/>
+        android:layout_height="400px"
+        android:layout_marginTop="400px">
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/ll"
+            android:background="@drawable/index_ll_layer"
+            android:layout_width="366px"
+            android:layout_height="366px"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="336px"
+                android:layout_height="336px"
+                android:background="@drawable/index_bg"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="时速"
+                    android:textColor="@color/white"
+                    android:textSize="30px" />
+
+                <TextView
+                    android:id="@+id/tv_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5px"
+                    android:text="0KM/h"
+                    android:textColor="@color/white"
+                    android:textSize="48px" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10px"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/index_icon_location"
+                        android:drawablePadding="5px"
+                        android:text="路径"
+                        android:textColor="@color/white"
+                        android:textSize="30px" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30px"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/index_icon_ele"
+                        android:drawablePadding="5px"
+                        android:text="电量"
+                        android:textColor="@color/white"
+                        android:textSize="30px" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_lock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="120px"
+            app:srcCompat="@drawable/index_icon_lock" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="155px"
+        android:layout_marginLeft="80px"
+        android:layout_marginRight="80px"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+            android:layout_width="wrap_content"
+            android:textSize="30px"
+            android:text="热量"
             android:textColor="@color/white"
-            android:text="暂无设备"
-            android:textSize="18sp"
-            android:layout_marginEnd="123dp"
-            android:id="@+id/textView"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"/>
+            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_hot"
+                android:layout_width="wrap_content"
+                android:textSize="48px"
+                android:text="439cal"
+                android:layout_marginTop="44px"
+                android:textColor="#ec6941"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="30px"
+                android:text="里程"
+                android:textColor="@color/white"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_total"
+                android:layout_width="wrap_content"
+                android:textSize="48px"
+                android:text="28km"
+                android:layout_marginTop="44px"
+                android:textColor="#ec6941"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="30px"
+                android:text="海拔"
+                android:textColor="@color/white"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="48px"
+                android:id="@+id/tv_height"
+                android:text="80m"
+                android:layout_marginTop="44px"
+                android:textColor="#ec6941"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="83px"
+        android:layout_marginLeft="80px"
+        android:layout_marginRight="80px"
+        android:background="@drawable/index_shape"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_height="181px">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_speed2"
+                android:layout_width="wrap_content"
+                android:textSize="48px"
+                android:text="28km/h"
+                android:textColor="@color/white"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="36px"
+                android:text="时速"
+                android:layout_marginTop="15px"
+                android:textColor="#ec6941"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="48px"
+                android:text="28km/h"
+                android:textColor="@color/white"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_high_speed" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="36px"
+                android:text="最高速度"
+                android:layout_marginTop="15px"
+                android:textColor="#ec6941"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/btn_find"
+            android:layout_width="match_parent"
+            android:background="@drawable/index_tab"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="48px"
+            android:text="开始骑行"
+            android:layout_height="117px"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/angry_btn"
-        android:text="链接设备"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:layout_marginTop="60dp"
-        android:layout_width="120dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/fragment_index_button_bg"
-        android:shadowColor="#EE3C57"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        />
 </LinearLayout>

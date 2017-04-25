@@ -5,27 +5,26 @@
     android:id="@+id/activity_set"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/root_view_bg"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.bigshark.smartlight.pro.mine.view.SetActivity">
 
-    <com.bigshark.smartlight.weight.XCRoundRectImageView
-        android:layout_width="80dp"
+    <ImageView
+        android:layout_width="230px"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:src="@drawable/hander"
+        android:layout_marginTop="101px"
+        android:src="@drawable/logo"
         android:scaleType="fitXY"
-        app:shape_mode="round_rect"
-        app:round_radius="4dp"
-        android:layout_height="80dp"
+        android:layout_height="230px"
         android:id="@+id/XCRoundRectImageView"/>
 
     <TextView
         android:id="@+id/tv_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:layout_marginTop="6dp"
+        android:textSize="35px"
+        android:layout_marginTop="30px"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/text_three"
         android:text="@string/app_version"/>
@@ -33,41 +32,47 @@
     <com.allen.library.SuperTextView
     android:layout_width="match_parent"
     android:id="@+id/stv_about"
-    android:layout_marginTop="30dp"
+    android:layout_marginTop="101px"
     app:sLeftTextString="@string/mine_about"
     app:sRightIconRes="@drawable/right_comein"
-    app:sLeftTextMarginLeft="40dp"
-    app:sRightIconMarginRight="40dp"
-    app:sBottomLineMargin="35dp"
-    android:layout_height="50dp"/>
+    app:sLeftTextColor="#022222"
+    app:sLeftTextSize="40px"
+    app:sLeftTextMarginLeft="130px"
+    app:sRightIconMarginRight="130px"
+    app:sBottomLineMargin="130px"
+    android:layout_height="130px"/>
 
     <com.allen.library.SuperTextView
         android:layout_width="match_parent"
         android:id="@+id/stv_changePsw"
         app:sLeftTextString="@string/mine_change_psw"
+        app:sLeftTextSize="40px"
         app:sRightIconRes="@drawable/right_comein"
-        app:sLeftTextMarginLeft="40dp"
-        app:sRightIconMarginRight="40dp"
-        app:sBottomLineMargin="35dp"
-        android:layout_height="50dp"/>
+        app:sLeftTextMarginLeft="130px"
+        app:sRightIconMarginRight="130px"
+        app:sLeftTextColor="#022222"
+        app:sBottomLineMargin="130px"
+        android:layout_height="130px"/>
 
     <com.allen.library.SuperTextView
         android:layout_width="match_parent"
         android:id="@+id/stv_emptyCache"
         app:sLeftTextString="@string/mine_emptyCache"
-        app:sLeftTextMarginLeft="40dp"
-        app:sRightIconMarginRight="40dp"
+        app:sLeftTextSize="40px"
+        app:sLeftTextColor="#022222"
+        app:sLeftTextMarginLeft="130px"
+        app:sRightIconMarginRight="130px"
         app:sLineShow="none"
-        android:layout_height="50dp"/>
+        android:layout_height="130px"/>
 
     <Button
         android:id="@+id/bt_logout"
         android:text="退出登陆"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:layout_marginTop="80dp"
-        android:layout_width="140dp"
-        android:layout_height="40dp"
+        android:textColor="@color/white"
+        android:textSize="49px"
+        android:layout_marginTop="288px"
+        android:layout_width="518px"
+        android:layout_height="130px"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/fragment_index_button_bg"
         android:shadowColor="#EE3C57"

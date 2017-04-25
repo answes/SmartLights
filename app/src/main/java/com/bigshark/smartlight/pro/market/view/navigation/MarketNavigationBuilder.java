@@ -23,6 +23,7 @@ public class MarketNavigationBuilder extends NavigationBuilderAdapter {
     @Override
     public void createAndBind(ViewGroup parent) {
         super.createAndBind(parent);
+        setImageViewStyle(R.id.iv_left,getLeftIconRes(),getLeftIconOnClickListener());
         setImageViewStyle(R.id.iv_right,getRightIconRes(),getRightIconOnClickListener());
     }
 }
