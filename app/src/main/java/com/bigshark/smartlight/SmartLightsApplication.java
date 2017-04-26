@@ -11,6 +11,9 @@ import com.bigshark.smartlight.utils.GetJsonDataUtil;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tencent.mm.opensdk.constants.ConstantsAPI;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +40,9 @@ public class SmartLightsApplication extends Application {
             @Override
             public void run() {
                 initJson();
+                final IWXAPI msgApi = WXAPIFactory.createWXAPI(SmartLightsApplication.this, null);
+                // 将该app注册到微信
+                msgApi.registerApp("wx35bd3eeb5d531eaf");
             }
         }).start();
 

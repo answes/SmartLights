@@ -3,23 +3,40 @@ package com.bigshark.smartlight.pro.market.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.bigshark.smartlight.R;
+import com.bigshark.smartlight.SmartLightsApplication;
 import com.bigshark.smartlight.bean.OrderResult;
+import com.bigshark.smartlight.bean.TestBean;
+import com.bigshark.smartlight.http.VolleyHttpUtils;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.market.view.navigation.GoodDetailsNavigationBuilder;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
+import com.bigshark.smartlight.utils.VolleyUtils;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PayActivity extends BaseActivity {
+
+    private IWXAPI iwxapi;
 
     @BindView(R.id.alipay)
     TextView alipay;
@@ -38,6 +55,7 @@ public class PayActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay);
         ButterKnife.bind(this);
+        iwxapi =  WXAPIFactory.createWXAPI(this, "wx35bd3eeb5d531eaf");
         SupportMultipleScreensUtil.scale(activityPay);
         initToolbar();
     }
@@ -59,7 +77,7 @@ public class PayActivity extends BaseActivity {
                 showMsg("支付宝支付，订单信息为:"+ JSON.toJSONString(order));
                 break;
             case R.id.wepay:
-                showMsg("微信支付，订单信息为:"+ JSON.toJSONString(order));
+                similaerPay();
                 break;
         }
     }
@@ -75,6 +93,31 @@ public class PayActivity extends BaseActivity {
     public static void openPayActivity(Activity activity, OrderResult orderResult) {
         order = orderResult;
         activity.startActivity(new Intent(activity, PayActivity.class));
+    }
+    private void similaerPay(){
+        StringRequest request = new StringRequest(Request.Method.POST, "http://pybike.idc.zhonxing.com/Test/index"
+                , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                TestBean testBean = JSON.parseObject(response,TestBean.class);
+                PayReq payReq = new PayReq();
+                payReq.appId = "wx35bd3eeb5d531eaf";
+                payReq.partnerId = testBean.getData().getPartnerId();
+                payReq.prepayId = testBean.getData().getPrepayId();
+                payReq.packageValue = "Sign=WXPay";
+                payReq.nonceStr=  testBean.getData().getNonceStr();
+                payReq.timeStamp=  String.valueOf(testBean.getData().getTimeStamp());
+                payReq.sign=  testBean.getData().getSign();
+                iwxapi.sendReq(payReq);
+                Log.i("Load",response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                showMsg("");
+            }
+        });
+        SmartLightsApplication.queue.add(request);
     }
 
 }
