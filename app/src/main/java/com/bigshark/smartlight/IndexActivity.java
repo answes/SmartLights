@@ -1,9 +1,17 @@
 package com.bigshark.smartlight;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.SyncStateContract;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -102,24 +110,30 @@ public class IndexActivity extends BaseActivity {
     public void onClick(View view){
         switch (view.getId()){
             case R.id.btn_find:
-                isStart = !isStart;
-                if(isStart) {
-                    mapPreseter.start();
-                    btnFind.setText("结束骑行");
-                }else{
-                    btnFind.setText("开始骑行");
-                    mapPreseter.stop(new BasePresenter.OnUIThreadListener<String>() {
-                        @Override
-                        public void onResult(String result) {
-                            showMsg(result);
+                    isStart = !isStart;
+                    if (isStart) {
+                        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            //申请WRITE_EXTERNAL_STORAGE权限
+                            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 0x01);
+                        } else {
+                            mapPreseter.start();
+                            btnFind.setText("结束骑行");
                         }
+                    } else {
+                        btnFind.setText("开始骑行");
+                        mapPreseter.stop(new BasePresenter.OnUIThreadListener<String>() {
+                            @Override
+                            public void onResult(String result) {
+                                showMsg(result);
+                            }
 
-                        @Override
-                        public void onErro(String string) {
-                            showMsg(string);
-                        }
-                    });
-                }
+                            @Override
+                            public void onErro(String string) {
+                                showMsg(string);
+                            }
+                        });
+                    }
                 break;
             case R.id.tv_location:
                 if(isStart) {
@@ -176,6 +190,19 @@ public class IndexActivity extends BaseActivity {
     private void unRegisterBroadCast(){
         if(mapLocationRecive!=null){
             unregisterReceiver(mapLocationRecive);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == 1){
+            //请求的定位权限
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                mapPreseter.start();
+                btnFind.setText("结束骑行");
+            }else{
+                showMsg("权限被拒绝，请在软件设置中打开权限");
+            }
         }
     }
 }

@@ -41,25 +41,39 @@
         android:background="@color/white"
         android:layout_marginLeft="80px"
         android:layout_marginRight="80px"/>
-    <EditText
-        android:id="@+id/et_yan"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="130px"
-        android:hint="手机验证码"
-        android:drawablePadding="30px"
-        android:textColorHint="@color/white"
-        android:background="@android:color/transparent"
-        android:textColor="@color/white"
-        android:padding="20px"
-        android:inputType="number"
-        android:maxLength="6"
-        android:singleLine="true"
-        android:drawableLeft="@drawable/mine_sign_up_code_ico"
-        android:drawableRight="@drawable/mine_sign_up_code"
-        android:textSize="35px"
-        android:layout_marginLeft="100px"
-        android:layout_marginRight="100px"
-        />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/et_yan"
+            android:layout_width="match_parent"
+            android:layout_height="130px"
+            android:hint="手机验证码"
+            android:drawablePadding="30px"
+            android:textColorHint="@color/white"
+            android:background="@android:color/transparent"
+            android:textColor="@color/white"
+            android:padding="20px"
+            android:inputType="number"
+            android:maxLength="6"
+            android:singleLine="true"
+            android:drawableLeft="@drawable/mine_sign_up_code_ico"
+            android:textSize="35px"
+            android:layout_marginLeft="100px"
+            android:layout_marginRight="100px"
+            />
+        <ImageView
+            android:id="@+id/iv_code"
+            android:layout_width="200px"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/mine_sign_up_code"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="100px"
+            android:layout_height="130px" />
+    </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"

@@ -80,6 +80,7 @@ public class LoginActivity extends BaseActivity {
                     presenter.login(etPhone.getText().toString(), etPsw.getText().toString(), new BasePresenter.OnUIThreadListener<LoginResult>() {
                         @Override
                         public void onResult(LoginResult result) {
+                            dialog.cancel();
                             SmartLightsApplication.USER = result.getData();
                             IndexActivity.openIndexActivity(LoginActivity.this);
                             finish();

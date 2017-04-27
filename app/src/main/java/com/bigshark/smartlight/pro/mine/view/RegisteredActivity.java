@@ -4,15 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigshark.smartlight.R;
-import com.bigshark.smartlight.bean.Market;
 import com.bigshark.smartlight.bean.RegisterResult;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
@@ -20,11 +19,7 @@ import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.mine.presenter.MinePresenter;
 import com.bigshark.smartlight.pro.mine.view.navigation.RegiteredNavigationBuilder;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
-import com.bigshark.smartlight.utils.ToastUtil;
-
-import org.w3c.dom.Text;
-
-import java.util.List;
+import com.bigshark.smartlight.weight.Code;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +39,8 @@ public class RegisteredActivity extends BaseActivity {
     TextView tvProtocol;
     @BindView(R.id.activity_registered)
     LinearLayout activityRegistered;
+    @BindView(R.id.iv_code)
+    ImageView ivCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +50,7 @@ public class RegisteredActivity extends BaseActivity {
         initToolbar();
         bindPresneter();
         SupportMultipleScreensUtil.scale(activityRegistered);
+        ivCode.setImageBitmap(code.createBitmap());
     }
 
     private void initToolbar() {
@@ -72,15 +70,15 @@ public class RegisteredActivity extends BaseActivity {
         minePresenter = new MinePresenter(this);
         return minePresenter;
     }
-
-    @OnClick({R.id.bt_registered, R.id.tv_protocol})
+    private Code code = Code.getInstance();
+    @OnClick({R.id.bt_registered, R.id.tv_protocol,R.id.iv_code})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_registered:
-                if(!check()) {
+                if (!check()) {
                     return;
                 }
-                if(!etYan.getText().toString().equals("5374")) {
+                if (!etYan.getText().toString().equals(code.getCode())) {
                     showMsg("验证码不正确");
                     return;
                 }
@@ -93,6 +91,7 @@ public class RegisteredActivity extends BaseActivity {
                             finish();
                         }
                     }
+
                     @Override
                     public void onErro(String string) {
                         showMsg(string);
@@ -100,6 +99,9 @@ public class RegisteredActivity extends BaseActivity {
                 });
                 break;
             case R.id.tv_protocol:
+                break;
+            case R.id.iv_code:
+                ivCode.setImageBitmap(code.createBitmap());
                 break;
         }
     }
@@ -112,24 +114,24 @@ public class RegisteredActivity extends BaseActivity {
     /**
      * 检查数据完整
      */
-    private boolean check(){
-        if(TextUtils.isEmpty(etPhone.getText())){
+    private boolean check() {
+        if (TextUtils.isEmpty(etPhone.getText())) {
             showMsg("请填写手机号码");
-            return  false;
+            return false;
         }
-        if(TextUtils.isEmpty(etPsw.getText())){
+        if (TextUtils.isEmpty(etPsw.getText())) {
             showMsg("请填写登录密码");
-            return  false;
+            return false;
         }
-        if(TextUtils.isEmpty(etYan.getText())){
+        if (TextUtils.isEmpty(etYan.getText())) {
             showMsg("请填写验证码");
-            return  false;
+            return false;
         }
-        if(etPsw.getText().toString().length()<6 && etPsw.getText().toString().length()>8){
+        if (etPsw.getText().toString().length() < 6 && etPsw.getText().toString().length() > 8) {
             showMsg("密码长度在6到18位");
-            return  false;
+            return false;
         }
-        return  true;
+        return true;
     }
 }
 

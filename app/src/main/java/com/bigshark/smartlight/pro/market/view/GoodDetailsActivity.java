@@ -2,8 +2,12 @@ package com.bigshark.smartlight.pro.market.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -50,6 +54,8 @@ public class GoodDetailsActivity extends BaseActivity {
     @BindView(R.id.activity_good_details)
     RelativeLayout activityGoodDetails;
 
+    @BindView(R.id.web_view)
+    WebView webView;
     private MarketListPresenter presenter;
     private GoodDetail.Goods good;
 
@@ -98,11 +104,21 @@ public class GoodDetailsActivity extends BaseActivity {
         bnGoodImgs.setImages(list);
         bnGoodImgs.start();
 
+        if(good.getContent() !=null) {
+            webView.setWebViewClient(new WebViewClient());
+            webView.getSettings().setDefaultTextEncodingName("utf-8");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
+            } else {
+                webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
+            }
+            webView.loadData(getHtmlData(good.getContent()), "text/html; charset=utf-8", "utf-8");
+        }
         stvGoodTitle.setLeftString(good.getName());
         tvMoeny.setText("￥".concat(good.getPrice()));
         stvGoogDeatil.setLeftString("快递：".concat(good.getExpress()));
         stvGoogDeatil.setCenterString("库存：".concat(good.getNum()));
-        stvGoogDeatil.setRightString("颜色：".concat(good.getColor()));
+        stvGoogDeatil.setRightString("颜色：".concat(good.getColorTxt()+""));
     }
 
     private void initToolbar() {
@@ -161,5 +177,13 @@ public class GoodDetailsActivity extends BaseActivity {
         Intent intent = new Intent(activity,GoodDetailsActivity.class);
         intent.putExtra("id",id);
         activity.startActivity(intent);
+    }
+
+    private String getHtmlData(String bodyHTML) {
+        String head = "<head>" +
+                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> " +
+                "<style>img{max-width: 100%; width:auto; height:auto;}</style>" +
+                "</head>";
+        return "<html>" + head + "<body>" + bodyHTML + "</body></html>";
     }
 }

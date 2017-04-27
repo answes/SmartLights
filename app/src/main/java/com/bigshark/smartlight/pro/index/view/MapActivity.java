@@ -111,7 +111,7 @@ public class MapActivity extends BaseActivity {
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
 
     private MapLocationRecive mapLocationRecive;
-
+    private boolean isFist = true;
     private void registerBroadCasst() {
         if (mapLocationRecive == null) {
             mapLocationRecive = new MapLocationRecive(new MapLocationRecive.OnLocationReciveListener() {
@@ -137,7 +137,10 @@ public class MapActivity extends BaseActivity {
                             mapview.getMap().clear();
                             mapview.getMap().addPolyline(new PolylineOptions().
                                     addAll(latLngs).width(10).color(Color.argb(255, 1, 1, 1)));
-                            mapview.getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(latLngs.get(latLngs.size()-1),18));
+                            if(isFist) {
+                                isFist = false;
+                                mapview.getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(latLngs.get(latLngs.size() - 1), 18));
+                            }
                         }
                     });
                 }

@@ -129,13 +129,16 @@ public class MapPreseter extends BasePresenter<RecordModel> {
     private void initLocation() {
 
     }
-
+    private boolean isFirst = true;
     public class MyLocationListener implements AMapLocationListener {
         LatLng lastLatLng;
 
         @Override
         public void onLocationChanged(AMapLocation aMapLocation) {
-
+            if(isFirst){
+                isFirst = false;
+                return;
+            }
             if (aMapLocation != null
                     && aMapLocation.getErrorCode() == 0) {
                 LatLng location = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());

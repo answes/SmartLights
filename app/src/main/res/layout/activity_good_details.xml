@@ -9,63 +9,72 @@
     android:background="@color/root_view_bg"
     tools:context="com.bigshark.smartlight.pro.market.view.GoodDetailsActivity"
     android:weightSum="1">
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:layout_marginBottom="141px"
         android:layout_marginTop="127px"
-        android:orientation="vertical">
-    <com.youth.banner.Banner
-        android:id="@+id/bn_goodImgs"
-        android:layout_width="match_parent"
-        android:layout_height="1080px"
-        app:indicator_width="26px"
-        app:indicator_height="26px"
-        />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#E1E1E1"/>
+        android:descendantFocusability="blocksDescendants"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.youth.banner.Banner
+                android:id="@+id/bn_goodImgs"
+                android:layout_width="match_parent"
+                android:layout_height="1080px"
+                app:indicator_width="26px"
+                app:indicator_height="26px"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#E1E1E1"/>
 
-<com.allen.library.SuperTextView
-    android:id="@+id/stv_goodTitle"
-    app:sLineShow="none"
-    app:sLeftTextString="coach羊绒波士顿包"
-    app:sLeftTextColor="@color/text_fist"
-    android:layout_width="match_parent"
-    app:sLeftTopTextSize="49px"
-    app:sLeftTextMarginLeft="30px"
-    android:layout_height="101px"
-    />
+            <com.allen.library.SuperTextView
+                android:id="@+id/stv_goodTitle"
+                app:sLineShow="none"
+                app:sLeftTextString="coach羊绒波士顿包"
+                app:sLeftTextColor="@color/text_fist"
+                android:layout_width="match_parent"
+                app:sLeftTopTextSize="49px"
+                app:sLeftTextMarginLeft="30px"
+                android:layout_height="101px"
+                />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_moeny"
-        android:textColor="@color/price_red"
-        android:textSize="43px"
-        android:background="@color/white"
-        android:paddingLeft="30px"
-        android:text="￥1058"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_moeny"
+                android:textColor="@color/price_red"
+                android:textSize="43px"
+                android:background="@color/white"
+                android:paddingLeft="30px"
+                android:text="￥1058"/>
 
-    <com.allen.library.SuperTextView
-        android:id="@+id/stv_googDeatil"
-        app:sLeftTextString="快递：免运费"
-        app:sLeftTextColor="@color/text_secend"
-        app:sLeftTextSize="43px"
-        app:sCenterTextString="库存：34"
-        app:sCenterTextColor="@color/text_secend"
-        app:sCenterTextSize="43px"
-        app:sRightTextString="颜色：黑色"
-        app:sRightTextColor="@color/text_secend"
-        app:sRightTextSize="43px"
-        android:layout_width="match_parent"
-        android:layout_height="86px"
-        app:sLeftTextMarginLeft="30px"
-        app:sLineColor="#E1E1E1"
-        />
-    </LinearLayout>
+            <com.allen.library.SuperTextView
+                android:id="@+id/stv_googDeatil"
+                app:sLeftTextString="快递：免运费"
+                app:sLeftTextColor="@color/text_secend"
+                app:sLeftTextSize="43px"
+                app:sCenterTextString="库存：34"
+                app:sCenterTextColor="@color/text_secend"
+                app:sCenterTextSize="43px"
+                app:sRightTextString="颜色：黑色"
+                app:sRightTextColor="@color/text_secend"
+                app:sRightTextSize="43px"
+                android:layout_width="match_parent"
+                android:layout_height="86px"
+                app:sLeftTextMarginLeft="30px"
+                app:sLineColor="#E1E1E1"
+                />
+            <WebView
+                android:id="@+id/web_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>
+
 
     <LinearLayout
         android:layout_width="match_parent"

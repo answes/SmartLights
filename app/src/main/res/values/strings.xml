@@ -26,10 +26,11 @@
     <string name="mine_ride_count_distance">总里程</string>
 
     <array name="mine_order_tab">
-        <item>全部</item>
-        <item>待付款</item>
-        <item>待收货</item>
+        <item>全部@bigShark@-1</item>
+        <item>待付款@bigShark@0</item>
+        <item>待收货@bigShark@1</item>
     </array>
+
 
 
     <string name="del">删除</string>
