@@ -18,6 +18,7 @@ import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.mine.presenter.MinePresenter;
 import com.bigshark.smartlight.pro.mine.view.navigation.RegiteredNavigationBuilder;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
+import com.bigshark.smartlight.weight.Code;
 
 import org.w3c.dom.Text;
 
@@ -41,7 +42,9 @@ public class FindPswActivity extends BaseActivity {
     Button btConfim;
     @BindView(R.id.activity_login)
     LinearLayout activityLogin;
-
+    @BindView(R.id.iv_code)
+    ImageView ivCode;
+    private Code code = Code.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +52,7 @@ public class FindPswActivity extends BaseActivity {
         ButterKnife.bind(this);
         initToolbar();
         SupportMultipleScreensUtil.scale(activityLogin);
+        ivCode.setImageBitmap(code.createBitmap());
     }
 
     private void initToolbar() {
@@ -67,29 +71,37 @@ public class FindPswActivity extends BaseActivity {
         return minePresenter;
     }
 
-    @OnClick(R.id.bt_confim)
-    public void onClick() {
-        if(!check()){
-            return;
-        }
-        if(!etYan.getText().toString().equals("5374")){
-            showMsg("验证码不正确");
-            return;
-        }
-        minePresenter.findPsw(etPhone.getText().toString(), etPsw.getText().toString(), etTwopsw.getText().toString(), new BasePresenter.OnUIThreadListener<FindPsw>() {
-            @Override
-            public void onResult(FindPsw result) {
+    @OnClick({R.id.bt_confim,R.id.iv_code})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.bt_confim:
+            if (!check()) {
+                return;
+            }
+            if (!etYan.getText().toString().equals("5374")) {
+                showMsg("验证码不正确");
+                return;
+            }
+            minePresenter.findPsw(etPhone.getText().toString(), etPsw.getText().toString(), etTwopsw.getText().toString(), new BasePresenter.OnUIThreadListener<FindPsw>() {
+                @Override
+                public void onResult(FindPsw result) {
                     showMsg(result.getExtra());
-                    if(result.getCode() == 1){
+                    if (result.getCode() == 1) {
                         LoginActivity.openLoginActivity(FindPswActivity.this);
                         finish();
                     }
-            }
-            @Override
-            public void onErro(String string) {
-                showMsg(string);
-            }
-        });
+                }
+
+                @Override
+                public void onErro(String string) {
+                    showMsg(string);
+                }
+            });
+                break;
+            case R.id.iv_code:
+                ivCode.setImageBitmap(code.createBitmap());
+                break;
+        }
     }
 
     public static void openFindPswActivity(Activity activity){

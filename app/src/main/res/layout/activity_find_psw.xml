@@ -55,7 +55,6 @@
             android:background="@android:color/transparent"
             android:textColor="@color/white"
             android:padding="20px"
-            android:inputType="number"
             android:maxLength="6"
             android:singleLine="true"
             android:drawableLeft="@drawable/mine_sign_up_code_ico"
