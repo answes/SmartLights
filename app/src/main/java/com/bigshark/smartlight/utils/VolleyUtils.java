@@ -7,6 +7,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
+import com.bigshark.smartlight.R;
 
 /**
  * Created by Dream on 16/5/30.
@@ -25,6 +26,8 @@ public class VolleyUtils {
                 return null;
             }
         });
+        imageView.setDefaultImageResId(R.drawable.logo);
+        imageView.setErrorImageResId(R.drawable.logo);
         imageView.setImageUrl(url,imageLoader);
     }
 }

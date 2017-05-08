@@ -56,7 +56,7 @@ public class LoginResult {
         private String status;
         private String reg_tm;
         private String btel;
-       private int fig;
+        private int fig;
 
        public User(String id, String user_num, String tel, String name, String height, String age, String weight, String sex, String status, String reg_tm, String btel, int fig) {
            this.id = id;

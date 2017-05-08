@@ -5,9 +5,19 @@ package com.bigshark.smartlight.bean;
  */
 
 public class Messge {
+
+    private int id;
     private String title;
-    private String date;
-    private String messge;
+    private String content;
+    private String cre_tm;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -17,19 +27,19 @@ public class Messge {
         this.title = title;
     }
 
-    public String getDate() {
-        return date;
+    public String getContent() {
+        return content;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getMessge() {
-        return messge;
+    public String getCre_tm() {
+        return cre_tm;
     }
 
-    public void setMessge(String messge) {
-        this.messge = messge;
+    public void setCre_tm(String cre_tm) {
+        this.cre_tm = cre_tm;
     }
 }

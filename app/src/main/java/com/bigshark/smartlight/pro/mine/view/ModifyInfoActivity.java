@@ -65,7 +65,7 @@ public class ModifyInfoActivity extends BaseActivity {
 
     private void initToolbar() {
         MineNavigationBuilder bar = new MineNavigationBuilder(this);
-        bar.setTitle(title).setLeftIcon(R.drawable.left_back).setLeftIconOnClickListener(new View.OnClickListener() {
+        bar.setRightText("完成").setTitle(title).setLeftIcon(R.drawable.left_back).setLeftIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
@@ -78,7 +78,7 @@ public class ModifyInfoActivity extends BaseActivity {
                     return;
                 }
                 upUser();
-                upUserInfo();
+
             }
         }).createAndBind(activityModifyInfo);
     }
@@ -91,7 +91,14 @@ public class ModifyInfoActivity extends BaseActivity {
             user.setTel(etInfo.getText().toString().trim());
         }
         else if("性别修改".equals(title)){
-            user.setSex(etInfo.getText().toString().trim());
+            if("男".equals(etInfo.getText().toString().trim()) ){
+                user.setSex("1");
+            }else if( "女".equals(etInfo.getText().toString().trim())){
+                user.setSex("0");
+            }else{
+                showMsg("只能输入男或者女哦");
+                return;
+            }
         }
         else if("身高修改".equals(title)){
             user.setHeight(etInfo.getText().toString().trim());
@@ -99,6 +106,8 @@ public class ModifyInfoActivity extends BaseActivity {
         else if("体重修改".equals(title)){
             user.setWeight(etInfo.getText().toString().trim());
         }
+
+        upUserInfo();
 
     }
 

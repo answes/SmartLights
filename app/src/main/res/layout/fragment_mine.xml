@@ -7,31 +7,31 @@
     android:id="@+id/ll_context"
               android:layout_height="match_parent">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="156px"
-    android:layout_marginTop="58px"
-    android:gravity="center_vertical"
-    android:background="@color/white"
-    android:orientation="horizontal">
-    
-    <ImageView
-        android:id="@+id/iv_hander"
-        android:layout_width="127px"
-        android:layout_height="127px"
-        android:layout_marginLeft="30px"
-        android:src="@drawable/hander"/>
-
-    <TextView
-        android:id="@+id/iv_userName"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30px"
-        android:textSize="40px"
-        android:textColor="#3d444a"
-        android:text="13510344127"/>
-    
-</LinearLayout>
+        android:layout_height="156px"
+        android:layout_marginTop="58px"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_hander"
+            android:layout_width="127px"
+            android:layout_height="127px"
+            android:layout_marginLeft="30px"
+            android:src="@drawable/hander" />
+
+        <TextView
+            android:id="@+id/iv_userName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30px"
+            android:text="13510344127"
+            android:textColor="#3d444a"
+            android:textSize="40px" />
+
+    </LinearLayout>
 
     <com.allen.library.SuperTextView
     android:id="@+id/stv_myStroke"

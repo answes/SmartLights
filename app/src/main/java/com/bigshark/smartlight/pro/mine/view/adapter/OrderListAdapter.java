@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.allen.library.SuperTextView;
-import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
 import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.bean.OrderResult;
 import com.bigshark.smartlight.utils.JSONUtil;
@@ -23,7 +22,7 @@ import java.util.List;
  * Created by bigShark on 2017/1/20.
  */
 
-public class OrderListAdapter extends BaseRecyclerAdapter<OrderListAdapter.ViewHolder> {
+public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
     private Context context;
     private List<OrderResult.Order> datas;
     private ItemOnClickListener itemOnClickListener;
@@ -32,14 +31,12 @@ public class OrderListAdapter extends BaseRecyclerAdapter<OrderListAdapter.ViewH
         this.context = context;
         this.datas = datas;
     }
-
-    @Override
-    public ViewHolder getViewHolder(View view) {
-        return new ViewHolder(view, false, itemOnClickListener);
+    public void setItemOnClickListener(ItemOnClickListener itemOnClickListener) {
+        this.itemOnClickListener = itemOnClickListener;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType, boolean isItem) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(
                 R.layout.item_mine_order_list_layout, parent, false);
         SupportMultipleScreensUtil.scale(v);
@@ -48,9 +45,9 @@ public class OrderListAdapter extends BaseRecyclerAdapter<OrderListAdapter.ViewH
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position, boolean isItem) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         OrderResult.Order order = datas.get(position);
-       // holder.stvNo.setLeftString("订单编号：".concat(order.getOrderNum()));
+        // holder.stvNo.setLeftString("订单编号：".concat(order.getOrderNum()));
         //订单状态0:待付款,1:待发货，2:已发货,3:已完成,-1,已取消
         holder.stvNo.setRightTVColor(Color.parseColor("#ee3c57"));
         if("0".equals(order.getStatus())){
@@ -76,7 +73,7 @@ public class OrderListAdapter extends BaseRecyclerAdapter<OrderListAdapter.ViewH
             holder.stvNo.setRightTVColor(Color.parseColor("#7D7D7D"));
         }
 
-        if(null != order.getGitems()){
+        if(!"null".equals( order.getGitems())){
             List<OrderResult.Gitem> gitems = JSONUtil.getObjects(order.getGitems(),OrderResult.Gitem.class);
             if(null != gitems || gitems.size() != 0) {
                 holder.ogList.setData(gitems);
@@ -84,15 +81,10 @@ public class OrderListAdapter extends BaseRecyclerAdapter<OrderListAdapter.ViewH
             }
         }
 
-
-    }
-
-    public void setItemOnClickListener(ItemOnClickListener itemOnClickListener) {
-        this.itemOnClickListener = itemOnClickListener;
     }
 
     @Override
-    public int getAdapterItemCount() {
+    public int getItemCount() {
         return datas.size();
     }
 
@@ -104,7 +96,7 @@ public class OrderListAdapter extends BaseRecyclerAdapter<OrderListAdapter.ViewH
         private Button btLogistics;
         private Button btReceipt;
 
-        public ViewHolder(View itemView, boolean isItem, ItemOnClickListener itemOnClickListener) {
+        public ViewHolder(View itemView, boolean isItem, final ItemOnClickListener itemOnClickListener) {
             super(itemView);
             this.itemOnClickListener = itemOnClickListener;
             if (isItem) {
@@ -114,6 +106,13 @@ public class OrderListAdapter extends BaseRecyclerAdapter<OrderListAdapter.ViewH
                 btLogistics = (Button) itemView.findViewById(R.id.bt_logistics);
                 btReceipt = (Button)itemView.findViewById(R.id.bt_receipt);
                 itemView.setOnClickListener(this);
+                stvNo.setOnSuperTextViewClickListener(new SuperTextView.OnSuperTextViewClickListener(){
+                    @Override
+                    public void onSuperTextViewClick() {
+                        super.onSuperTextViewClick();
+                        itemOnClickListener.onItemClick(stvNo ,getPosition());
+                    }
+                });
             }
         }
 

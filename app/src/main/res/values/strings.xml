@@ -32,11 +32,11 @@
     </array>
 
 
-
     <string name="del">删除</string>
     <string name="edit">编辑</string>
     <string name="market_add_adress">新增地址</string>
     <string name="market_save">保存</string>
+    <string name="nomore">这里空空如也...</string>
 
     <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
 </resources>

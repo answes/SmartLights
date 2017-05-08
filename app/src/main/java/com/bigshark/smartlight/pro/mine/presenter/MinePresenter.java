@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.bigshark.smartlight.bean.FindPsw;
 import com.bigshark.smartlight.bean.LoginResult;
 import com.bigshark.smartlight.bean.MessageResult;
+import com.bigshark.smartlight.bean.OrderDetailResult;
 import com.bigshark.smartlight.bean.OrderResult;
 import com.bigshark.smartlight.bean.RegisterResult;
 import com.bigshark.smartlight.bean.Ride;
@@ -45,6 +46,7 @@ public class MinePresenter extends BasePresenter<MineModel> {
         getModel().login(phone, password, new VolleyHttpUtils.HttpResult() {
             @Override
             public void succss(String result) {
+                Log.e(TAG, "login USER = " + result);
                 try {
                     LoginResult loginResult = JSONUtil.getObject(result, LoginResult.class);
                     if (loginResult.getCode() == 0) {
@@ -115,20 +117,14 @@ public class MinePresenter extends BasePresenter<MineModel> {
         getModel().getOrders( page, status, new VolleyHttpUtils.HttpResult() {
             @Override
             public void succss(String result) {
-                JSONObject json = JSONObject.parseObject(result);
-                int code = (int) json.get("code");
-                Log.e(TAG, "succss: "+result);
-                if (1 == code) {
-                    OrderResult orderResult = JSONUtil.getObject(result, OrderResult.class);
+                Log.e(TAG, "getOrders: "+result);
+                OrderResult orderResult = JSONUtil.getObject(result, OrderResult.class);
                     if (isDownRefresh) {
                         page = 1;
                     } else {
                         page++;
                     }
                     onUIThreadListener.onResult(orderResult);
-                } else {
-                    onUIThreadListener.onErro("");
-                }
             }
             @Override
             public void erro(String msg) {
@@ -163,7 +159,8 @@ public class MinePresenter extends BasePresenter<MineModel> {
         getModel().upUserInfo( new VolleyHttpUtils.HttpResult() {
             @Override
             public void succss(String result) {
-                    onUIThreadListener.onResult(result);
+                Log.e(TAG, "upUserInfo " + result);
+                onUIThreadListener.onResult(result);
             }
 
             @Override
@@ -191,6 +188,45 @@ public class MinePresenter extends BasePresenter<MineModel> {
                     onUIThreadListener.onErro("");
                 }
             }
+            @Override
+            public void erro(String msg) {
+            }
+        });
+    }
+
+
+    public void getOrderDetail(int type , final OnUIThreadListener<OrderDetailResult.OrderDetail> onUIThreadListener){
+        getModel().getOrderDetail(type, new VolleyHttpUtils.HttpResult() {
+            @Override
+            public void succss(String result) {
+                if(result.isEmpty()){
+                    onUIThreadListener.onErro("");
+                    return;
+                }
+                OrderDetailResult detail = JSONUtil.getObject(result, OrderDetailResult.class);
+                onUIThreadListener.onResult(detail.getData());
+            }
+
+            @Override
+            public void erro(String msg) {
+            }
+        });
+    }
+
+
+    public void upOrderStatu(int id, int status,int paytype , final OnUIThreadListener<Integer> onUIThreadListener){
+        getModel().upOrderStatu(id,status,paytype,new VolleyHttpUtils.HttpResult() {
+            @Override
+            public void succss(String result) {
+                if(result.isEmpty()){
+                    onUIThreadListener.onErro("");
+                    return;
+                }
+                JSONObject json = JSONObject.parseObject(result);
+                int code = (int) json.get("code");
+                onUIThreadListener.onResult(code);
+            }
+
             @Override
             public void erro(String msg) {
             }

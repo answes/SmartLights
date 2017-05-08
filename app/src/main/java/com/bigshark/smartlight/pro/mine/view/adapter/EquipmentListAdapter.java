@@ -7,12 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.allen.library.SuperTextView;
 import com.bigshark.smartlight.R;
-import com.bigshark.smartlight.bean.CarGoods;
 import com.bigshark.smartlight.bean.Equipment;
-import com.bigshark.smartlight.utils.VolleyUtils;
-import com.bigshark.smartlight.weight.XCRoundRectImageView;
 
 import java.util.List;
 
@@ -35,8 +31,8 @@ public class EquipmentListAdapter extends RecyclerView.Adapter<EquipmentListAdap
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-      holder.name.setText(list.get(position).getName());
-      holder.numbering.setText(list.get(position).getNumbering());
+        holder.name.setText(list.get(position).getName());
+        holder.numbering.setText(list.get(position).getNumbering());
     }
 
     @Override

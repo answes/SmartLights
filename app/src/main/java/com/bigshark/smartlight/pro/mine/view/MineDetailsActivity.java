@@ -13,7 +13,6 @@ import com.bigshark.smartlight.bean.LoginResult;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.market.view.navigation.GoodDetailsNavigationBuilder;
-import com.bigshark.smartlight.pro.mine.view.navigation.RegiteredNavigationBuilder;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 
 import butterknife.BindView;
@@ -49,7 +48,11 @@ public class MineDetailsActivity extends BaseActivity {
         LoginResult.User user = SmartLightsApplication.USER;
         stvName.setRightString(user.getName());
         stvPhone.setRightString(user.getTel());
-        stvSex.setRightString(user.getSex());
+        if("1".equals(user.getSex())){
+            stvSex.setRightString("男");
+        }else{
+            stvSex.setRightString("女");
+        }
         stvHeight.setRightString(user.getHeight());
         stvWeight.setRightString(user.getWeight());
     }
@@ -64,7 +67,7 @@ public class MineDetailsActivity extends BaseActivity {
         stvPhone.setOnSuperTextViewClickListener(new SuperTextView.OnSuperTextViewClickListener() {
             @Override
             public void onSuperTextViewClick() {
-                ModifyInfoActivity.openModifyInfoActivityForResult(MineDetailsActivity.this, "手机号码修改", "手机号码");
+              //  ModifyInfoActivity.openModifyInfoActivityForResult(MineDetailsActivity.this, "手机号码修改", "手机号码");
             }
         });
         stvSex.setOnSuperTextViewClickListener(new SuperTextView.OnSuperTextViewClickListener() {

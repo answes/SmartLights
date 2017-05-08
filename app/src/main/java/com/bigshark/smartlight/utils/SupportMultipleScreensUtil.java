@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +37,6 @@ public class SupportMultipleScreensUtil {
 
 
     public static void scale(View view) {
-        Log.e(TAG, "scale: "+scale);
         if(null != view) {
             if(view instanceof ViewGroup) {
                 scaleViewGroup((ViewGroup)view);

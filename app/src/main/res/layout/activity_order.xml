@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="127px"
         app:tabIndicatorColor="#ee3c57"
-        app:tabMode="scrollable"
+        app:tabMode="fixed"
         app:tabGravity="fill"
         app:tabIndicatorHeight="5px"
         app:tabSelectedTextColor="#ee3c57"

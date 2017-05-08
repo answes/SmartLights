@@ -38,6 +38,13 @@ public class MineModel extends BaseModel {
     private String upLoadImgUrl(){return getServerUrl().concat("/File/uploadPicture");}
     private String upUserInfoUrl() {return  getServerUrl().concat("/User/upuinfo");}
     private String getBikeUrl(){return  getServerUrl().concat("/Bike/bikelist");}
+    private String getOrdresDetailUrl(){
+        return  getServerUrl().concat("/Order/orderdetail");
+    }
+    private String upOrderStatuUrl(){
+        return  getServerUrl().concat("/Order/changeorderstatus");
+    }
+
 
 
 
@@ -114,13 +121,16 @@ public class MineModel extends BaseModel {
     public void upUserInfo(VolleyHttpUtils.HttpResult httpResult){
         VolleyHttpUtils httpUtils = new VolleyHttpUtils();
         Map requestParam = new HashMap<>();
-        requestParam.put("sex", SmartLightsApplication.USER.getSex().equals("男") ? 1 : 0);
+        requestParam.put("sex", SmartLightsApplication.USER.getSex());
         requestParam.put("height", SmartLightsApplication.USER.getHeight());
         requestParam.put("weight", SmartLightsApplication.USER.getWeight());
         requestParam.put("age", SmartLightsApplication.USER.getAge());
         requestParam.put("tel", SmartLightsApplication.USER.getTel());
+        if(SmartLightsApplication.USER.getBtel().isEmpty()){
+            SmartLightsApplication.USER.setBtel(SmartLightsApplication.USER.getTel());
+        }
         requestParam.put("btel", SmartLightsApplication.USER.getBtel());
-        requestParam.put("fig", SmartLightsApplication.USER.getFig());
+        requestParam.put("fig", String.valueOf(SmartLightsApplication.USER.getFig()));
         httpUtils.postData(upUserInfoUrl(), requestParam, httpResult);
     }
 
@@ -130,5 +140,23 @@ public class MineModel extends BaseModel {
         requestParam.put("user_id", SmartLightsApplication.USER.getId());
         requestParam.put("p", String.valueOf(page));
         httpUtils.postData(getBikeUrl(), requestParam, httpResult);
+    }
+
+    public void getOrderDetail(int type,VolleyHttpUtils.HttpResult httpResult){
+        VolleyHttpUtils httpUtils = new VolleyHttpUtils();
+        Map requestParam = new HashMap<>();
+        requestParam.put("user_id", SmartLightsApplication.USER.getId());
+        requestParam.put("id", String.valueOf(type));
+        httpUtils.postData(getOrdresDetailUrl(), requestParam, httpResult);
+    }
+
+    public void upOrderStatu(int id, int status,int paytype,VolleyHttpUtils.HttpResult httpResult){
+        VolleyHttpUtils httpUtils = new VolleyHttpUtils();
+        Map requestParam = new HashMap<>();
+        requestParam.put("user_id", SmartLightsApplication.USER.getId());
+        requestParam.put("id", String.valueOf(id));
+        requestParam.put("status", String.valueOf(status));
+        requestParam.put("paytype", String.valueOf(paytype));
+        httpUtils.postData(upOrderStatuUrl(), requestParam, httpResult);
     }
 }

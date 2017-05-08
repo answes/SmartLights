@@ -64,7 +64,7 @@
         <activity android:name=".pro.market.view.PayActivity" />
         <activity android:name=".pro.index.view.ScanActivity" />
         <activity android:name=".pro.index.view.MapActivity" />
-
+        <activity android:name=".pro.mine.view.OrderDetailActivity" />
         <service android:name="com.amap.api.location.APSService" />
 
         <activity android:name=".wxapi.WXPayEntryActivity"></activity>

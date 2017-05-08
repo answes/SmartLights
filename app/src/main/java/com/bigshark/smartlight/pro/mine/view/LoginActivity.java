@@ -87,6 +87,7 @@ public class LoginActivity extends BaseActivity {
                         }
                         @Override
                         public void onErro(String string) {
+                            dialog.dismiss();
                             showMsg(string);
                         }
                     });

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:background="@color/root_view_bg"
-              android:layout_height="match_parent">
-    <com.andview.refreshview.XRefreshView
-        android:id="@+id/xrefreshview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        >
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/root_view_bg"
+    android:layout_height="match_parent">
+    <!--<com.andview.refreshview.XRefreshView-->
+        <!--android:id="@+id/xrefreshview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@android:color/transparent"-->
+        <!--&gt;-->
         <ViewStub
             android:id="@+id/vs_error"
             android:layout_width="wrap_content"
@@ -20,5 +20,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none"/>
-    </com.andview.refreshview.XRefreshView>
+    <!--</com.andview.refreshview.XRefreshView>-->
 </LinearLayout>
