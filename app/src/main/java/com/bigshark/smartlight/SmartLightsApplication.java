@@ -1,6 +1,7 @@
 package com.bigshark.smartlight;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -27,6 +28,8 @@ public class SmartLightsApplication extends Application {
     public static  LoginResult.User USER= null;
     public static RequestQueue queue;//volley 队列
 
+
+
     //开启线程初始化 省市区数据 及附属数据
     public static List<Province> provinces = new ArrayList<>();
     public static List<List<City>> cities = new ArrayList<>();
@@ -39,16 +42,21 @@ public class SmartLightsApplication extends Application {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                initJson();
+                //initJson();
                 final IWXAPI msgApi = WXAPIFactory.createWXAPI(SmartLightsApplication.this, null);
                 // 将该app注册到微信
                 msgApi.registerApp("wx35bd3eeb5d531eaf");
             }
         }).start();
-
+        initErrorHandler();
     }
 
-    private void initJson() {
+
+    private void initErrorHandler(){
+        CrashHandler handler = CrashHandler.getInstance();
+        handler.init(this);
+    }
+    public void initJson() {
         Gson gson = new Gson();
         String jsonData= new GetJsonDataUtil().getJson(this,"province.json").trim();
         provinces = gson.fromJson(jsonData,new TypeToken<List<Province>>(){}.getType());
