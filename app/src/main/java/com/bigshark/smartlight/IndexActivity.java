@@ -115,9 +115,15 @@ public class IndexActivity extends BaseActivity {
                         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                                 != PackageManager.PERMISSION_GRANTED) {
                             //申请WRITE_EXTERNAL_STORAGE权限
-                            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 0x01);
+                            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0x01);
                         } else {
                             mapPreseter.start();
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ((SmartLightsApplication)IndexActivity.this.getApplication()).initJson();
+                                }
+                            }).start();
                             btnFind.setText("结束骑行");
                         }
                     } else {
@@ -200,6 +206,12 @@ public class IndexActivity extends BaseActivity {
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 mapPreseter.start();
                 btnFind.setText("结束骑行");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((SmartLightsApplication)getApplication()).initJson();
+                    }
+                }).start();
             }else{
                 showMsg("权限被拒绝，请在软件设置中打开权限");
             }
