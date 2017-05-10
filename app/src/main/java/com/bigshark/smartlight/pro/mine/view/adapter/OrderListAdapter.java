@@ -46,8 +46,11 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        OrderResult.Order order = datas.get(position);
-        // holder.stvNo.setLeftString("订单编号：".concat(order.getOrderNum()));
+       final OrderResult.Order order = datas.get(position);
+        holder.btLogistics.setVisibility(View.VISIBLE);
+        holder.btReceipt.setVisibility(View.VISIBLE);
+         holder.stvNo.setLeftString("订单编号：".concat(order.getOrder_num()));
+
         //订单状态0:待付款,1:待发货，2:已发货,3:已完成,-1,已取消
         holder.stvNo.setRightTVColor(Color.parseColor("#ee3c57"));
         if("0".equals(order.getStatus())){
@@ -56,7 +59,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             holder.btReceipt.setText("付款");
         }else if("1".equals(order.getStatus())){
             holder.stvNo.setRightString("待发货");
-            holder.btLogistics.setText("查看物流");
+            holder.btLogistics.setVisibility(View.GONE);
             holder.btReceipt.setText("收货");
         }else if("2".equals(order.getStatus())){
             holder.stvNo.setRightString("已发货");
@@ -80,6 +83,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                 holder.tvPrice.setText("共".concat(String.valueOf(gitems.size())).concat("件商品， 合计：¥ ").concat(order.getOmoney()));
             }
         }
+
 
     }
 
@@ -106,6 +110,8 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                 btLogistics = (Button) itemView.findViewById(R.id.bt_logistics);
                 btReceipt = (Button)itemView.findViewById(R.id.bt_receipt);
                 itemView.setOnClickListener(this);
+                btLogistics.setOnClickListener(this);
+                btReceipt.setOnClickListener(this);
                 stvNo.setOnSuperTextViewClickListener(new SuperTextView.OnSuperTextViewClickListener(){
                     @Override
                     public void onSuperTextViewClick() {

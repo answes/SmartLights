@@ -13,7 +13,7 @@ public class OrderResult {
 
     public static  class Order{
         private String id;
-        private String orderNum;
+        private String order_num;
         private String username;
         private String address;
         private String tel;
@@ -51,12 +51,12 @@ public class OrderResult {
             this.id = id;
         }
 
-        public String getOrderNum() {
-            return orderNum;
+        public String getOrder_num() {
+            return order_num;
         }
 
-        public void setOrderNum(String orderNum) {
-            this.orderNum = orderNum;
+        public void setOrder_num(String order_num) {
+            this.order_num = order_num;
         }
 
         public String getUsername() {

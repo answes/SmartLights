@@ -218,6 +218,7 @@ public class MinePresenter extends BasePresenter<MineModel> {
         getModel().upOrderStatu(id,status,paytype,new VolleyHttpUtils.HttpResult() {
             @Override
             public void succss(String result) {
+                Log.e(TAG, "upOrderStatu: "+result);
                 if(result.isEmpty()){
                     onUIThreadListener.onErro("");
                     return;
