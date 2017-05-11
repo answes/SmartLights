@@ -1,24 +1,20 @@
 package com.bigshark.smartlight;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.amap.api.maps2d.model.LatLng;
 import com.bigshark.smartlight.bean.UpLoadRecord;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
@@ -26,13 +22,10 @@ import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.index.broadcast.MapLocationRecive;
 import com.bigshark.smartlight.pro.index.presenter.MapPreseter;
 import com.bigshark.smartlight.pro.index.view.MapActivity;
-import com.bigshark.smartlight.pro.index.view.ScanActivity;
 import com.bigshark.smartlight.pro.index.view.navigation.IndexNavigationBuilder;
 import com.bigshark.smartlight.pro.mine.view.MessgeActivity;
 import com.bigshark.smartlight.pro.mine.view.MineActivity;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,6 +55,12 @@ public class IndexActivity extends BaseActivity {
     TextView btnFind;
     @BindView(R.id.ll_context)
     LinearLayout llContext;
+    @BindView(R.id.bt_stop)
+    Button btStop;
+    @BindView(R.id.bt_finish)
+    Button btFinish;
+    @BindView(R.id.index_bottom)
+    LinearLayout IndexBottom;
 
 
     @Override
@@ -72,7 +71,9 @@ public class IndexActivity extends BaseActivity {
         initToolbar();
         SupportMultipleScreensUtil.init(getApplication());
     }
+
     private MapPreseter mapPreseter;
+
     @Override
     public MVPBasePresenter bindPresneter() {
         mapPreseter = new MapPreseter(this);
@@ -102,51 +103,57 @@ public class IndexActivity extends BaseActivity {
 
     private String mac;
     private boolean isStart = false;
+
     /**
      * 查找用户新车
+     *
      * @param view
      */
-    @OnClick({R.id.btn_find,R.id.tv_location})
-    public void onClick(View view){
-        switch (view.getId()){
+    @OnClick({R.id.btn_find, R.id.tv_location, R.id.bt_stop, R.id.bt_finish})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.btn_find:
-                    isStart = !isStart;
-                    if (isStart) {
-                        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                                != PackageManager.PERMISSION_GRANTED) {
-                            //申请WRITE_EXTERNAL_STORAGE权限
-                            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0x01);
-                        } else {
-                            mapPreseter.start();
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    ((SmartLightsApplication)IndexActivity.this.getApplication()).initJson();
-                                }
-                            }).start();
-                            btnFind.setText("结束骑行");
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    //申请WRITE_EXTERNAL_STORAGE权限
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0x01);
+                } else {
+                    mapPreseter.start();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((SmartLightsApplication) IndexActivity.this.getApplication()).initJson();
                         }
-                    } else {
-                        btnFind.setText("开始骑行");
-                        mapPreseter.stop(new BasePresenter.OnUIThreadListener<String>() {
-                            @Override
-                            public void onResult(String result) {
-                                showMsg(result);
-                            }
-
-                            @Override
-                            public void onErro(String string) {
-                                showMsg(string);
-                            }
-                        });
-                    }
+                    }).start();
+                    // btnFind.setText("结束骑行");
+                    btnFind.setVisibility(View.GONE);
+                    IndexBottom.setVisibility(View.VISIBLE);
+                }
                 break;
             case R.id.tv_location:
-                if(isStart) {
-                    MapActivity.openMapActivity(this, mapPreseter.getUplodeRecord(), true,mapPreseter.getSavesLatlng());
-                }else {
+                if (isStart) {
+                    MapActivity.openMapActivity(this, mapPreseter.getUplodeRecord(), true, mapPreseter.getSavesLatlng());
+                } else {
                     showMsg("在骑行状态下打才能查看路径");
                 }
+                break;
+            case R.id.bt_finish:
+                btnFind.setVisibility(View.GONE);
+                IndexBottom.setVisibility(View.VISIBLE);
+                MapActivity.openMapActivity(this, mapPreseter.getUplodeRecord(), true, mapPreseter.getSavesLatlng());
+                break;
+            case R.id.bt_stop:
+                mapPreseter.stop(new BasePresenter.OnUIThreadListener<String>() {
+                    @Override
+                    public void onResult(String result) {
+                        showMsg(result);
+                    }
+
+                    @Override
+                    public void onErro(String string) {
+                        showMsg(string);
+                    }
+                });
                 break;
         }
     }
@@ -156,21 +163,23 @@ public class IndexActivity extends BaseActivity {
         super.onResume();
         registerBroadCasst();
     }
+
     private MapLocationRecive mapLocationRecive;
-    private void registerBroadCasst(){
-        if(mapLocationRecive==null){
+
+    private void registerBroadCasst() {
+        if (mapLocationRecive == null) {
             mapLocationRecive = new MapLocationRecive(new MapLocationRecive.OnLocationReciveListener() {
                 @Override
                 public void onRevice(final UpLoadRecord record) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            tvHeight.setText(String.valueOf(record.getHeight())+"m");
-                            tvHighSpeed.setText(String.format("%.2f",record.getMaxSpeed())+"km/h");
-                            tvHot.setText(String.format("%.2f",record.getK())+"Cal");
-                            tvSpeed.setText(String.format("%.2f",record.getSpeed())+"km/h");
-                            tvSpeed2.setText(String.format("%.2f",record.getSpeed())+"km/h");
-                            tvTotal.setText(String.format("%.2f",(record.getDistance())/1000)+"km");
+                            tvHeight.setText(String.valueOf(record.getHeight()) + "m");
+                            tvHighSpeed.setText(String.format("%.2f", record.getMaxSpeed()) + "km/h");
+                            tvHot.setText(String.format("%.2f", record.getK()) + "Cal");
+                            tvSpeed.setText(String.format("%.2f", record.getSpeed()) + "km/h");
+                            tvSpeed2.setText(String.format("%.2f", record.getSpeed()) + "km/h");
+                            tvTotal.setText(String.format("%.2f", (record.getDistance()) / 1000) + "km");
                         }
                     });
                 }
@@ -178,7 +187,7 @@ public class IndexActivity extends BaseActivity {
         }
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(MapLocationRecive.ACTION);
-        registerReceiver(mapLocationRecive,intentFilter);
+        registerReceiver(mapLocationRecive, intentFilter);
     }
 
     @Override
@@ -193,26 +202,26 @@ public class IndexActivity extends BaseActivity {
         unRegisterBroadCast();
     }
 
-    private void unRegisterBroadCast(){
-        if(mapLocationRecive!=null){
+    private void unRegisterBroadCast() {
+        if (mapLocationRecive != null) {
             unregisterReceiver(mapLocationRecive);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == 1){
+        if (requestCode == 1) {
             //请求的定位权限
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 mapPreseter.start();
                 btnFind.setText("结束骑行");
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        ((SmartLightsApplication)getApplication()).initJson();
+                        ((SmartLightsApplication) getApplication()).initJson();
                     }
                 }).start();
-            }else{
+            } else {
                 showMsg("权限被拒绝，请在软件设置中打开权限");
             }
         }

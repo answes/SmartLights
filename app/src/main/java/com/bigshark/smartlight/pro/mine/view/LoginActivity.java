@@ -19,6 +19,7 @@ import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.mine.presenter.MinePresenter;
 import com.bigshark.smartlight.pro.mine.view.navigation.RegiteredNavigationBuilder;
+import com.bigshark.smartlight.utils.SQLUtils;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.yalantis.ucrop.dialog.SweetAlertDialog;
 
@@ -82,6 +83,7 @@ public class LoginActivity extends BaseActivity {
                         public void onResult(LoginResult result) {
                             dialog.cancel();
                             SmartLightsApplication.USER = result.getData();
+                            SQLUtils.saveUser(LoginActivity.this,SmartLightsApplication.USER.getId());
                             IndexActivity.openIndexActivity(LoginActivity.this);
                             finish();
                         }

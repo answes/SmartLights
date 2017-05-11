@@ -9,22 +9,22 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="400px"
+        android:layout_height="450px"
         android:layout_marginTop="400px">
 
         <LinearLayout
             android:id="@+id/ll"
-            android:background="@drawable/index_ll_layer"
-            android:layout_width="366px"
-            android:layout_height="366px"
+            android:layout_width="400px"
+            android:layout_height="400px"
             android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal"
+            android:background="@drawable/index_ll_layer"
             android:gravity="center"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="336px"
-                android:layout_height="336px"
+                android:layout_width="400px"
+                android:layout_height="400px"
                 android:background="@drawable/index_bg"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -65,7 +65,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30px"
+                        android:layout_marginLeft="56px"
                         android:layout_weight="1"
                         android:drawableLeft="@drawable/index_icon_ele"
                         android:drawablePadding="5px"
@@ -86,6 +86,7 @@
             android:layout_marginLeft="120px"
             app:srcCompat="@drawable/index_icon_lock" />
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_marginTop="155px"
@@ -216,6 +217,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <include layout="@layout/fragment_index_bottom"/>
         <TextView
             android:id="@+id/btn_find"
             android:layout_width="match_parent"

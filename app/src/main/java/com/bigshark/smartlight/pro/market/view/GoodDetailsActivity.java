@@ -11,22 +11,18 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.allen.library.SuperTextView;
 import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.bean.GoodDetail;
-import com.bigshark.smartlight.bean.Market;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.market.presenter.MarketListPresenter;
 import com.bigshark.smartlight.pro.market.view.navigation.GoodDetailsNavigationBuilder;
-import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
 import com.bigshark.smartlight.utils.GlideImageLoader;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.bigshark.smartlight.utils.ToastUtil;
-import com.google.gson.Gson;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 
@@ -96,8 +92,6 @@ public class GoodDetailsActivity extends BaseActivity {
         for(String s:good.getImg()){
             list.add(s);
         }
-//        list.add("http://img1.imgtn.bdimg.com/it/u=1931443362,597038359&fm=21&gp=0.jpg");
-//        list.add("http://img2.imgtn.bdimg.com/it/u=2168118864,1781870162&fm=23&gp=0.jpg");
         bnGoodImgs.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         bnGoodImgs.setIndicatorGravity(BannerConfig.CENTER);
         bnGoodImgs.setImageLoader(new GlideImageLoader());

@@ -1,9 +1,11 @@
 package com.bigshark.smartlight.pro.mine.view;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -37,6 +39,9 @@ import static com.bigshark.smartlight.R.id.tv_details;
  * 订单详情
  */
 public class OrderDetailActivity extends BaseActivity {
+    private final int QRSH = 0;
+    private final int QRQX = 1;
+
     @BindView(R.id.activity_order)
     RelativeLayout activityOrder;
     @BindView(R.id.stv_name)
@@ -234,18 +239,43 @@ public class OrderDetailActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt_cancel:
-                upOrderStatu(-1,1);
+                showDialog("是否取消订单",QRQX);
                 break;
             case R.id.bt_confirm:
                 switch (type) {
                     case 0:
-                        upOrderStatu(1,1);
+                        showMsg("缺少接口");
+//                        OrderResult orderResult = new OrderResult();
+//                        OrderResult.Order order = ;
+//                        List<OrderResult.Order> orders = new ArrayList<OrderResult.Order>();
+//                        orders.add(order);
+//                        orderResult.setData(orders);
+//                        PayActivity.openPayActivity(getActivity(), orderResult);
                         break;
                     case 2:
-                        upOrderStatu(3,1);
+                        showDialog("是否确认收到货",QRSH);
                         break;
                 }
                 break;
         }
+    }
+
+    private void showDialog(String message, final int t) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this).setMessage(message)
+                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                }).setNegativeButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (t == QRQX) {
+                            upOrderStatu(-1,1);
+                        } else if (t == QRSH) {
+                            upOrderStatu(3,1);
+                        }
+                    }
+                });
+        alertDialog.show();
     }
 }

@@ -17,6 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    useLibrary 'org.apache.http.legacy'
 }
 
 dependencies {
@@ -42,6 +43,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.contrarywind:Android-PickerView:3.2.4'
     compile 'com.github.LuckSiege.PictureSelector:picture_library:v1.2.7'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
 }

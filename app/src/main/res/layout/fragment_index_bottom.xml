@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true"
+    android:visibility="gone"
+    android:id="@+id/index_bottom"
+    android:layout_alignParentStart="true"
+    android:layout_height="117px">
+
+    <Button
+        android:id="@+id/bt_stop"
+        android:layout_width="0px"
+        android:layout_weight="1"
+        android:text="@string/index_stop"
+        android:textColor="@color/white"
+        android:textSize="40px"
+        android:background="@drawable/index_tab"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/bt_finish"
+        android:layout_width="0px"
+        android:layout_weight="1"
+        android:text="@string/index_finish"
+        android:textColor="@color/white"
+        android:textSize="40px"
+        android:background="@drawable/index_tab"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

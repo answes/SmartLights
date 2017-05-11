@@ -15,11 +15,15 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <ImageView
+        <com.bigshark.smartlight.weight.CircleNetworkImageImage
             android:id="@+id/iv_hander"
-            android:layout_width="127px"
-            android:layout_height="127px"
+            android:layout_width="130px"
+            android:layout_height="130px"
             android:layout_marginLeft="30px"
+            app:civ_border_width="1dp"
+            app:civ_border_color="@android:color/transparent"
+            app:civ_border_overlay="true"
+            app:civ_fill_color="@android:color/transparent"
             android:src="@drawable/hander" />
 
         <TextView

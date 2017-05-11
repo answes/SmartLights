@@ -36,13 +36,15 @@
             android:name="com.amap.api.v2.apikey"
             android:value="85f736f35d871e2de2aafa2d679a9015" />
 
-        <activity android:name=".pro.mine.view.LoginActivity">
+        <activity android:name=".LaunchingActivity"
+            android:theme="@style/LaunchingTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".pro.mine.view.LoginActivity"/>
         <activity android:name=".pro.mine.view.MarketActivity" />
         <activity android:name=".pro.mine.view.SetActivity" />
         <activity android:name=".pro.mine.view.ChangePswActivity" />
@@ -65,9 +67,10 @@
         <activity android:name=".pro.index.view.ScanActivity" />
         <activity android:name=".pro.index.view.MapActivity" />
         <activity android:name=".pro.mine.view.OrderDetailActivity" />
+
         <service android:name="com.amap.api.location.APSService" />
 
-        <activity android:name=".wxapi.WXPayEntryActivity"></activity>
+        <activity android:name=".wxapi.WXPayEntryActivity" />
     </application>
 
 </manifest>

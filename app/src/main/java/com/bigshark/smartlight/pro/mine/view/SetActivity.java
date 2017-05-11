@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,6 +13,7 @@ import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
+import com.bigshark.smartlight.utils.SQLUtils;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.bigshark.smartlight.utils.ToastUtil;
 
@@ -73,6 +73,7 @@ public class SetActivity extends BaseActivity {
                 ToastUtil.showToast(this,"已清除30k缓存");
                 break;
             case R.id.bt_logout:
+                SQLUtils.clearUser(this);
                 LoginActivity.openLoginActivity(this);
                 break;
         }

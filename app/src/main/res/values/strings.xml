@@ -39,4 +39,6 @@
     <string name="nomore">这里空空如也...</string>
 
     <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
+    <string name="index_stop">暂停骑行</string>
+    <string name="index_finish">结束骑行</string>
 </resources>

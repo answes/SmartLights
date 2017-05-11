@@ -20,6 +20,9 @@ import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 已作废
+ */
 public class MainActivity extends AppCompatActivity implements TabHost.OnTabChangeListener {
 
     private List<TabItem> tabItemList;

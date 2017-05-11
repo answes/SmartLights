@@ -57,6 +57,7 @@ public class LoginResult {
         private String reg_tm;
         private String btel;
         private int fig;
+       private String figimg;
 
        public User(String id, String user_num, String tel, String name, String height, String age, String weight, String sex, String status, String reg_tm, String btel, int fig) {
            this.id = id;
@@ -171,6 +172,14 @@ public class LoginResult {
 
        public void setFig(int fig) {
            this.fig = fig;
+       }
+
+       public String getFigimg() {
+           return figimg;
+       }
+
+       public void setFigimg(String figimg) {
+           this.figimg = figimg;
        }
    }
 }

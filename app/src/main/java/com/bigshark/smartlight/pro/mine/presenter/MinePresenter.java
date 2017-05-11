@@ -84,6 +84,28 @@ public class MinePresenter extends BasePresenter<MineModel> {
         });
     }
 
+    public void getUserInfo( final OnUIThreadListener<LoginResult> onUIThreadListener) {
+
+        getModel().getUserInfo(new VolleyHttpUtils.HttpResult() {
+            @Override
+            public void succss(String result) {
+                Log.e(TAG, "login USER = " + result);
+                try {
+                    LoginResult loginResult = JSONUtil.getObject(result, LoginResult.class);
+                        onUIThreadListener.onResult(loginResult);
+                }catch (Exception e){
+                    onUIThreadListener.onErro("用户名不存在或密码不正确");
+                }
+            }
+
+            @Override
+            public void erro(String msg) {
+                onUIThreadListener.onErro(msg);
+            }
+        });
+    }
+
+
     public void findPsw(String tel, String passWord, final String rePassWord, final OnUIThreadListener<FindPsw> onUIThreadListener) {
         getModel().findPsw(tel, passWord, rePassWord, new VolleyHttpUtils.HttpResult() {
             @Override

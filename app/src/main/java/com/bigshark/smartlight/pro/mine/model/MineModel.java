@@ -22,6 +22,7 @@ public class MineModel extends BaseModel {
     private String getLoginUrl(){
         return getServerUrl().concat("/User/login");
     }
+    private String getUserInfoUrl(){return  getServerUrl().concat("/User/getuserinfo");}
     private String getRegisteredUrl(){
         return getServerUrl().concat("/User/reg");
     }
@@ -64,6 +65,14 @@ public class MineModel extends BaseModel {
         requestParam.put("password",password);
         //发送请求
         httpUtils.postData(getRegisteredUrl(), requestParam, httpResult);
+    }
+
+    public void getUserInfo(VolleyHttpUtils.HttpResult httpResult){
+        VolleyHttpUtils httpUtils = new VolleyHttpUtils();
+        Map requestParam = new HashMap<>();
+        requestParam.put("user_id",SmartLightsApplication.USER.getId());
+        //发送请求
+        httpUtils.postData(getUserInfoUrl(), requestParam, httpResult);
     }
 
     public void findPsw(String tel,String password,String repassword,VolleyHttpUtils.HttpResult httpResult){
@@ -121,6 +130,7 @@ public class MineModel extends BaseModel {
     public void upUserInfo(VolleyHttpUtils.HttpResult httpResult){
         VolleyHttpUtils httpUtils = new VolleyHttpUtils();
         Map requestParam = new HashMap<>();
+        requestParam.put("user_id", SmartLightsApplication.USER.getId());
         requestParam.put("sex", SmartLightsApplication.USER.getSex());
         requestParam.put("height", SmartLightsApplication.USER.getHeight());
         requestParam.put("weight", SmartLightsApplication.USER.getWeight());

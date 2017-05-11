@@ -11,40 +11,24 @@ public class OrderDetailResult {
     private OrderDetail data;
     public class  OrderDetail{
         private String id;
-
         private String order_num;
-
-        private String buyer_id;
-
         private String username;
-
         private String address;
-
         private String tel;
-
         private String gitems;
-
         private String gmoney;
-
         private String omoney;
-
+        private String paytype;
+        private String status;
+        private String pay_tm;
+        private String send_tm;
+        private String exp_com;
+        private String exp_num;
+        private String finish_tm;
+        private String cancel_tm;
+        private String buyer_id;
         private String cre_tm;
 
-        private String paytype;
-
-        private String status;
-
-        private String pay_tm;
-
-        private String send_tm;
-
-        private String exp_com;
-
-        private String exp_num;
-
-        private String finish_tm;
-
-        private String cancel_tm;
 
         public String getId() {
             return id;
