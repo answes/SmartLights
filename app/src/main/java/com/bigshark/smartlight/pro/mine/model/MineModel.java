@@ -36,7 +36,6 @@ public class MineModel extends BaseModel {
         return  getServerUrl().concat("/Order/orderlist");
     }
     private String getMessageUrl(){return  getServerUrl().concat("/Index/message");}
-    private String upLoadImgUrl(){return getServerUrl().concat("/File/uploadPicture");}
     private String upUserInfoUrl() {return  getServerUrl().concat("/User/upuinfo");}
     private String getBikeUrl(){return  getServerUrl().concat("/Bike/bikelist");}
     private String getOrdresDetailUrl(){
@@ -67,10 +66,10 @@ public class MineModel extends BaseModel {
         httpUtils.postData(getRegisteredUrl(), requestParam, httpResult);
     }
 
-    public void getUserInfo(VolleyHttpUtils.HttpResult httpResult){
+    public void getUserInfo(String userId,VolleyHttpUtils.HttpResult httpResult){
         VolleyHttpUtils httpUtils = new VolleyHttpUtils();
         Map requestParam = new HashMap<>();
-        requestParam.put("user_id",SmartLightsApplication.USER.getId());
+        requestParam.put("user_id",userId);
         //发送请求
         httpUtils.postData(getUserInfoUrl(), requestParam, httpResult);
     }
@@ -120,12 +119,6 @@ public class MineModel extends BaseModel {
         httpUtils.postData(getMessageUrl(), requestParam, httpResult);
     }
 
-
-    public void upLoadImg(String url,VolleyHttpUtils.HttpResult httpResult){
-        VolleyHttpUtils httpUtils = new VolleyHttpUtils();
-        Map requestParam = new HashMap<>();
-        httpUtils.postData(upLoadImgUrl(), requestParam, httpResult);
-    }
 
     public void upUserInfo(VolleyHttpUtils.HttpResult httpResult){
         VolleyHttpUtils httpUtils = new VolleyHttpUtils();

@@ -77,9 +77,9 @@ public class MineActivity extends BaseActivity {
         initToolbar();
         SupportMultipleScreensUtil.scale(llContext);
         ivUserName.setText(SmartLightsApplication.USER.getName());
-//        if(!SmartLightsApplication.USER.getFigimg().isEmpty()) {
-//            VolleyUtils.loadImage(MineActivity.this, ivHander, SmartLightsApplication.USER.getFigimg());
-//        }
+        if(SmartLightsApplication.USER.getFig() != 0 ) {
+            VolleyUtils.loadImage(MineActivity.this, ivHander, SmartLightsApplication.USER.getFigimg());
+        }
     }
 
     @Override
@@ -214,7 +214,7 @@ public class MineActivity extends BaseActivity {
     }
 
     private void getUserInfo() {
-        minePresenter.getUserInfo(new BasePresenter.OnUIThreadListener<LoginResult>() {
+        minePresenter.getUserInfo(SmartLightsApplication.USER.getId(),new BasePresenter.OnUIThreadListener<LoginResult>() {
             @Override
             public void onResult(LoginResult result) {
                 VolleyUtils.loadImage(MineActivity.this,ivHander,result.getData().getFigimg());

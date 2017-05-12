@@ -1,6 +1,7 @@
 package com.bigshark.smartlight;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.bigshark.smartlight.bean.LoginResult;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
@@ -22,6 +23,7 @@ public class LaunchingActivity extends BaseActivity {
 
         //判断以前是否登陆
         final String userId = SQLUtils.getUser(this);
+        Log.e("TAG", "SQLUtils: " + userId );
         if(null == userId){
             //开启一个线程
             new Thread(new Runnable() {
@@ -40,7 +42,7 @@ public class LaunchingActivity extends BaseActivity {
                 }
             }).start();
         }else{
-            presenter.getUserInfo(new BasePresenter.OnUIThreadListener<LoginResult>() {
+            presenter.getUserInfo(userId,new BasePresenter.OnUIThreadListener<LoginResult>() {
                 @Override
                 public void onResult(LoginResult result) {
                     SmartLightsApplication.USER = result.getData();
@@ -49,6 +51,7 @@ public class LaunchingActivity extends BaseActivity {
                 }
                 @Override
                 public void onErro(String string) {
+                    Log.e("TAG", "SQLUtils: " + string );
                     LoginActivity.openLoginActivity(LaunchingActivity.this);
                     LaunchingActivity.this.finish();
                 }

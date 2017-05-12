@@ -84,9 +84,8 @@ public class MinePresenter extends BasePresenter<MineModel> {
         });
     }
 
-    public void getUserInfo( final OnUIThreadListener<LoginResult> onUIThreadListener) {
-
-        getModel().getUserInfo(new VolleyHttpUtils.HttpResult() {
+    public void getUserInfo( String userId,final OnUIThreadListener<LoginResult> onUIThreadListener) {
+        getModel().getUserInfo(userId,new VolleyHttpUtils.HttpResult() {
             @Override
             public void succss(String result) {
                 Log.e(TAG, "login USER = " + result);
@@ -97,7 +96,6 @@ public class MinePresenter extends BasePresenter<MineModel> {
                     onUIThreadListener.onErro("用户名不存在或密码不正确");
                 }
             }
-
             @Override
             public void erro(String msg) {
                 onUIThreadListener.onErro(msg);

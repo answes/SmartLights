@@ -150,13 +150,14 @@ public class OrderDetailActivity extends BaseActivity {
         if (type == -1) {
             setState("#3d444a", "已取消");
             llBottom.setVisibility(View.GONE);
-//            tvDetails.setText("订单编号：".concat(order.getOrder_num()).concat("\\n创建时间：")
-//                    .concat(DateFomat.convertSecond2DateSS(order.getCre_tm()))
+            tvDetails.setText("订单编号：".concat(order.getOrder_num()).concat("\\n创建时间：")
+                    .concat(DateFomat.convertSecond2DateSS(order.getCre_tm()))
+                    .concat("\\n取消时间：").concat(DateFomat.convertSecond2DateSS(order.getFinish_tm())));
 //                    .concat("\\n付款时间：").concat(DateFomat.convertSecond2DateSS(order.getPay_tm()))
 //                    .concat("\\n发货时间：").concat(DateFomat.convertSecond2DateSS(order.getSend_tm()))
 //                    .concat("\\n快递公司：").concat(order.getExp_com())
 //                    . concat("\\n快递单号：").concat(order.getExp_num())
-//                    .concat("\\n取消时间：").concat(DateFomat.convertSecond2DateSS(order.getFinish_tm())));
+
         }
         List<OrderResult.Gitem> goods = new ArrayList<>();
         goods.clear();

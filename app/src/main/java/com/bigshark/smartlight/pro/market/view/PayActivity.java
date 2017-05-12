@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -17,12 +18,10 @@ import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.SmartLightsApplication;
 import com.bigshark.smartlight.bean.OrderResult;
 import com.bigshark.smartlight.bean.TestBean;
-import com.bigshark.smartlight.http.VolleyHttpUtils;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.market.view.navigation.GoodDetailsNavigationBuilder;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
-import com.bigshark.smartlight.utils.VolleyUtils;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -35,7 +34,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PayActivity extends BaseActivity {
-
+    private final int ZHIFUBAO = 1;
+    private final int WEIXIN = 2;
     private IWXAPI iwxapi;
 
     @BindView(R.id.alipay)
@@ -82,7 +82,7 @@ public class PayActivity extends BaseActivity {
         }
     }
 
-    private static OrderResult order;
+    public static OrderResult order;
 
     /**
      * 打开支付activity
@@ -95,7 +95,7 @@ public class PayActivity extends BaseActivity {
         activity.startActivity(new Intent(activity, PayActivity.class));
     }
     private void similaerPay(){
-        StringRequest request = new StringRequest(Request.Method.POST, "http://pybike.idc.zhonxing.com/Test/index"
+        StringRequest request = new StringRequest(Request.Method.POST, "http://pybike.idc.zhonxing.com/Order/prepay"
                 , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -116,7 +116,17 @@ public class PayActivity extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 showMsg("");
             }
-        });
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map requestParam = new HashMap<>();
+                requestParam.put("name",order.getData().get(0).getUsername());
+                requestParam.put("id",order.getData().get(0).getId());
+                requestParam.put("money",order.getData().get(0).getOmoney());
+                requestParam.put("type",String.valueOf(WEIXIN));
+                return super.getParams();
+            }
+        };
         SmartLightsApplication.queue.add(request);
     }
 

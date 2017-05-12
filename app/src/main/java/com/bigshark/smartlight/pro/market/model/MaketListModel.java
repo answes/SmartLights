@@ -2,14 +2,9 @@ package com.bigshark.smartlight.pro.market.model;
 
 import android.content.Context;
 
-import com.alibaba.fastjson.JSON;
 import com.bigshark.smartlight.SmartLightsApplication;
 import com.bigshark.smartlight.bean.OrderResult;
 import com.bigshark.smartlight.http.VolleyHttpUtils;
-import com.bigshark.smartlight.http.impl.RequestParam;
-import com.bigshark.smartlight.http.impl.SystemHttpCommand;
-import com.bigshark.smartlight.http.utils.HttpTask;
-import com.bigshark.smartlight.http.utils.HttpUtils;
 import com.bigshark.smartlight.pro.base.model.BaseModel;
 import com.google.gson.Gson;
 
@@ -138,7 +133,6 @@ public class MaketListModel extends BaseModel {
         requestParam.put("username",SmartLightsApplication.USER.getName());
         requestParam.put("address",orderResult.getData().get(0).getAddress());
         requestParam.put("tel",orderResult.getData().get(0).getTel());
-        //TODO 这里转换成数组有待修改
         requestParam.put("gitems", gson.toJson(orderResult.getData().get(0).getGitems()));
         requestParam.put("gmoney",orderResult.getData().get(0).getGmoney()+"");
         requestParam.put("omoney",orderResult.getData().get(0).getOmoney()+"");

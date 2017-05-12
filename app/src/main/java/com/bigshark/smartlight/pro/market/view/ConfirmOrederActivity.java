@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,8 +15,6 @@ import android.widget.TextView;
 
 import com.allen.library.SuperTextView;
 import com.bigshark.smartlight.R;
-import com.bigshark.smartlight.SmartLightsApplication;
-import com.bigshark.smartlight.bean.Address;
 import com.bigshark.smartlight.bean.AddressBean;
 import com.bigshark.smartlight.bean.CarGoods;
 import com.bigshark.smartlight.bean.OrderResult;
@@ -26,6 +25,7 @@ import com.bigshark.smartlight.pro.market.presenter.AddressPresenter;
 import com.bigshark.smartlight.pro.market.presenter.MarketListPresenter;
 import com.bigshark.smartlight.pro.market.view.adapter.viewholder.ConfiremGoodsListAdapter;
 import com.bigshark.smartlight.pro.market.view.navigation.GoodDetailsNavigationBuilder;
+import com.bigshark.smartlight.utils.JSONUtil;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.bigshark.smartlight.utils.ToastUtil;
 import com.google.gson.Gson;
@@ -159,11 +159,12 @@ public class ConfirmOrederActivity extends BaseActivity {
                     return;
                 }
                 if(System.currentTimeMillis() - lastShowTime >=2000){
-                    presenter.subOrder(setOrderData(), new BasePresenter.OnUIThreadListener<String>() {
+                    presenter.subOrder(setOrderData(""), new BasePresenter.OnUIThreadListener<String>() {
                         @Override
                         public void onResult(String result) {
-                            showMsg(result);
-                            PayActivity.openPayActivity(ConfirmOrederActivity.this,setOrderData());
+                           String orderId =  JSONUtil.getString(result,"data");
+                            Log.e("TAG", "onResult: 订单id"+ orderId + "        " +result);
+                            PayActivity.openPayActivity(ConfirmOrederActivity.this,setOrderData(orderId));
                         }
 
                         @Override
@@ -189,10 +190,11 @@ public class ConfirmOrederActivity extends BaseActivity {
 
 
 
-    private OrderResult setOrderData() {
+    private OrderResult setOrderData(String orderId) {
         float max = caunltMax();
         OrderResult orderResult = new OrderResult();
         OrderResult.Order order = new OrderResult.Order();
+        order.setId(orderId);
         order.setAddress(address.getProvince()+address.getCity()+address.getDistrict()+address.getDetail());
         order.setTel(address.getTel());
         order.setGmoney(max+"");
