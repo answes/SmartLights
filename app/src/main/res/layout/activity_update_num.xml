@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/ll_context"
+    android:background="@drawable/login_bg"
+    android:orientation="vertical"
+    tools:context="com.bigshark.smartlight.pro.mine.view.UpdateNumActivity">
+
+    <EditText
+        android:id="@+id/et_old_phone"
+        android:layout_width="match_parent"
+        android:layout_height="130px"
+        android:layout_marginLeft="100px"
+        android:layout_marginRight="100px"
+        android:layout_marginTop="221px"
+        android:background="@android:color/transparent"
+        android:drawableLeft="@drawable/mine_sign_up_phone"
+        android:drawablePadding="30px"
+        android:hint="旧手机号码"
+        android:inputType="number"
+        android:maxLength="11"
+        android:padding="20px"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="35px" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="80px"
+        android:layout_marginRight="80px"
+        android:background="@color/white" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_yan"
+            android:layout_width="match_parent"
+            android:layout_height="130px"
+            android:layout_marginLeft="100px"
+            android:layout_marginRight="100px"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/mine_sign_up_code_ico"
+            android:drawablePadding="30px"
+            android:hint="手机验证码"
+            android:maxLength="6"
+            android:padding="20px"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="35px" />
+
+        <Button
+            android:id="@+id/btn_code"
+            android:layout_width="260px"
+            android:layout_height="100px"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="100px"
+            android:background="@drawable/fragment_index_button_bg"
+            android:text="获取验证码"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="80px"
+        android:layout_marginRight="80px"
+        android:background="@color/white" />
+
+    <EditText
+        android:id="@+id/et_new_phone"
+        android:layout_width="match_parent"
+        android:layout_height="130px"
+        android:layout_marginLeft="100px"
+        android:layout_marginRight="100px"
+        android:background="@android:color/transparent"
+        android:drawableLeft="@drawable/mine_sign_up_phone"
+        android:drawablePadding="30px"
+        android:hint="新手机号码"
+        android:inputType="number"
+        android:maxLength="11"
+        android:padding="20px"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="35px" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="80px"
+        android:layout_marginRight="80px"
+        android:background="@color/white" />
+
+    <Button
+        android:id="@+id/btn_update"
+        android:layout_width="518px"
+        android:layout_height="130px"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="250px"
+        android:background="@drawable/fragment_index_button_bg"
+        android:shadowColor="#EE3C57"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:text="修改手机"
+        android:textColor="@color/white"
+        android:textSize="49px" />
+</LinearLayout>

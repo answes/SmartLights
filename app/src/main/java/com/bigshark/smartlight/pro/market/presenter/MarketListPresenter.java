@@ -11,6 +11,8 @@ import com.bigshark.smartlight.bean.GoodDetail;
 import com.bigshark.smartlight.bean.Market;
 import com.bigshark.smartlight.bean.OrderResult;
 import com.bigshark.smartlight.bean.Result;
+import com.bigshark.smartlight.bean.SubOrderResult;
+import com.bigshark.smartlight.bean.WxPay;
 import com.bigshark.smartlight.http.VolleyHttpUtils;
 import com.bigshark.smartlight.http.utils.HttpUtils;
 import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
@@ -226,9 +228,9 @@ public class MarketListPresenter extends BasePresenter<MaketListModel> {
             @Override
             public void succss(String result) {
                 try {
-                    Result result1 = JSON.parseObject(result, Result.class);
+                    SubOrderResult result1 = JSON.parseObject(result, SubOrderResult.class);
                     if (result1.getCode() == 1) {
-                        onUIThreadListener.onResult(result1.getExtra());
+                        onUIThreadListener.onResult(String.valueOf(result1.getData()));
                     } else {
                         onUIThreadListener.onErro(result1.getExtra());
                     }
@@ -244,5 +246,29 @@ public class MarketListPresenter extends BasePresenter<MaketListModel> {
         });
     }
 
+    /**
+     *
+     * @param orderId 订单ID
+     * @param money   订单总金额
+     * @param type   类型  1支付宝 2微信
+     */
+    public void payMoney(String orderId, double money, int type, final OnUIThreadListener<WxPay.DataBean> uiThreadListener){
+        getModel().prepay(orderId, money, type, new VolleyHttpUtils.HttpResult() {
+            @Override
+            public void succss(String t) {
+                Log.i("Load",t);
+                try {
+                    WxPay wxPay = JSON.parseObject(t, WxPay.class);
+                    uiThreadListener.onResult(wxPay.getData());
+                }catch (Exception e){
+                    uiThreadListener.onErro("支付失败");
+                }
+            }
 
+            @Override
+            public void erro(String msg) {
+                uiThreadListener.onErro(msg);
+            }
+        });
+    }
 }

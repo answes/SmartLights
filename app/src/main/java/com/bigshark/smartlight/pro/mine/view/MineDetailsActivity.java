@@ -67,6 +67,7 @@ public class MineDetailsActivity extends BaseActivity {
         stvPhone.setOnSuperTextViewClickListener(new SuperTextView.OnSuperTextViewClickListener() {
             @Override
             public void onSuperTextViewClick() {
+                UpdateNumActivity.openUpdateNumActivity(MineDetailsActivity.this);
               //  ModifyInfoActivity.openModifyInfoActivityForResult(MineDetailsActivity.this, "手机号码修改", "手机号码");
             }
         });

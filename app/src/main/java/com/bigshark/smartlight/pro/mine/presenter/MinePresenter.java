@@ -3,7 +3,10 @@ package com.bigshark.smartlight.pro.mine.presenter;
 import android.content.Context;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.bigshark.smartlight.SmartLightsApplication;
+import com.bigshark.smartlight.bean.CodeBean;
 import com.bigshark.smartlight.bean.FindPsw;
 import com.bigshark.smartlight.bean.LoginResult;
 import com.bigshark.smartlight.bean.MessageResult;
@@ -14,6 +17,7 @@ import com.bigshark.smartlight.bean.Ride;
 import com.bigshark.smartlight.http.VolleyHttpUtils;
 import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.mine.model.MineModel;
+import com.bigshark.smartlight.utils.Contact;
 import com.bigshark.smartlight.utils.JSONUtil;
 
 import java.util.List;
@@ -251,6 +255,26 @@ public class MinePresenter extends BasePresenter<MineModel> {
 
             @Override
             public void erro(String msg) {
+            }
+        });
+    }
+
+    public void getCode(final OnUIThreadListener<String> onUIThreadListener){
+        getModel().getCode(SmartLightsApplication.USER.getTel(), new VolleyHttpUtils.HttpResult() {
+            @Override
+            public void succss(String t) {
+                Log.i("Load",t);
+                CodeBean codeBean = JSON.parseObject(t,CodeBean.class);
+                if(codeBean.getCode() == 1){
+                    onUIThreadListener.onResult(String.valueOf(codeBean.getData()));
+                }else{
+                    onUIThreadListener.onErro(codeBean.getExtra());
+                }
+            }
+
+            @Override
+            public void erro(String msg) {
+                onUIThreadListener.onErro(msg);
             }
         });
     }

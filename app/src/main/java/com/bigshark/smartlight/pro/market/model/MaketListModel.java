@@ -42,6 +42,11 @@ public class MaketListModel extends BaseModel {
     private String subOrderURL(){
         return getServerUrl().concat("/Order/suborder");
     }
+
+    private String getPrepayURL(){
+        return  getServerUrl().concat("/Order/prepay");
+    }
+
     public void getMarketList( int page,VolleyHttpUtils.HttpResult onHttpResultListener){
         VolleyHttpUtils httpUtils = new VolleyHttpUtils();
         Map requestParam = new HashMap<>();
@@ -144,6 +149,16 @@ public class MaketListModel extends BaseModel {
         requestParam.put("omoney",String.valueOf(orderResult.getData().get(0).getOmoney()));
         //发送请求
         httpUtils.postData(subOrderURL(),requestParam,onHttpResultListener);
+    }
+
+    public void prepay(String orderId,double money,int type, VolleyHttpUtils.HttpResult onHttpResultListener){
+        VolleyHttpUtils httpUtils = new VolleyHttpUtils();
+        Map<String,String> requser = new HashMap<>();
+        requser.put("name",SmartLightsApplication.USER.getName()+"");
+        requser.put("id",orderId);
+        requser.put("money",String.valueOf(money));
+        requser.put("type",String.valueOf(type));
+        httpUtils.postData(getPrepayURL(),requser,onHttpResultListener);
     }
 
 }

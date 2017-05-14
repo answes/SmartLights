@@ -31,7 +31,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("支付结果");
             builder.setMessage("支付返回的结果是"+getString(R.string.pay_result_callback_msg, String.valueOf(baseResp.errCode)));
-            builder.show();
+            AlertDialog dialog = builder.show();
         }
         //OrderDetailActivity.openOrderDetailActivityForResult(WXPayEntryActivity.this, Integer.parseInt(PayActivity.order.getData().get(0).getId()));
     }

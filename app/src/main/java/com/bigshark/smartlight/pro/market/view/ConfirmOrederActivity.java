@@ -162,9 +162,7 @@ public class ConfirmOrederActivity extends BaseActivity {
                     presenter.subOrder(setOrderData(""), new BasePresenter.OnUIThreadListener<String>() {
                         @Override
                         public void onResult(String result) {
-                           String orderId =  JSONUtil.getString(result,"data");
-                            Log.e("TAG", "onResult: 订单id"+ orderId + "        " +result);
-                            PayActivity.openPayActivity(ConfirmOrederActivity.this,setOrderData(orderId));
+                            PayActivity.openPayActivity(ConfirmOrederActivity.this,setOrderData(result));
                         }
 
                         @Override

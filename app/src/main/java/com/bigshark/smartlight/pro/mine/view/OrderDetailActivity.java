@@ -19,6 +19,7 @@ import com.bigshark.smartlight.bean.OrderResult;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
+import com.bigshark.smartlight.pro.market.view.PayActivity;
 import com.bigshark.smartlight.pro.mine.presenter.MinePresenter;
 import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
 import com.bigshark.smartlight.utils.DateFomat;
@@ -245,7 +246,14 @@ public class OrderDetailActivity extends BaseActivity {
             case R.id.bt_confirm:
                 switch (type) {
                     case 0:
-                        showMsg("缺少接口");
+                        List<OrderResult.Order> orders = new ArrayList<>();
+                        OrderResult.Order order =  new OrderResult.Order();
+                        order.setId(OrderDetailActivity.this.order.getId());
+                        order.setOmoney(OrderDetailActivity.this.order.getOmoney());
+                        orders.add(order);
+                        OrderResult orderResult = new OrderResult();
+                        orderResult.setData(orders);
+                        PayActivity.openPayActivity(this,orderResult);
 //                        OrderResult orderResult = new OrderResult();
 //                        OrderResult.Order order = ;
 //                        List<OrderResult.Order> orders = new ArrayList<OrderResult.Order>();

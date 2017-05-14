@@ -18,8 +18,11 @@ import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.SmartLightsApplication;
 import com.bigshark.smartlight.bean.OrderResult;
 import com.bigshark.smartlight.bean.TestBean;
+import com.bigshark.smartlight.bean.WxPay;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
+import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
+import com.bigshark.smartlight.pro.market.presenter.MarketListPresenter;
 import com.bigshark.smartlight.pro.market.view.navigation.GoodDetailsNavigationBuilder;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -38,16 +41,15 @@ public class PayActivity extends BaseActivity {
     private final int WEIXIN = 2;
     private IWXAPI iwxapi;
 
-    @BindView(R.id.alipay)
-    TextView alipay;
-    @BindView(R.id.wepay)
-    TextView wepay;
     @BindView(R.id.activity_pay)
     LinearLayout activityPay;
 
+    private MarketListPresenter marketListPresenter;
+
     @Override
     public MVPBasePresenter bindPresneter() {
-        return null;
+        marketListPresenter = new MarketListPresenter(this);
+        return marketListPresenter;
     }
 
     @Override
@@ -70,14 +72,32 @@ public class PayActivity extends BaseActivity {
                 }).setTitle("支付").createAndBind(activityPay);
     }
 
-    @OnClick({R.id.alipay,R.id.wepay})
+    @OnClick({R.id.ali,R.id.wechat})
     public void onClick(View view){
         switch (view.getId()){
-            case R.id.alipay:
+            case R.id.ali:
                 showMsg("支付宝支付，订单信息为:"+ JSON.toJSONString(order));
                 break;
-            case R.id.wepay:
-                similaerPay();
+            case R.id.wechat:
+                marketListPresenter.payMoney(order.getData().get(0).getId(), Double.parseDouble(order.getData().get(0).getOmoney()), 2, new BasePresenter.OnUIThreadListener<WxPay.DataBean>() {
+                    @Override
+                    public void onResult(WxPay.DataBean result) {
+                        PayReq payReq = new PayReq();
+                        payReq.appId = "wx35bd3eeb5d531eaf";
+                        payReq.partnerId = result.getPartnerid();
+                        payReq.prepayId = result.getPrepayid();
+                        payReq.packageValue = "Sign=WXPay";
+                        payReq.nonceStr= result.getNoncestr();
+                        payReq.timeStamp=  String.valueOf(result.getTimestamp());
+                        payReq.sign= result.getSign();
+                        iwxapi.sendReq(payReq);
+                    }
+
+                    @Override
+                    public void onErro(String string) {
+                        showMsg(string);
+                    }
+                });
                 break;
         }
     }
@@ -94,40 +114,6 @@ public class PayActivity extends BaseActivity {
         order = orderResult;
         activity.startActivity(new Intent(activity, PayActivity.class));
     }
-    private void similaerPay(){
-        StringRequest request = new StringRequest(Request.Method.POST, "http://pybike.idc.zhonxing.com/Order/prepay"
-                , new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                TestBean testBean = JSON.parseObject(response,TestBean.class);
-                PayReq payReq = new PayReq();
-                payReq.appId = "wx35bd3eeb5d531eaf";
-                payReq.partnerId = testBean.getData().getPartnerId();
-                payReq.prepayId = testBean.getData().getPrepayId();
-                payReq.packageValue = "Sign=WXPay";
-                payReq.nonceStr=  testBean.getData().getNonceStr();
-                payReq.timeStamp=  String.valueOf(testBean.getData().getTimeStamp());
-                payReq.sign=  testBean.getData().getSign();
-                iwxapi.sendReq(payReq);
-                Log.i("Load",response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                showMsg("");
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map requestParam = new HashMap<>();
-                requestParam.put("name",order.getData().get(0).getUsername());
-                requestParam.put("id",order.getData().get(0).getId());
-                requestParam.put("money",order.getData().get(0).getOmoney());
-                requestParam.put("type",String.valueOf(WEIXIN));
-                return super.getParams();
-            }
-        };
-        SmartLightsApplication.queue.add(request);
-    }
+
 
 }

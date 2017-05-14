@@ -44,8 +44,7 @@ public class MineModel extends BaseModel {
     private String upOrderStatuUrl(){
         return  getServerUrl().concat("/Order/changeorderstatus");
     }
-
-
+    private String getCodeUrl(){return getServerUrl().concat("/Mob/getmobverify");}
 
 
     public void login( String phone, String password ,VolleyHttpUtils.HttpResult httpResult){
@@ -123,17 +122,18 @@ public class MineModel extends BaseModel {
     public void upUserInfo(VolleyHttpUtils.HttpResult httpResult){
         VolleyHttpUtils httpUtils = new VolleyHttpUtils();
         Map requestParam = new HashMap<>();
-        requestParam.put("user_id", SmartLightsApplication.USER.getId());
-        requestParam.put("sex", SmartLightsApplication.USER.getSex());
-        requestParam.put("height", SmartLightsApplication.USER.getHeight());
-        requestParam.put("weight", SmartLightsApplication.USER.getWeight());
-        requestParam.put("age", SmartLightsApplication.USER.getAge());
-        requestParam.put("tel", SmartLightsApplication.USER.getTel());
+        requestParam.put("user_id", SmartLightsApplication.USER.getId()+"");
+        requestParam.put("name",SmartLightsApplication.USER.getName()+"");
+        requestParam.put("sex", SmartLightsApplication.USER.getSex()+"");
+        requestParam.put("height", SmartLightsApplication.USER.getHeight()+"");
+        requestParam.put("weight", SmartLightsApplication.USER.getWeight()+"");
+        requestParam.put("age", SmartLightsApplication.USER.getAge()+"");
+        requestParam.put("tel", SmartLightsApplication.USER.getTel()+"");
         if(SmartLightsApplication.USER.getBtel().isEmpty()){
             SmartLightsApplication.USER.setBtel(SmartLightsApplication.USER.getTel());
         }
-        requestParam.put("btel", SmartLightsApplication.USER.getBtel());
-        requestParam.put("fig", String.valueOf(SmartLightsApplication.USER.getFig()));
+        requestParam.put("btel", SmartLightsApplication.USER.getBtel()+"");
+        requestParam.put("fig", String.valueOf(SmartLightsApplication.USER.getFig())+"");
         httpUtils.postData(upUserInfoUrl(), requestParam, httpResult);
     }
 
@@ -161,5 +161,12 @@ public class MineModel extends BaseModel {
         requestParam.put("status", String.valueOf(status));
         requestParam.put("paytype", String.valueOf(paytype));
         httpUtils.postData(upOrderStatuUrl(), requestParam, httpResult);
+    }
+
+    public void getCode(String phone, VolleyHttpUtils.HttpResult httpResult){
+        VolleyHttpUtils httpUtils = new VolleyHttpUtils();
+        Map<String,String> paraps = new HashMap<>();
+        paraps.put("mob",phone);
+        httpUtils.postData(getCodeUrl(),paraps,httpResult);
     }
 }
