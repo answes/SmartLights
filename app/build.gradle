@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 android {
+    signingConfigs {
+        config {
+            keyAlias 'key0'
+            keyPassword 'smartBike2017'
+            storeFile file('C:/Users/Administrator/Desktop/SmartLights0222/smartBike.jks')
+            storePassword 'smartBike2017'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion '25.0.0'
     defaultConfig {
@@ -10,14 +18,22 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config
+            debuggable true
         }
     }
     useLibrary 'org.apache.http.legacy'
+    productFlavors {
+    }
 }
 
 dependencies {
@@ -43,7 +59,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.contrarywind:Android-PickerView:3.2.4'
     compile 'com.github.LuckSiege.PictureSelector:picture_library:v1.2.7'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
 }
