@@ -185,6 +185,7 @@ public class MinePresenter extends BasePresenter<MineModel> {
 
             @Override
             public void erro(String msg) {
+                onUIThreadListener.onErro(msg);
             }
         });
     }

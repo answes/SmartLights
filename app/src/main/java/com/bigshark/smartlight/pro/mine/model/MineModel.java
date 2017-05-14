@@ -141,7 +141,7 @@ public class MineModel extends BaseModel {
         VolleyHttpUtils httpUtils = new VolleyHttpUtils();
         Map requestParam = new HashMap<>();
         requestParam.put("user_id", SmartLightsApplication.USER.getId());
-        requestParam.put("p", String.valueOf(page));
+        requestParam.put("p", String.valueOf(3));
         httpUtils.postData(getBikeUrl(), requestParam, httpResult);
     }
 

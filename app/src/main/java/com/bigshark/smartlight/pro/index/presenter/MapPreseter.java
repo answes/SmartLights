@@ -37,6 +37,11 @@ public class MapPreseter extends BasePresenter<RecordModel> {
     private double distance = 0;
     private double height = 0;//海拔
 
+    /**
+     * 是否在记录形成中
+     */
+    private boolean isDuring = false;
+
     public MapPreseter(Context context) {
         super(context);
         this.context = context;
@@ -56,6 +61,7 @@ public class MapPreseter extends BasePresenter<RecordModel> {
      */
     public void start() {
         if (mlocationClient == null) {
+            isDuring = true;
             mlocationClient = new AMapLocationClient(context.getApplicationContext());
             mLocationOption = new AMapLocationClientOption();
             mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
@@ -78,44 +84,63 @@ public class MapPreseter extends BasePresenter<RecordModel> {
     }
 
     /**
+     * 暂停骑行
+     */
+    public void stop(){
+        isDuring = false;
+    }
+
+    /**
+     * 重新开始骑行
+     */
+    public void restart(){
+        isDuring = true;
+    }
+
+    
+
+    /**
      * 停止骑行
      */
-    public void stop(final OnUIThreadListener<String> listener) {
-        mlocationClient.stopLocation();
-        mlocationClient.onDestroy();
-        mlocationClient = null;
-        endTIme = System.currentTimeMillis();
-        long time =endTIme - startTime;
-        upLoadRecord.setGps(JSON.toJSONString(savesLatlng));
-        upLoadRecord.setDistance(distance);
-        upLoadRecord.setHeight(height);
-        upLoadRecord.setMaxSpeed(maxSpeed);
-        upLoadRecord.setK(0.1797 * (time/(1000*60)) * 60);
-        upLoadRecord.setTime(time);
-        upLoadRecord.setAvSpeed((distance / 1000) / (time/(60*60*1000)));
-        if(listener == null){
-            return;
-        }
-        getModel().upLoda(upLoadRecord, new VolleyHttpUtils.HttpResult() {
-            @Override
-            public void succss(String t) {
-                try {
-                    Result result = JSON.parseObject(t, Result.class);
-                    if (result.getCode() == 1) {
-                        listener.onResult("上传骑行记录成功");
-                    } else {
-                        listener.onResult("上传骑行记录失败");
+    public void finish(final OnUIThreadListener<String> listener) {
+        if(mlocationClient!=null && mlocationClient.isStarted()) {
+            isDuring = false;
+            mlocationClient.stopLocation();
+            mlocationClient.onDestroy();
+            mlocationClient = null;
+            endTIme = System.currentTimeMillis();
+            long time = endTIme - startTime;
+            upLoadRecord.setGps(JSON.toJSONString(savesLatlng));
+            upLoadRecord.setDistance(distance);
+            upLoadRecord.setHeight(height);
+            upLoadRecord.setMaxSpeed(maxSpeed);
+            upLoadRecord.setK(0.1797 * (time / (1000 * 60)) * 60);
+            upLoadRecord.setTime(time);
+            upLoadRecord.setAvSpeed((distance / 1000) / (time / (60 * 60 * 1000)));
+            if (listener == null) {
+                return;
+            }
+            getModel().upLoda(upLoadRecord, new VolleyHttpUtils.HttpResult() {
+                @Override
+                public void succss(String t) {
+                    try {
+                        Result result = JSON.parseObject(t, Result.class);
+                        if (result.getCode() == 1) {
+                            listener.onResult("上传骑行记录成功");
+                        } else {
+                            listener.onResult("上传骑行记录失败");
+                        }
+                    } catch (Exception e) {
+                        listener.onErro("上传失败");
                     }
-                } catch (Exception e) {
-                    listener.onErro("上传失败");
                 }
-            }
 
-            @Override
-            public void erro(String msg) {
-                listener.onErro(msg);
-            }
-        });
+                @Override
+                public void erro(String msg) {
+                    listener.onErro(msg);
+                }
+            });
+        }
     }
 
     public UpLoadRecord getUplodeRecord() {
@@ -139,6 +164,11 @@ public class MapPreseter extends BasePresenter<RecordModel> {
                 isFirst = false;
                 return;
             }
+
+            if(!isDuring){
+                return;
+            }
+
             if (aMapLocation != null
                     && aMapLocation.getErrorCode() == 0) {
                 LatLng location = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
@@ -167,8 +197,8 @@ public class MapPreseter extends BasePresenter<RecordModel> {
                 upLoadRecord.setSpeed(aMapLocation.getSpeed());
                 upLoadRecord.setK(0.1797 * (time/(1000*60)) * 60);
                 upLoadRecord.setTime(time);
-
-                upLoadRecord.setAvSpeed((distance / 1000) / (time/(60*60*1000)));
+                //距离（x/1000）/时间(h) 1000L * 60 * 60;
+                upLoadRecord.setAvSpeed(distance*time/(double) (1000*1000*60*60));
 
                 intent.putExtra(MapLocationRecive.EXTRA_DATA, upLoadRecord);
                 context.sendBroadcast(intent);

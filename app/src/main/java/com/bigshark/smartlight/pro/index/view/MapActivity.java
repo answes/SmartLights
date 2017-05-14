@@ -57,7 +57,7 @@ public class MapActivity extends BaseActivity {
     TextView tvCal;
     @BindView(R.id.tv_height)
     TextView tvHeight;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年mm月dd日的骑行");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日的骑行");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

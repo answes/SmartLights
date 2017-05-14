@@ -112,7 +112,7 @@ public class OrderFragment extends BaseFragment {
         refreshDate(true, getType());
 
         dialog = new SweetAlertDialog(getActivity());
-        dialog.setTitleText("Loging...");
+        dialog.setTitleText("查询中...");
         dialog.show();
 
     }
@@ -146,6 +146,7 @@ public class OrderFragment extends BaseFragment {
             public void onResult(Integer result) {
                 if (result == 1) {
                     refreshDate(true, getType());
+                    ToastUtil.showToast(getActivity(), "修改成功");
                 } else {
                     ToastUtil.showToast(getActivity(), "修改失败");
                 }
@@ -153,7 +154,6 @@ public class OrderFragment extends BaseFragment {
             }
             @Override
             public void onErro(String string) {
-
             }
         });
     }

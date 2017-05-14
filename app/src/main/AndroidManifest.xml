@@ -71,6 +71,7 @@
         <service android:name="com.amap.api.location.APSService" />
 
         <activity android:name=".wxapi.WXPayEntryActivity" />
+        <activity android:name=".pro.index.view.EndConfirmActivity"/>
     </application>
 
 </manifest>

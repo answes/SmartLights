@@ -181,8 +181,35 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
-    <com.amap.api.maps2d.MapView
-        android:id="@+id/mapview"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+        <com.amap.api.maps2d.MapView
+            android:id="@+id/mapview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="160px"
+            android:gravity="center"
+            android:layout_margin="40px"
+            android:text="取消"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_cicle_read"
+            android:layout_gravity="left|bottom"
+            android:layout_height="160px" />
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="160px"
+            android:layout_margin="40px"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_cicle_blue"
+            android:layout_gravity="right|bottom"
+            android:layout_height="160px" />
+    </FrameLayout>
+
 </LinearLayout>

@@ -23,7 +23,7 @@ public class LaunchingActivity extends BaseActivity {
 
         //判断以前是否登陆
         final String userId = SQLUtils.getUser(this);
-        Log.e("TAG", "SQLUtils: " + userId );
+        Log.e("Load", "SQLUtils: " + userId );
         if(null == userId){
             //开启一个线程
             new Thread(new Runnable() {
@@ -51,7 +51,7 @@ public class LaunchingActivity extends BaseActivity {
                 }
                 @Override
                 public void onErro(String string) {
-                    Log.e("TAG", "SQLUtils: " + string );
+                    Log.e("Load", "SQLUtils: " + string );
                     LoginActivity.openLoginActivity(LaunchingActivity.this);
                     LaunchingActivity.this.finish();
                 }

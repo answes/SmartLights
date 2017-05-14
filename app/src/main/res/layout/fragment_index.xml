@@ -41,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5px"
-                    android:text="0KM/h"
+                    android:text="0km/h"
                     android:textColor="@color/white"
                     android:textSize="48px" />
 
@@ -54,6 +54,7 @@
                     <TextView
                         android:id="@+id/tv_location"
                         android:layout_width="wrap_content"
+                        android:gravity="center"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:drawableLeft="@drawable/index_icon_location"
@@ -69,6 +70,7 @@
                         android:layout_weight="1"
                         android:drawableLeft="@drawable/index_icon_ele"
                         android:drawablePadding="5px"
+                        android:gravity="center"
                         android:text="电量"
                         android:textColor="@color/white"
                         android:textSize="30px" />

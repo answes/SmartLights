@@ -3,6 +3,7 @@
     <item name="is_scale_font_tag" type="id" />
     <string name="app_name">智能车灯</string>
     <string name="main_index_text">骑行</string>
+    <string name="end_confirm_text">结束骑行</string>
     <string name="main_shopping_text">商场</string>
     <string name="main_mine_text">我的</string>
     <string name="toolbar_search_text">搜索您想要的商品</string>

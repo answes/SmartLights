@@ -46,6 +46,7 @@ public class SmartLightsApplication extends Application {
                 final IWXAPI msgApi = WXAPIFactory.createWXAPI(SmartLightsApplication.this, null);
                 // 将该app注册到微信
                 msgApi.registerApp("wx35bd3eeb5d531eaf");
+                initJson();
             }
         }).start();
         initErrorHandler();

@@ -74,7 +74,7 @@ public class LoginActivity extends BaseActivity {
                 }
 
                 final SweetAlertDialog dialog = new SweetAlertDialog(this);
-                dialog.setTitleText("Loging...");
+                dialog.setTitleText("正在登陆...");
                 dialog.show();
                 if(System.currentTimeMillis() -lastOnclick >=500){
                     lastOnclick = System.currentTimeMillis();

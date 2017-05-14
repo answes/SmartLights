@@ -21,6 +21,7 @@ import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.index.broadcast.MapLocationRecive;
 import com.bigshark.smartlight.pro.index.presenter.MapPreseter;
+import com.bigshark.smartlight.pro.index.view.EndConfirmActivity;
 import com.bigshark.smartlight.pro.index.view.MapActivity;
 import com.bigshark.smartlight.pro.index.view.navigation.IndexNavigationBuilder;
 import com.bigshark.smartlight.pro.mine.view.MessgeActivity;
@@ -118,6 +119,7 @@ public class IndexActivity extends BaseActivity {
                     //申请WRITE_EXTERNAL_STORAGE权限
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0x01);
                 } else {
+                    isStart = true;
                     mapPreseter.start();
                     new Thread(new Runnable() {
                         @Override
@@ -138,22 +140,19 @@ public class IndexActivity extends BaseActivity {
                 }
                 break;
             case R.id.bt_finish:
-                btnFind.setVisibility(View.GONE);
-                IndexBottom.setVisibility(View.VISIBLE);
-                MapActivity.openMapActivity(this, mapPreseter.getUplodeRecord(), true, mapPreseter.getSavesLatlng());
+                mapPreseter.stop();
+                EndConfirmActivity.openMapActivity(this, mapPreseter.getUplodeRecord(), mapPreseter.getSavesLatlng(),mapPreseter);
                 break;
             case R.id.bt_stop:
-                mapPreseter.stop(new BasePresenter.OnUIThreadListener<String>() {
-                    @Override
-                    public void onResult(String result) {
-                        showMsg(result);
-                    }
-
-                    @Override
-                    public void onErro(String string) {
-                        showMsg(string);
-                    }
-                });
+                if(btStop.getText().toString().equals("暂停骑行")) {
+                    isStart = false;
+                    btStop.setText("恢复骑行");
+                    mapPreseter.stop();
+                }else{
+                    btStop.setText("暂停骑行");
+                    isStart = true;
+                    mapPreseter.restart();
+                }
                 break;
         }
     }
@@ -193,7 +192,7 @@ public class IndexActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mapPreseter.stop(null);
+        mapPreseter.finish(null);
     }
 
     @Override
@@ -214,16 +213,29 @@ public class IndexActivity extends BaseActivity {
             //请求的定位权限
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 mapPreseter.start();
+                isStart = false;
                 btnFind.setText("结束骑行");
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ((SmartLightsApplication) getApplication()).initJson();
-                    }
-                }).start();
             } else {
                 showMsg("权限被拒绝，请在软件设置中打开权限");
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == EndConfirmActivity.REQUEST_END_CONFIRM && RESULT_OK ==resultCode ){
+            btnFind.setVisibility(View.VISIBLE);
+            IndexBottom.setVisibility(View.GONE);
+            tvSpeed.setText("0.00km/h");
+            tvHot.setText("0Cal");
+            tvTotal.setText("0km");
+            tvHeight.setText("0.0m");
+            tvSpeed2.setText("0.00km/h");
+            tvHighSpeed.setText("0.00km/h");
+        }else if(requestCode == EndConfirmActivity.REQUEST_END_CONFIRM && RESULT_OK == resultCode){
+            mapPreseter.restart();
         }
     }
 }
