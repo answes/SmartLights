@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -19,7 +20,6 @@ import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.mine.presenter.MinePresenter;
 import com.bigshark.smartlight.pro.mine.view.adapter.RideViewHolder;
 import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
-import com.bigshark.smartlight.utils.DividerGridItemDecoration;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
@@ -99,6 +99,7 @@ public class RideActivity extends BaseActivity implements RecyclerArrayAdapter.O
                 minePresenter.getBikeList(true, new BasePresenter.OnUIThreadListener<List<Ride.Bike>>() {
                     @Override
                     public void onResult(List<Ride.Bike> result) {
+                        Log.e("TAG", "onResult:result.size() =  "+ result.size() );
                         if(null!= result&& result.size() != 0){
                             adapter.clear();
                             adapter.addAll(result);

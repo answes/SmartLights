@@ -56,10 +56,10 @@ public class LoginResult {
         private String status;
         private String reg_tm;
         private String btel;
-        private int fig;
+        private String fig;
        private String figimg;
 
-       public User(String id, String user_num, String tel, String name, String height, String age, String weight, String sex, String status, String reg_tm, String btel, int fig) {
+       public User(String id, String user_num, String tel, String name, String height, String age, String weight, String sex, String status, String reg_tm, String btel, String fig) {
            this.id = id;
            this.user_num = user_num;
            this.tel = tel;
@@ -166,11 +166,11 @@ public class LoginResult {
            this.btel = btel;
        }
 
-       public int getFig() {
+       public String getFig() {
            return fig;
        }
 
-       public void setFig(int fig) {
+       public void setFig(String fig) {
            this.fig = fig;
        }
 

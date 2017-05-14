@@ -82,10 +82,7 @@ public class LoginActivity extends BaseActivity {
                         @Override
                         public void onResult(LoginResult result) {
                             dialog.cancel();
-                            SmartLightsApplication.USER = result.getData();
-                            SQLUtils.saveUser(LoginActivity.this,SmartLightsApplication.USER.getId());
-                            IndexActivity.openIndexActivity(LoginActivity.this);
-                            finish();
+                            getUserInfo(result.getData().getId());
                         }
                         @Override
                         public void onErro(String string) {
@@ -103,6 +100,24 @@ public class LoginActivity extends BaseActivity {
                 break;
         }
     }
+
+    private void getUserInfo(String id) {
+        presenter.getUserInfo(id, new BasePresenter.OnUIThreadListener<LoginResult>() {
+            @Override
+            public void onResult(LoginResult result) {
+                SmartLightsApplication.USER = result.getData();
+                SQLUtils.saveUser(LoginActivity.this,SmartLightsApplication.USER.getId());
+                IndexActivity.openIndexActivity(LoginActivity.this);
+                finish();
+            }
+
+            @Override
+            public void onErro(String string) {
+
+            }
+        });
+    }
+
     private boolean check(){
         if(TextUtils.isEmpty(etPhone.getText().toString())){
             showMsg("请输入手机号码");

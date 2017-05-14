@@ -2,12 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bigshark.smartlight">
 
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <!-- 高德地图权限 -->
     <!-- 允许程序打开网络套接字 -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -36,8 +36,7 @@
             android:name="com.amap.api.v2.apikey"
             android:value="85f736f35d871e2de2aafa2d679a9015" />
 
-        <activity
-            android:name=".LaunchingActivity"
+        <activity android:name=".LaunchingActivity"
             android:theme="@style/LaunchingTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -72,8 +71,7 @@
         <service android:name="com.amap.api.location.APSService" />
 
         <activity android:name=".wxapi.WXPayEntryActivity" />
-        <activity android:name=".pro.index.view.EndConfirmActivity" />
-        <activity android:name=".pro.mine.view.UpdateNumActivity"></activity>
+        <activity android:name=".pro.index.view.EndConfirmActivity"/>
     </application>
 
 </manifest>

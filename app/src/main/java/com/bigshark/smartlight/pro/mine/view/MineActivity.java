@@ -77,7 +77,7 @@ public class MineActivity extends BaseActivity {
         initToolbar();
         SupportMultipleScreensUtil.scale(llContext);
         ivUserName.setText(SmartLightsApplication.USER.getName());
-        if(SmartLightsApplication.USER.getFig() != 0 ) {
+        if(null != SmartLightsApplication.USER.getFig() && !SmartLightsApplication.USER.getFig().isEmpty()) {
             VolleyUtils.loadImage(MineActivity.this, ivHander, SmartLightsApplication.USER.getFigimg());
         }
     }
@@ -169,7 +169,6 @@ public class MineActivity extends BaseActivity {
         List<Part> partList = new ArrayList<>();
         try {
             partList.add(new StringPart("fmd", MD5Utils.getMd5ByFile(new File(photo.getCutPath()))));
-            Log.e("TAG", "upLoadImage: 图片md5"+ MD5Utils.getMd5ByFile(new File(photo.getCutPath())));
             partList.add(new FilePart("File", new File(photo.getCutPath())));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -179,7 +178,6 @@ public class MineActivity extends BaseActivity {
         MultipartRequest profileUpdateRequest = new MultipartRequest(url, partList.toArray(new Part[partList.size()]), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("MultipartRequest", "上传头像 " + response);
                 JSONObject json = JSONObject.parseObject(response);
                 String fig = json.getString("data");
                 upUserInfo(fig);
@@ -198,17 +196,15 @@ public class MineActivity extends BaseActivity {
 
     private void upUserInfo(String fig) {
         LoginResult.User user = SmartLightsApplication.USER;
-        user.setFig(Integer.parseInt(fig));
+        user.setFig(fig);
         minePresenter.upUserInfo(new BasePresenter.OnUIThreadListener<String>() {
             @Override
             public void onResult(String result) {
-                Log.e("TAG", "onResult: 修改头像"+ result );
                 getUserInfo();
             }
 
             @Override
             public void onErro(String string) {
-                Log.e("TAG", "onErro: 修改头像"+ string );
             }
         });
     }
