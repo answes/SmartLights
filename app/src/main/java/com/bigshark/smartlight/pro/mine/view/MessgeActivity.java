@@ -50,7 +50,7 @@ public class MessgeActivity extends BaseActivity {
     private void initData() {
         logingData();
         rcContent.setLayoutManager(new LinearLayoutManager(this));
-        rcContent.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).colorResId(R.color.main_bottom_text_normal).build());
+        rcContent.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).colorResId(R.color.lines).build());
         adapter = new MessgeListAdapter(this,datas);
         rcContent.setAdapter(adapter);
 

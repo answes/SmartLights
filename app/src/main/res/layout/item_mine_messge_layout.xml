@@ -4,7 +4,6 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:background="@color/white"
-              android:layout_height="288px">
               android:layout_height="wrap_content">
     <com.allen.library.SuperTextView
         android:layout_width="match_parent"
@@ -25,8 +24,9 @@
         android:lineSpacingMultiplier="1.5"
         android:layout_marginLeft="32px"
         android:layout_marginRight="32px"
+        android:paddingBottom="14px"
         android:maxLines="2"
         android:textColor="#3A3A3A"
-        android:layout_height="173px"/>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

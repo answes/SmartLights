@@ -5,13 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.allen.library.SuperTextView;
 import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.bean.CarGoods;
+import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.bigshark.smartlight.utils.VolleyUtils;
 import com.bigshark.smartlight.weight.XCRoundRectImageView;
 
@@ -38,8 +36,7 @@ public class ConfiremGoodsListAdapter extends RecyclerView.Adapter<ConfiremGoods
     public void onBindViewHolder(MyViewHolder holder, int position) {
       holder.name.setText(list.get(position).getName());
         VolleyUtils.loadImage(context,holder.goodImg,list.get(position).getImgUrl());
-        //holder.details.setLeftTopString(list.get(position).getName());
-        holder.details.setLeftBottomString("数量:"+list.get(position).getNum());
+        holder.details.setText("颜色：".concat("null").concat("\n数量: ".concat(list.get(position).getNum())));
         holder.price.setText("价格：￥".concat(list.get(position).getPrice()));
         VolleyUtils.loadImage(context,holder.goodImg,list.get(position).getImgUrl());
     }
@@ -51,15 +48,16 @@ public class ConfiremGoodsListAdapter extends RecyclerView.Adapter<ConfiremGoods
 
 
     class MyViewHolder extends RecyclerView.ViewHolder{
-        SuperTextView details;
+        TextView details;
         XCRoundRectImageView goodImg;
         TextView price;
         TextView name;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            SupportMultipleScreensUtil.scale(itemView);
             name= (TextView) itemView.findViewById(R.id.tv_name);
-            details = (SuperTextView) itemView.findViewById(R.id.stv_details);
+            details = (TextView) itemView.findViewById(R.id.stv_details);
             price = (TextView) itemView.findViewById(R.id.tv_price);
             goodImg = (XCRoundRectImageView) itemView.findViewById(R.id.iv_img);
         }

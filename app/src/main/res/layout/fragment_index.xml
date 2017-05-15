@@ -16,8 +16,7 @@
             android:id="@+id/ll"
             android:layout_width="400px"
             android:layout_height="400px"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
             android:background="@drawable/index_ll_layer"
             android:gravity="center"
             android:orientation="vertical">

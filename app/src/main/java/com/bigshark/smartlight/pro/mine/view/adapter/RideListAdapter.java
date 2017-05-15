@@ -8,32 +8,36 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bigshark.smartlight.R;
-import com.bigshark.smartlight.bean.Equipment;
+import com.bigshark.smartlight.bean.Ride;
+import com.bigshark.smartlight.utils.DateFomat;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
  * Created by luyanhong on 16/9/28.
  */
-public class EquipmentListAdapter extends RecyclerView.Adapter<EquipmentListAdapter.MyViewHolder> {
-    private List<Equipment> list;
+public class RideListAdapter extends RecyclerView.Adapter<RideListAdapter.MyViewHolder> {
+    private List<Ride.Bike>  list;
     private Context context;
 
-    public EquipmentListAdapter(Context context, List<Equipment> list){
+    public RideListAdapter(Context context, List<Ride.Bike> list){
         this.list = list;
         this.context = context;
     }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MyViewHolder myViewHolder = new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_mine_equipment_list_layout,parent,false));
+        MyViewHolder myViewHolder = new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_mine_ride_list_layout,parent,false));
         return myViewHolder;
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.name.setText(list.get(position).getName());
-        holder.numbering.setText(list.get(position).getNumbering());
+        Double cny = Double.parseDouble(list.get(position).getDistance());//转换成Double
+        DecimalFormat df = new DecimalFormat("0.00");//格式化
+        holder.distance.setText(df.format(cny));
+        holder.time.setText(DateFomat.convertSecond2DateSS(list.get(position).getCre_tm()));
     }
 
     @Override
@@ -43,14 +47,13 @@ public class EquipmentListAdapter extends RecyclerView.Adapter<EquipmentListAdap
 
 
     class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView numbering;
-        TextView name;
-
+        TextView distance;
+        TextView time;
         public MyViewHolder(View itemView) {
             super(itemView);
             SupportMultipleScreensUtil.scale(itemView);
-            name= (TextView) itemView.findViewById(R.id.tv_name);
-            numbering = (TextView) itemView.findViewById(R.id.tv_numbering);
+            distance = (TextView) itemView.findViewById(R.id.tv_distance);
+            time = (TextView) itemView.findViewById(R.id.tv_time);
         }
     }
 }

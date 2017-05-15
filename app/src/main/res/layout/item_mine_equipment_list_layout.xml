@@ -4,18 +4,15 @@
               android:layout_width="match_parent"
               android:background="@drawable/mine_equipment_item_bg"
               android:layout_marginTop="30px"
-              android:layout_marginLeft="30px"
-              android:layout_marginRight="30px"
-              android:layout_height="288px">
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1"/>
+    android:layout_marginLeft="30px"
+            android:layout_marginRight="30px"
+              android:layout_height="wrap_content">
     <TextView
         android:id="@+id/tv_name"
         android:textColor="#022222"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="80px"
         android:textSize="43px"
         android:paddingLeft="30px"
         android:text="设备名称：Amy的设备1"/>
@@ -28,10 +25,7 @@
         android:layout_height="wrap_content"
         android:textSize="43px"
         android:paddingLeft="30px"
+        android:layout_marginBottom="80px"
         android:text="设备编号：20160708201"/>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1"/>
 </LinearLayout>

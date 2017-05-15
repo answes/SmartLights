@@ -78,10 +78,14 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
 
         if(!"null".equals( order.getGitems())){
             List<OrderResult.Gitem> gitems = JSONUtil.getObjects(order.getGitems(),OrderResult.Gitem.class);
-            if(null != gitems || gitems.size() != 0) {
+            if(null != gitems && gitems.size() != 0) {
                 holder.ogList.setData(gitems);
                 holder.tvPrice.setText("共".concat(String.valueOf(gitems.size())).concat("件商品， 合计：¥ ").concat(order.getOmoney()));
+            }else{
+                holder.tvPrice.setText("共".concat(String.valueOf(0)).concat("件商品， 合计：¥ ").concat(order.getOmoney()));
             }
+        }else{
+            holder.tvPrice.setText("共".concat(String.valueOf(1)).concat("件商品， 合计：¥ ").concat(order.getOmoney()));
         }
 
 

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,7 +24,6 @@ import com.bigshark.smartlight.pro.market.presenter.AddressPresenter;
 import com.bigshark.smartlight.pro.market.presenter.MarketListPresenter;
 import com.bigshark.smartlight.pro.market.view.adapter.viewholder.ConfiremGoodsListAdapter;
 import com.bigshark.smartlight.pro.market.view.navigation.GoodDetailsNavigationBuilder;
-import com.bigshark.smartlight.utils.JSONUtil;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.bigshark.smartlight.utils.ToastUtil;
 import com.google.gson.Gson;
@@ -87,7 +85,7 @@ public class ConfirmOrederActivity extends BaseActivity {
         List<CarGoods.Good> g= gson.fromJson(getIntent().getStringExtra("data"),new TypeToken<List<CarGoods.Good>>(){}.getType());
         datas.addAll(g);
         rvGoods.setLayoutManager(new LinearLayoutManager(this));
-        rvGoods.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).colorResId(R.color.tongming).build());
+        rvGoods.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).colorResId(R.color.lines).build());
         adapter = new ConfiremGoodsListAdapter(this,datas);
         rvGoods.setAdapter(adapter);
         tvTotal.setText("合计:"+caunltMax());
@@ -201,6 +199,7 @@ public class ConfirmOrederActivity extends BaseActivity {
         for (CarGoods.Good good:datas){
             OrderResult.Gitem gitem = new OrderResult.Gitem();
             gitem.setFig(good.getImgUrl());
+            gitem.setImg(good.getImgUrl());
             gitem.setGid(good.getGid());
             gitem.setName(good.getName());
             gitem.setPrice(good.getPrice());

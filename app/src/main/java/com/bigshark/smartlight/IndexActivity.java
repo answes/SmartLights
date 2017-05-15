@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.bigshark.smartlight.bean.UpLoadRecord;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
-import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.index.broadcast.MapLocationRecive;
 import com.bigshark.smartlight.pro.index.presenter.MapPreseter;
@@ -70,7 +69,7 @@ public class IndexActivity extends BaseActivity {
         setContentView(R.layout.fragment_index);
         ButterKnife.bind(this);
         initToolbar();
-        SupportMultipleScreensUtil.init(getApplication());
+        SupportMultipleScreensUtil.scale(llContext);
     }
 
     private MapPreseter mapPreseter;

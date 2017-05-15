@@ -138,7 +138,7 @@ public class MaketListModel extends BaseModel {
         requestParam.put("username",SmartLightsApplication.USER.getName());
         requestParam.put("address",orderResult.getData().get(0).getAddress());
         requestParam.put("tel",orderResult.getData().get(0).getTel());
-        requestParam.put("gitems", gson.toJson(orderResult.getData().get(0).getGitems()));
+        requestParam.put("gitems", gson.toJson(orderResult.getData().get(0).getGitems1()));
         requestParam.put("gmoney",orderResult.getData().get(0).getGmoney()+"");
         requestParam.put("omoney",orderResult.getData().get(0).getOmoney()+"");
         requestParam.put("buyer_id",String.valueOf(SmartLightsApplication.USER.getId()));

@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'key0'
             keyPassword 'smartBike2017'
-            storeFile file('C:/Users/Administrator/Desktop/SmartLights0222/smartBike.jks')
+            storeFile file('C:/Users/jlbs1/Desktop/smartjks/smartBike.jks')
             storePassword 'smartBike2017'
         }
     }

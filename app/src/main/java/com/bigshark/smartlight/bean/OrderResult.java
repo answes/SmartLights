@@ -195,6 +195,7 @@ public class OrderResult {
         private String price;
         private String tprice;
         private String num;
+        private String img;
 
         public int getGid() {
             return gid;
@@ -242,6 +243,14 @@ public class OrderResult {
 
         public void setNum(String num) {
             this.num = num;
+        }
+
+        public String getImg() {
+            return img;
+        }
+
+        public void setImg(String img) {
+            this.img = img;
         }
     }
 

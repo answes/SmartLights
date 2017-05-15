@@ -5,7 +5,7 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:background="@color/white"
-              android:layout_height="288px">
+              android:layout_height="wrap_content">
     <CheckBox
         android:id="@+id/cb_select"
         android:layout_width="wrap_content"
@@ -56,12 +56,11 @@
             android:textColor="#EF6464"
             android:text="价格：￥1057"
             android:textSize="40px"
-            android:layout_marginTop="14px"
             android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:layout_width="294px"
-            android:layout_height="98px"
+            android:layout_height="wrap_content"
             android:layout_marginTop="14px"
             android:background="@drawable/car_list_item_bt_bg"
             android:orientation="horizontal">
@@ -72,13 +71,13 @@
                 android:textColor="@color/text_fist"
                 android:textSize="43px"
                 android:background="@android:color/transparent"
-                android:layout_height="match_parent"
+                android:layout_height="98px"
                 android:id="@+id/bt_sub"/>
 
             <EditText
                 android:layout_width="98px"
                 android:background="@drawable/car_list_item_bt_bg"
-                android:layout_height="match_parent"
+                android:layout_height="98px"
                 android:inputType="number"
                 android:singleLine="true"
                 android:textColor="@color/text_fist"
@@ -95,7 +94,7 @@
                 android:textSize="43px"
                 android:text="@string/market_add"
                 android:background="@android:color/transparent"
-                android:layout_height="match_parent"/>
+                android:layout_height="98px"/>
         </LinearLayout>
     </LinearLayout>
 
