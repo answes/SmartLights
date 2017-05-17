@@ -99,14 +99,12 @@ public class MyOrderFragment extends BaseFragment {
 
             @Override
             public void onRefresh() {
-                ToastUtil.showToast(getContext(), "刷新");
                 loadDatas(true, getType());
             }
 
             @Override
             public void onLoadMore(boolean isSlience) {
-                ToastUtil.showToast(getContext(), "更多");
-                loadDatas(false, getType());
+                        loadDatas(false, getType());
             }
         });
 

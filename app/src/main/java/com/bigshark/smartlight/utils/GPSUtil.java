@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.util.Log;
 
 /**
  * Created by jlbs1 on 2017/5/17.
@@ -19,6 +20,8 @@ public class GPSUtil {
         boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         // 通过WLAN或移动网络(3G/2G)确定的位置（也称作AGPS，辅助GPS定位。主要用于在室内或遮盖物（建筑群或茂密的深林等）密集的地方定位）
         boolean network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        Log.e("TAG", "GPS "+gps+"   network" +network);
         if (gps || network) {
             return true;
         }

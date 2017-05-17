@@ -8,8 +8,13 @@
     android:background="@color/root_view_bg"
     android:orientation="vertical"
     tools:context="com.bigshark.smartlight.pro.mine.view.RideActivity">
+    <com.andview.refreshview.XRefreshView
+        android:id="@+id/xrefreshview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    </com.andview.refreshview.XRefreshView>
 </LinearLayout>

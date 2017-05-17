@@ -66,6 +66,7 @@ public class MapPreseter extends BasePresenter<RecordModel> {
             mLocationOption = new AMapLocationClientOption();
             mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
             mlocationClient.setLocationOption(mLocationOption);
+            mLocationOption.setSensorEnable(true);
             mlocationClient.setLocationListener(myLocationListener);
             reste();
             mlocationClient.startLocation();
