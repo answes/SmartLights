@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#f3f5f7"
-    android:divider="@drawable/divider"
     android:orientation="vertical"
-    android:showDividers="end">
-
+    android:divider="@drawable/divider"
+    android:showDividers="end"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,9 +26,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
-
 
             <com.allen.library.SuperTextView
                 android:id="@+id/stv_title"

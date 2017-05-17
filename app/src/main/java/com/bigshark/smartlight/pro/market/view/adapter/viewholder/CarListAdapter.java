@@ -2,7 +2,6 @@ package com.bigshark.smartlight.pro.market.view.adapter.viewholder;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.allen.library.SuperTextView;
 import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.bean.CarGoods;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
@@ -64,7 +62,7 @@ public class CarListAdapter extends RecyclerView.Adapter<CarListAdapter.MyViewHo
       holder.title.setText(list.get(position).getName());
       holder.number.setText(list.get(position).getNum());
       holder.price.setText("价格：￥".concat(list.get(position).getPrice()));
-        VolleyUtils.loadImage(context,holder.goodImg,list.get(position).getImgUrl());
+        VolleyUtils.loadImage(context,holder.goodImg,list.get(position).getImg_url());
         if(list.get(position).isCheck()){
             holder.checkBox.setChecked(true);
         }else{

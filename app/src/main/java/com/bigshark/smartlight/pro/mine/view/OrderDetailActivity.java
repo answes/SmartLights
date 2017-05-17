@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -13,7 +14,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.allen.library.SuperTextView;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.bigshark.smartlight.R;
+import com.bigshark.smartlight.SmartLightsApplication;
 import com.bigshark.smartlight.bean.OrderDetailResult;
 import com.bigshark.smartlight.bean.OrderResult;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
@@ -28,7 +35,9 @@ import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.bigshark.smartlight.weight.OrderGoodListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -93,22 +102,47 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     private void getOrder() {
-        presenter.getOrderDetail(id, new BasePresenter.OnUIThreadListener<OrderDetailResult.OrderDetail>() {
+//        presenter.getOrderDetail(id, new BasePresenter.OnUIThreadListener<OrderDetailResult.OrderDetail>() {
+//            @Override
+//            public void onResult(OrderDetailResult.OrderDetail result) {
+//                if (null != result) {
+//                    order = result;
+//                    setData();
+//                } else {
+//                    showMsg("加载出错!");
+//                }
+//            }
+//
+//            @Override
+//            public void onErro(String string) {
+//
+//            }
+//        });
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://pybike.idc.zhonxing.com/Order/orderdetail",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(!response.isEmpty()){
+                            OrderDetailResult detail = JSONUtil.getObject(response, OrderDetailResult.class);
+                            order = detail.getData();
+                            setData();
+                        }
+                    }
+                }, new Response.ErrorListener() {
             @Override
-            public void onResult(OrderDetailResult.OrderDetail result) {
-                if (null != result) {
-                    order = result;
-                    setData();
-                } else {
-                    showMsg("加载出错!");
-                }
+            public void onErrorResponse(VolleyError error) {
+                Log.e("TAG", error.getMessage(), error);
             }
-
+        }) {
             @Override
-            public void onErro(String string) {
-
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<>();
+                map.put("user_id", SmartLightsApplication.USER.getId());
+                map.put("id", String.valueOf(id));
+                return map;
             }
-        });
+        };
+        SmartLightsApplication.queue.add(stringRequest);
     }
 
     private void setData() {
@@ -117,6 +151,7 @@ public class OrderDetailActivity extends BaseActivity {
         if (type == 0) {
             btConfirm.setText("待付款");
             setState("#ee3c57", "待付款");
+            llBottom.setVisibility(View.VISIBLE);
             btCanCel.setVisibility(View.VISIBLE);
             tvDetails.setText("订单编号：".concat(order.getOrder_num()).concat("\n创建时间：").concat(DateFomat.convertSecond2DateSS(order.getCre_tm())));
         }
@@ -130,6 +165,7 @@ public class OrderDetailActivity extends BaseActivity {
         if (type == 2) {
             btConfirm.setText("已发货");
             setState("#ee3c57", "已发货");
+            llBottom.setVisibility(View.VISIBLE);
             tvDetails.setText("订单编号：".concat(order.getOrder_num()).concat("\n创建时间：")
                     .concat(DateFomat.convertSecond2DateSS(order.getCre_tm()))
                     .concat("\n付款时间：").concat(DateFomat.convertSecond2DateSS(order.getPay_tm()))
@@ -139,7 +175,6 @@ public class OrderDetailActivity extends BaseActivity {
         }
         if (type == 3) {
             setState("#3d444a", "已完成");
-
             tvDetails.setText("订单编号：".concat(order.getOrder_num()).concat("\n创建时间：")
                     .concat(DateFomat.convertSecond2DateSS(order.getCre_tm()))
                     .concat("\n付款时间：").concat(DateFomat.convertSecond2DateSS(order.getPay_tm()))
@@ -151,9 +186,9 @@ public class OrderDetailActivity extends BaseActivity {
         if (type == -1) {
             setState("#3d444a", "已取消");
             llBottom.setVisibility(View.GONE);
-            tvDetails.setText("订单编号：".concat(order.getOrder_num()).concat("\\n创建时间：")
-                    .concat(DateFomat.convertSecond2DateSS(order.getCre_tm()))
-                    .concat("\\n取消时间：").concat(DateFomat.convertSecond2DateSS(order.getFinish_tm())));
+            tvDetails.setText("订单编号：".concat(order.getOrder_num()).concat("\n创建时间：")
+                    .concat(DateFomat.convertSecond2DateSS(order.getCre_tm())));
+//                    .concat("\\n取消时间：").concat(DateFomat.convertSecond2DateSS(order.getFinish_tm())));
 //                    .concat("\\n付款时间：").concat(DateFomat.convertSecond2DateSS(order.getPay_tm()))
 //                    .concat("\\n发货时间：").concat(DateFomat.convertSecond2DateSS(order.getSend_tm()))
 //                    .concat("\\n快递公司：").concat(order.getExp_com())

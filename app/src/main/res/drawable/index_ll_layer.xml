@@ -2,15 +2,15 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- 连框颜色值 -->
-    <item android:width="366px" android:height="366px" android:gravity="center">
+    <item android:width="466px" android:height="466px" android:gravity="center">
         <shape>
             <solid android:color="#4f505a" />
-            <corners android:radius="366px"/>
-            <size android:width="366px" android:height="366px"/>
+            <corners android:radius="466px"/>
+            <size android:width="466px" android:height="466px"/>
         </shape>
     </item>
     <!-- 主体背景颜色值 -->
-    <item android:width="366px" android:height="366px" android:gravity="center">
+    <item android:width="466px" android:height="466px" android:gravity="center">
         <shape
             android:innerRadiusRatio="4"
             android:shape="ring"
@@ -22,11 +22,11 @@
                 android:type="sweep"/>
         </shape>
     </item>
-    <item android:width="336px" android:height="336px" android:gravity="center">
+    <item android:width="436px" android:height="436px" android:gravity="center">
         <shape>
             <solid android:color="@color/fragment_index_bg" />
-            <corners android:radius="336px"/>
-            <size android:width="336px" android:height="336px"/>
+            <corners android:radius="436px"/>
+            <size android:width="436px" android:height="436px"/>
         </shape>
     </item>
 

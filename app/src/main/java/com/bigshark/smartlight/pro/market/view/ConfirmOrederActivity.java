@@ -198,8 +198,8 @@ public class ConfirmOrederActivity extends BaseActivity {
         List<OrderResult.Gitem> gitemList = new ArrayList<>();
         for (CarGoods.Good good:datas){
             OrderResult.Gitem gitem = new OrderResult.Gitem();
-            gitem.setFig(good.getImgUrl());
-            gitem.setImg(good.getImgUrl());
+            gitem.setFig(good.getImg_url());
+            gitem.setImg(good.getImg_url());
             gitem.setGid(good.getGid());
             gitem.setName(good.getName());
             gitem.setPrice(good.getPrice());

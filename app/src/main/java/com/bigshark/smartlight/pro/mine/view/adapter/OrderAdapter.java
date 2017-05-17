@@ -25,7 +25,6 @@ public class OrderAdapter extends FragmentStatePagerAdapter {
         OrderFragment fragment = new OrderFragment();
         String[] title = mTitles.get(position).split(TAB_TAG);
         fragment.setType(Integer.parseInt(title[1]));
-        fragment.setTitle(title[0]);
         return fragment;
     }
 

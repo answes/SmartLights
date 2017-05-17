@@ -13,39 +13,31 @@ import com.allen.library.SuperTextView;
 import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.bean.OrderResult;
 import com.bigshark.smartlight.utils.JSONUtil;
-import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.bigshark.smartlight.weight.OrderGoodListView;
 
 import java.util.List;
 
 /**
- * Created by bigShark on 2017/1/20.
+ * Created by jlbs1 on 2017/5/16.
  */
 
-public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
-    private Context context;
-    private List<OrderResult.Order> datas;
-    private ItemOnClickListener itemOnClickListener;
+public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.MyOrderViewHolder>{
 
-    public OrderListAdapter(Context context, List<OrderResult.Order> datas) {
+    private Context context;
+    private  List<OrderResult.Order> datas;
+
+    public MyOrderAdapter(Context context, List<OrderResult.Order> datas){
         this.context = context;
         this.datas = datas;
     }
 
-    public void setItemOnClickListener(ItemOnClickListener itemOnClickListener) {
-        this.itemOnClickListener = itemOnClickListener;
+    @Override
+    public MyOrderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new MyOrderViewHolder(LayoutInflater.from(context).inflate(R.layout.item_mine_order_list_layout,parent,false));
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(
-                R.layout.item_mine_order_list_layout, parent, false);
-        SupportMultipleScreensUtil.scale(v);
-        return new ViewHolder(v,itemOnClickListener);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(MyOrderViewHolder holder, int position) {
         OrderResult.Order order = datas.get(position);
         holder.btLogistics.setVisibility(View.VISIBLE);
         holder.btReceipt.setVisibility(View.VISIBLE);
@@ -88,7 +80,6 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             holder.tvPrice.setText("共".concat(String.valueOf(1)).concat("件商品， 合计：¥ ").concat(order.getOmoney()));
         }
 
-
     }
 
     @Override
@@ -96,43 +87,21 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         return datas.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private ItemOnClickListener itemOnClickListener;
+    class MyOrderViewHolder extends RecyclerView.ViewHolder{
+
         private SuperTextView stvNo;
         private OrderGoodListView ogList;
         private TextView tvPrice;
         private Button btLogistics;
         private Button btReceipt;
 
-        public ViewHolder(View itemView, final ItemOnClickListener itemOnClickListener) {
+        public MyOrderViewHolder(View itemView) {
             super(itemView);
-            this.itemOnClickListener = itemOnClickListener;
             stvNo = (SuperTextView) itemView.findViewById(R.id.stv_no);
             ogList = (OrderGoodListView) itemView.findViewById(R.id.og_list);
             tvPrice = (TextView) itemView.findViewById(R.id.tv_price);
             btLogistics = (Button) itemView.findViewById(R.id.bt_logistics);
             btReceipt = (Button) itemView.findViewById(R.id.bt_receipt);
-            itemView.setOnClickListener(this);
-            btLogistics.setOnClickListener(this);
-            btReceipt.setOnClickListener(this);
-            stvNo.setOnSuperTextViewClickListener(new SuperTextView.OnSuperTextViewClickListener() {
-                @Override
-                public void onSuperTextViewClick() {
-                    super.onSuperTextViewClick();
-                    itemOnClickListener.onItemClick(stvNo, getPosition());
-                }
-            });
         }
-
-        @Override
-        public void onClick(View view) {
-            if (itemOnClickListener != null) {
-                itemOnClickListener.onItemClick(view, getPosition());
-            }
-        }
-    }
-
-    public interface ItemOnClickListener {
-        void onItemClick(View view, int postion);
     }
 }

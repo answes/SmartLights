@@ -35,10 +35,10 @@ public class ConfiremGoodsListAdapter extends RecyclerView.Adapter<ConfiremGoods
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
       holder.name.setText(list.get(position).getName());
-        VolleyUtils.loadImage(context,holder.goodImg,list.get(position).getImgUrl());
+        VolleyUtils.loadImage(context,holder.goodImg,list.get(position).getImg_url());
         holder.details.setText("颜色：".concat("null").concat("\n数量: ".concat(list.get(position).getNum())));
         holder.price.setText("价格：￥".concat(list.get(position).getPrice()));
-        VolleyUtils.loadImage(context,holder.goodImg,list.get(position).getImgUrl());
+//        VolleyUtils.loadImage(context,holder.goodImg,list.get(position).getImg_url());
     }
 
     @Override

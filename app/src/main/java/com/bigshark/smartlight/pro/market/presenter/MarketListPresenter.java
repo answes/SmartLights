@@ -5,16 +5,13 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bigshark.smartlight.bean.GoodDetail;
 import com.bigshark.smartlight.bean.Market;
 import com.bigshark.smartlight.bean.OrderResult;
-import com.bigshark.smartlight.bean.Result;
 import com.bigshark.smartlight.bean.SubOrderResult;
 import com.bigshark.smartlight.bean.WxPay;
 import com.bigshark.smartlight.http.VolleyHttpUtils;
-import com.bigshark.smartlight.http.utils.HttpUtils;
 import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.market.model.MaketListModel;
 import com.bigshark.smartlight.utils.JSONUtil;
@@ -97,9 +94,9 @@ public class MarketListPresenter extends BasePresenter<MaketListModel> {
      * @param gid
      * @param onUIThreadListener
      */
-    public void addGoodToCar(int gid, String price, final OnUIThreadListener<String> onUIThreadListener) {
+    public void addGoodToCar(int gid, String price,String img_url, final OnUIThreadListener<String> onUIThreadListener) {
 
-        getModel().addGoodToCart(gid, price, new VolleyHttpUtils.HttpResult() {
+        getModel().addGoodToCart(gid, price,img_url, new VolleyHttpUtils.HttpResult() {
             @Override
             public void succss(String result) {
                 if (TextUtils.isEmpty(result)) {

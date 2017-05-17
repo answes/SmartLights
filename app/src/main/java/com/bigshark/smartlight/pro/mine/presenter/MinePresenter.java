@@ -17,7 +17,6 @@ import com.bigshark.smartlight.bean.Ride;
 import com.bigshark.smartlight.http.VolleyHttpUtils;
 import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.mine.model.MineModel;
-import com.bigshark.smartlight.utils.Contact;
 import com.bigshark.smartlight.utils.JSONUtil;
 
 import java.util.List;
@@ -137,11 +136,13 @@ public class MinePresenter extends BasePresenter<MineModel> {
         });
     }
 
-    public void getOrders(final boolean isDownRefresh,String status ,final OnUIThreadListener<OrderResult> onUIThreadListener){
+    public void getOrders(final boolean isDownRefresh, String status , final OnUIThreadListener<OrderResult> onUIThreadListener){
+        if("-1".equals(status)){
+            status = null;
+        }
         getModel().getOrders( page, status, new VolleyHttpUtils.HttpResult() {
             @Override
             public void succss(String result) {
-                Log.e(TAG, "getOrders: "+result);
                 OrderResult orderResult = JSONUtil.getObject(result, OrderResult.class);
                     if (isDownRefresh) {
                         page = 1;
@@ -152,9 +153,11 @@ public class MinePresenter extends BasePresenter<MineModel> {
             }
             @Override
             public void erro(String msg) {
+                onUIThreadListener.onResult(null);
             }
         });
     }
+
 
     /**
      * 获取系统信息

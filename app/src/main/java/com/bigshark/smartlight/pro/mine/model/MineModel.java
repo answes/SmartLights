@@ -102,7 +102,7 @@ public class MineModel extends BaseModel {
         Map requestParam = new HashMap<>();
         requestParam.put("user_id", SmartLightsApplication.USER.getId());
         requestParam.put("p",String.valueOf(p));
-        if(!"-1".equals(status)) {
+        if(null != status ) {
             requestParam.put("status", status);
         }
         httpUtils.postData(getOrdresUrl(), requestParam, httpResult);

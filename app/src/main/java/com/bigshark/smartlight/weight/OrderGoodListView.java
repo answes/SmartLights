@@ -82,8 +82,8 @@ public class OrderGoodListView extends LinearLayout {
         SuperTextView  stvTitle = (SuperTextView) view.findViewById(R.id.stv_title);
         SuperTextView stvNumber = (SuperTextView) view.findViewById(R.id.stv_number);
         //设置相应的数据
-        if(null != good.getImg() || !good.getImg().isEmpty()) {
-            VolleyUtils.loadImage(getContext(), goodImg, data.get(postion).getFig());
+        if(null != good.getImg()) {
+            VolleyUtils.loadImage(getContext(), goodImg, data.get(postion).getImg());
         }
         if(good.getName().isEmpty()){
             stvTitle.setLeftString("商品名称：智能车灯商品");

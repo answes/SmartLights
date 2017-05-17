@@ -124,6 +124,7 @@
         android:layout_alignParentBottom="true"
         android:background="@color/mian_bottom_bar_bg"
         android:gravity="center_vertical"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <Space

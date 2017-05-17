@@ -50,23 +50,23 @@ public class CarGoods {
         private int gid;
         private String name;
         private String price;
-        private String imgUrl;
+        private String img_url;
         private String num;
         private int uid;
-        private String creTm;
+        private String cre_tm;
         private boolean isCheck;
 
         public Good(){
         }
-        public Good(int id, int gid, String name, String price, String imgUrl, String num, int uid, String creTm) {
+        public Good(int id, int gid, String name, String price, String img_url, String num, int uid, String cre_tm) {
             this.id = id;
             this.gid = gid;
             this.name = name;
             this.price = price;
-            this.imgUrl = imgUrl;
+            this.img_url = img_url;
             this.num = num;
             this.uid = uid;
-            this.creTm = creTm;
+            this.cre_tm = cre_tm;
         }
 
         public boolean isCheck() {
@@ -109,12 +109,12 @@ public class CarGoods {
             this.price = price;
         }
 
-        public String getImgUrl() {
-            return imgUrl;
+        public String getImg_url() {
+            return img_url;
         }
 
-        public void setImgUrl(String imgUrl) {
-            this.imgUrl = imgUrl;
+        public void setImg_url(String img_url) {
+            this.img_url = img_url;
         }
 
         public String getNum() {
@@ -133,12 +133,12 @@ public class CarGoods {
             this.uid = uid;
         }
 
-        public String getCreTm() {
-            return creTm;
+        public String getCre_tm() {
+            return cre_tm;
         }
 
-        public void setCreTm(String creTm) {
-            this.creTm = creTm;
+        public void setCre_tm(String cre_tm) {
+            this.cre_tm = cre_tm;
         }
     }
 

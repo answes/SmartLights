@@ -4,21 +4,19 @@
     android:layout_width="match_parent"
     android:background="@color/root_view_bg"
     android:layout_height="match_parent">
-    <!--<com.andview.refreshview.XRefreshView-->
-        <!--android:id="@+id/xrefreshview"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="@android:color/transparent"-->
-        <!--&gt;-->
-        <ViewStub
-            android:id="@+id/vs_error"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+    <ViewStub
+        android:id="@+id/vs_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+    <com.andview.refreshview.XRefreshView
+        android:id="@+id/xrefreshview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none"/>
-    <!--</com.andview.refreshview.XRefreshView>-->
+            android:scrollbars="vertical"/>
+    </com.andview.refreshview.XRefreshView>
 </LinearLayout>

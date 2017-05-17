@@ -6,23 +6,20 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.LatLng;
-import com.amap.api.maps2d.model.Polyline;
 import com.amap.api.maps2d.model.PolylineOptions;
 import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.bean.UpLoadRecord;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.index.broadcast.MapLocationRecive;
-import com.bigshark.smartlight.pro.market.view.CarActivity;
 import com.bigshark.smartlight.pro.market.view.navigation.GoodDetailsNavigationBuilder;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.google.gson.Gson;
@@ -121,6 +118,7 @@ public class MapActivity extends BaseActivity {
                         @Override
                         public void run() {
                             latLngs = new Gson().fromJson(record.getGps(),new TypeToken<List<LatLng>>(){}.getType());
+                            Log.e("TAG", "run: " +  record.getGps());
                             tvHeight.setText(String.valueOf((double)record.getHeight()));
                             tvMax.setText(String.format("%.2f",record.getMaxSpeed()));
                             tvCal.setText(String.format("%.2f",record.getK()));

@@ -1,57 +1,65 @@
 package com.bigshark.smartlight.pro.mine.view;
 
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.andview.refreshview.XRefreshView;
 import com.andview.refreshview.XRefreshViewFooter;
 import com.bigshark.smartlight.R;
+import com.bigshark.smartlight.SmartLightsApplication;
 import com.bigshark.smartlight.bean.OrderResult;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseFragment;
+import com.bigshark.smartlight.pro.market.view.PayActivity;
 import com.bigshark.smartlight.pro.mine.presenter.MinePresenter;
 import com.bigshark.smartlight.pro.mine.view.adapter.BaseOrderAdapter;
+import com.bigshark.smartlight.utils.JSONUtil;
 import com.bigshark.smartlight.utils.ToastUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.app.Activity.RESULT_OK;
-
 /**
- * Created by bigShark on 2017/1/20.
+ * Created by jlbs1 on 2017/5/16.
  */
 
-public class OrderFragment extends BaseFragment {
+public class MyOrderFragment extends BaseFragment {
     private final int QRSH = 0;
     private final int QRQX = 1;
-    private int type = 0;
+    private String type;
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
+
 
     @BindView(R.id.rv_content)
     RecyclerView rvContent;
     @BindView(R.id.xrefreshview)
     XRefreshView xrefreshview;
 
-    private MinePresenter presenter;
     private BaseOrderAdapter adapter;
-    private List<OrderResult.Order> datas = new ArrayList<>();
+    private MinePresenter presenter;
+    private List<OrderResult.Order> orderDatas = new ArrayList<>();
 
     @Override
     public int getContentView() {
@@ -61,11 +69,11 @@ public class OrderFragment extends BaseFragment {
     @Override
     public void initContentView(View viewContent) {
         ButterKnife.bind(this, viewContent);
+        initView();
     }
 
-    @Override
-    public void initData() {
-        super.initData();
+    private void initView() {
+        loadDatas(true, getType());
 
         xrefreshview.setPullRefreshEnable(true);
         // 设置是否可以上拉加载
@@ -81,8 +89,9 @@ public class OrderFragment extends BaseFragment {
         rvContent.setHasFixedSize(true);
         rvContent.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        adapter = new BaseOrderAdapter(getActivity(), datas);
+        adapter = new BaseOrderAdapter(getActivity(), orderDatas);
         rvContent.setAdapter(adapter);
+
 
         adapter.setCustomLoadMoreView(new XRefreshViewFooter(getContext()));
 
@@ -91,48 +100,45 @@ public class OrderFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 ToastUtil.showToast(getContext(), "刷新");
-                refreshDate(true, getType());
+                loadDatas(true, getType());
             }
 
             @Override
             public void onLoadMore(boolean isSlience) {
                 ToastUtil.showToast(getContext(), "更多");
-                refreshDate(false, getType());
+                loadDatas(false, getType());
             }
         });
-        //refreshDate(true, getType());
 
+        adapter.setItemOnClickListener(new BaseOrderAdapter.ItemOnClickListener() {
+            @Override
+            public void onItemClick(View view, int postion) {
+                OrderResult orderResult = new OrderResult();
+                OrderResult.Order order = orderDatas.get(postion);
+                List<OrderResult.Order> orders = new ArrayList<>();
+                orders.add(order);
+                switch (view.getId()) {
+                    case R.id.bt_logistics:
+                        if ("0".equals(order.getStatus())) {
+                            showDialog("是否取消该订单", QRQX,order);
+                        } else if ("1".equals(order.getStatus()) || "2".equals(order.getStatus())) {
+                            //查看物流。
+                            ToastUtil.showToast(getContext(), "暂时无法查看物流");
+                        }
+                        return;
+                    case R.id.bt_receipt:
+                        if ("0".equals(order.getStatus())) {
+                            orderResult.setData(orders);
+                            PayActivity.openPayActivity(getActivity(), orderResult);
+                        } else if ("1".equals(order.getStatus()) || "2".equals(order.getStatus())) {
+                            showDialog("是否确认收到货", QRSH,order);
+                        }
+                        return;
 
-//        adapter.setItemOnClickListener(new OrderListAdapter.ItemOnClickListener() {
-//            @Override
-//            public void onItemClick(View view, int postion) {
-//                OrderResult orderResult = new OrderResult();
-//                OrderResult.Order order = datas.get(postion);
-//                List<OrderResult.Order> orders = new ArrayList<OrderResult.Order>();
-//                orders.add(order);
-//                switch (view.getId()) {
-//                    case R.id.bt_logistics:
-//                        if ("0".equals(order.getStatus())) {
-//                            showDialog("是否取消该订单", QRQX,order);
-//                        } else if ("1".equals(order.getStatus()) || "2".equals(order.getStatus())) {
-//                            //查看物流。
-//                            ToastUtil.showToast(getContext(), "暂时无法查看物流");
-//                        }
-//                        return;
-//                    case R.id.bt_receipt:
-//                        if ("0".equals(order.getStatus())) {
-//                            orderResult.setData(orders);
-//                            PayActivity.openPayActivity(getActivity(), orderResult);
-//                        } else if ("1".equals(order.getStatus()) || "2".equals(order.getStatus())) {
-//                            showDialog("是否确认收到货", QRSH,order);
-//                        }
-//                        return;
-//
-//                }
-//                OrderDetailActivity.openOrderDetailActivityForResult(getActivity(), Integer.parseInt(datas.get(postion).getId()));
-//            }
-//        });
-
+                }
+                OrderDetailActivity.openOrderDetailActivityForResult(getActivity(), Integer.parseInt(orderDatas.get(postion).getId()));
+            }
+        });
 
     }
 
@@ -164,7 +170,7 @@ public class OrderFragment extends BaseFragment {
             @Override
             public void onResult(Integer result) {
                 if (result == 1) {
-                    refreshDate(true, getType());
+                    loadDatas(true, getType());
                     ToastUtil.showToast(getActivity(), "修改成功");
                 } else {
                     ToastUtil.showToast(getActivity(), "修改失败");
@@ -178,50 +184,58 @@ public class OrderFragment extends BaseFragment {
         });
     }
 
-    private void showErrorView() {
+    int page = 1;
 
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            refreshDate(true, getType());
+    private void loadDatas(final boolean isDownRefresh, final String type) {
+        if(isDownRefresh){
+            page = 1;
+        }else{
+            page++;
         }
-    }
-
-    private void refreshDate(final boolean isDownRefresh, int t) {
-        presenter.getOrders(isDownRefresh, String.valueOf(t), new BasePresenter.OnUIThreadListener<OrderResult>() {
-            @Override
-            public void onResult(final OrderResult result) {
-
-                new Handler().postDelayed(new Runnable() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://pybike.idc.zhonxing.com/Order/orderlist",
+                new Response.Listener<String>() {
                     @Override
-                    public void run() {
+                    public void onResponse(String response) {
+                        OrderResult orderResult = JSONUtil.getObject(response, OrderResult.class);
                         if (isDownRefresh) {
                             xrefreshview.stopRefresh();
                         } else {
                             xrefreshview.stopLoadMore();
                         }
-                        if (result == null) {
-                            ToastUtil.showToast(getContext(), "加载失败");
-                        } else {
-                            ToastUtil.showToast(getContext(), "数据有 "+result.getData().size());
-                            if (isDownRefresh) {
-                                datas.clear();
+                        if (null != orderResult) {
+                            if (null != orderResult.getData() && orderResult.getData().size() != 0) {
+                               if(isDownRefresh){
+                                   orderDatas.clear();
+                               }
+                                orderDatas.addAll(orderResult.getData());
+                                adapter.notifyDataSetChanged();
                             }
-                            datas.addAll(result.getData());
-                            adapter.notifyDataSetChanged();
                         }
                     }
-                }, 1000);
-            }
-
+                }, new Response.ErrorListener() {
             @Override
-            public void onErro(String string) {
-
+            public void onErrorResponse(VolleyError error) {
+                Log.e("TAG", error.getMessage(), error);
             }
-        });
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<>();
+                map.put("user_id", SmartLightsApplication.USER.getId());
+                map.put("p", String.valueOf(page));
+                if(!"-1".equals(type)){
+                    map.put("status", type);
+                }
+                return map;
+            }
+        };
+        SmartLightsApplication.queue.add(stringRequest);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadDatas(true, getType());
     }
 
     @Override

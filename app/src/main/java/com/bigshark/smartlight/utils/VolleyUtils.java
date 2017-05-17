@@ -26,7 +26,7 @@ public class VolleyUtils {
                 return null;
             }
         });
-        imageView.setDefaultImageResId(R.drawable.logo);
+//        imageView.setDefaultImageResId(R.drawable.logo);
         imageView.setErrorImageResId(R.drawable.logo);
         imageView.setImageUrl(url,imageLoader);
     }

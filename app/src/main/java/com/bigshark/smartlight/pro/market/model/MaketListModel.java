@@ -73,14 +73,13 @@ public class MaketListModel extends BaseModel {
      * @param gid
      * @param onHttpResultListener
      */
-    public void addGoodToCart( int gid, String price, VolleyHttpUtils.HttpResult onHttpResultListener){
+    public void addGoodToCart( int gid, String price,String img_url, VolleyHttpUtils.HttpResult onHttpResultListener){
         VolleyHttpUtils httpUtils = new VolleyHttpUtils();
         Map requestParam = new HashMap<>();
         requestParam.put("uid", SmartLightsApplication.USER.getId());
-        requestParam.put("gid",gid+"");
-       // requestParam.put("name",name);
+        requestParam.put("gid",String.valueOf(gid));
         requestParam.put("price",price);
-       // requestParam.put("img_url",imgUrl);
+        requestParam.put("img_url",img_url);
         //发送请求
         httpUtils.postData(addGoodToCarUrl(),requestParam,onHttpResultListener);
     }

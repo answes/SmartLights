@@ -36,7 +36,8 @@
             android:name="com.amap.api.v2.apikey"
             android:value="85f736f35d871e2de2aafa2d679a9015" />
 
-        <activity android:name=".LaunchingActivity"
+        <activity
+            android:name=".LaunchingActivity"
             android:theme="@style/LaunchingTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,35 +45,75 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".pro.mine.view.LoginActivity" />
-        <activity android:name=".pro.mine.view.MarketActivity" />
-        <activity android:name=".pro.mine.view.SetActivity" />
-        <activity android:name=".pro.mine.view.ChangePswActivity" />
-        <activity android:name=".pro.market.view.GoodDetailsActivity" />
-        <activity android:name=".pro.market.view.CarActivity" />
-        <activity android:name=".pro.market.view.ConfirmOrederActivity" />
-        <activity android:name=".pro.mine.view.MessgeActivity" />
-        <activity android:name=".pro.mine.view.RideActivity" />
-        <activity android:name=".pro.mine.view.EquipmentActivity" />
-        <activity android:name=".pro.mine.view.OrderActivity" />
-        <activity android:name=".pro.mine.view.RegisteredActivity" />
+        <activity
+            android:name=".pro.mine.view.LoginActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".pro.mine.view.MarketActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".pro.mine.view.SetActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".pro.mine.view.ChangePswActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".pro.market.view.GoodDetailsActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".pro.market.view.CarActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".pro.market.view.ConfirmOrederActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".pro.mine.view.MessgeActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".pro.mine.view.RideActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".pro.mine.view.EquipmentActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".pro.mine.view.OrderActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".pro.mine.view.RegisteredActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".IndexActivity" />
-        <activity android:name=".pro.mine.view.FindPswActivity" />
-        <activity android:name=".pro.mine.view.MineDetailsActivity" />
-        <activity android:name=".pro.mine.view.ModifyInfoActivity" />
-        <activity android:name=".pro.mine.view.MineActivity" />
-        <activity android:name=".pro.market.view.SelectAddressActivity" />
-        <activity android:name=".pro.market.view.AddAndEditAddressActivity" />
-        <activity android:name=".pro.market.view.PayActivity" />
+        <activity
+            android:name=".pro.mine.view.FindPswActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".pro.mine.view.MineDetailsActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".pro.mine.view.ModifyInfoActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".pro.mine.view.MineActivity" />
+        <activity
+            android:name=".pro.market.view.SelectAddressActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".pro.market.view.AddAndEditAddressActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".pro.market.view.PayActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".pro.index.view.ScanActivity" />
         <activity android:name=".pro.index.view.MapActivity" />
-        <activity android:name=".pro.mine.view.OrderDetailActivity" />
+        <activity
+            android:name=".pro.mine.view.OrderDetailActivity"
+            android:launchMode="singleTask" />
 
         <service android:name="com.amap.api.location.APSService" />
 
         <activity android:name=".wxapi.WXPayEntryActivity" />
-        <activity android:name=".pro.index.view.EndConfirmActivity"/>
-        <activity android:name=".pro.mine.view.UpdateNumActivity"/>
+        <activity android:name=".pro.index.view.EndConfirmActivity" />
+        <activity android:name=".pro.mine.view.UpdateNumActivity" />
+        <activity android:name=".pro.mine.view.MyOrderActivity"/>
     </application>
 
 </manifest>

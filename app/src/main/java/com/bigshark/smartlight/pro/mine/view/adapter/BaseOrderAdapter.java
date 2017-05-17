@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.allen.library.SuperTextView;
+import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
 import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.bean.OrderResult;
 import com.bigshark.smartlight.utils.JSONUtil;
@@ -22,12 +23,12 @@ import java.util.List;
  * Created by bigShark on 2017/1/20.
  */
 
-public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
+public class BaseOrderAdapter extends BaseRecyclerAdapter<BaseOrderAdapter.OrderViewHolder> {
     private Context context;
     private List<OrderResult.Order> datas;
     private ItemOnClickListener itemOnClickListener;
 
-    public OrderListAdapter(Context context, List<OrderResult.Order> datas) {
+    public BaseOrderAdapter(Context context, List<OrderResult.Order> datas) {
         this.context = context;
         this.datas = datas;
     }
@@ -37,15 +38,20 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(
-                R.layout.item_mine_order_list_layout, parent, false);
-        SupportMultipleScreensUtil.scale(v);
-        return new ViewHolder(v,itemOnClickListener);
+    public OrderViewHolder getViewHolder(View view) {
+        return new OrderViewHolder(view,false,itemOnClickListener);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public OrderViewHolder onCreateViewHolder(ViewGroup parent, int viewType, boolean isItem) {
+        View v = LayoutInflater.from(context).inflate(
+                R.layout.item_mine_order_list_layout, parent, false);
+        SupportMultipleScreensUtil.scale(v);
+        return new OrderViewHolder(v,true,itemOnClickListener);
+    }
+
+    @Override
+    public void onBindViewHolder(OrderViewHolder holder, int position, boolean isItem) {
         OrderResult.Order order = datas.get(position);
         holder.btLogistics.setVisibility(View.VISIBLE);
         holder.btReceipt.setVisibility(View.VISIBLE);
@@ -60,7 +66,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         } else if ("1".equals(order.getStatus())) {
             holder.stvNo.setRightString("待发货");
             holder.btLogistics.setVisibility(View.GONE);
-            holder.btReceipt.setText("收货");
+            holder.btReceipt.setVisibility(View.GONE);
         } else if ("2".equals(order.getStatus())) {
             holder.stvNo.setRightString("已发货");
             holder.btLogistics.setText("查看物流");
@@ -92,11 +98,11 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     }
 
     @Override
-    public int getItemCount() {
-        return datas.size();
+    public int getAdapterItemCount() {
+        return this.datas.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ItemOnClickListener itemOnClickListener;
         private SuperTextView stvNo;
         private OrderGoodListView ogList;
@@ -104,24 +110,26 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         private Button btLogistics;
         private Button btReceipt;
 
-        public ViewHolder(View itemView, final ItemOnClickListener itemOnClickListener) {
+        public OrderViewHolder(View itemView,boolean isItem ,final ItemOnClickListener itemOnClickListener) {
             super(itemView);
             this.itemOnClickListener = itemOnClickListener;
-            stvNo = (SuperTextView) itemView.findViewById(R.id.stv_no);
-            ogList = (OrderGoodListView) itemView.findViewById(R.id.og_list);
-            tvPrice = (TextView) itemView.findViewById(R.id.tv_price);
-            btLogistics = (Button) itemView.findViewById(R.id.bt_logistics);
-            btReceipt = (Button) itemView.findViewById(R.id.bt_receipt);
-            itemView.setOnClickListener(this);
-            btLogistics.setOnClickListener(this);
-            btReceipt.setOnClickListener(this);
-            stvNo.setOnSuperTextViewClickListener(new SuperTextView.OnSuperTextViewClickListener() {
-                @Override
-                public void onSuperTextViewClick() {
-                    super.onSuperTextViewClick();
-                    itemOnClickListener.onItemClick(stvNo, getPosition());
-                }
-            });
+            if(isItem) {
+                stvNo = (SuperTextView) itemView.findViewById(R.id.stv_no);
+                ogList = (OrderGoodListView) itemView.findViewById(R.id.og_list);
+                tvPrice = (TextView) itemView.findViewById(R.id.tv_price);
+                btLogistics = (Button) itemView.findViewById(R.id.bt_logistics);
+                btReceipt = (Button) itemView.findViewById(R.id.bt_receipt);
+                itemView.setOnClickListener(this);
+                btLogistics.setOnClickListener(this);
+                btReceipt.setOnClickListener(this);
+                stvNo.setOnSuperTextViewClickListener(new SuperTextView.OnSuperTextViewClickListener() {
+                    @Override
+                    public void onSuperTextViewClick() {
+                        super.onSuperTextViewClick();
+                        itemOnClickListener.onItemClick(stvNo, getPosition());
+                    }
+                });
+            }
         }
 
         @Override

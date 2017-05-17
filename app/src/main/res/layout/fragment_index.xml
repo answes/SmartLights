@@ -9,21 +9,21 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="450px"
-        android:layout_marginTop="400px">
+        android:layout_height="550px"
+        android:layout_marginTop="300px">
 
         <LinearLayout
             android:id="@+id/ll"
-            android:layout_width="400px"
-            android:layout_height="400px"
+            android:layout_width="500px"
+            android:layout_height="500px"
             android:layout_centerHorizontal="true"
             android:background="@drawable/index_ll_layer"
             android:gravity="center"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="400px"
-                android:layout_height="400px"
+                android:layout_width="500px"
+                android:layout_height="500px"
                 android:background="@drawable/index_bg"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -39,7 +39,7 @@
                     android:id="@+id/tv_speed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5px"
+                    android:layout_marginTop="15px"
                     android:text="0km/h"
                     android:textColor="@color/white"
                     android:textSize="48px" />
@@ -47,7 +47,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10px"
+                    android:layout_marginTop="20px"
                     android:orientation="horizontal">
 
                     <TextView
@@ -57,7 +57,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:drawableLeft="@drawable/index_icon_location"
-                        android:drawablePadding="5px"
+                        android:drawablePadding="15px"
                         android:text="路径"
                         android:textColor="@color/white"
                         android:textSize="30px" />
@@ -65,10 +65,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="56px"
+                        android:layout_marginLeft="76px"
                         android:layout_weight="1"
                         android:drawableLeft="@drawable/index_icon_ele"
-                        android:drawablePadding="5px"
+                        android:drawablePadding="15px"
                         android:gravity="center"
                         android:text="电量"
                         android:textColor="@color/white"

@@ -25,6 +25,7 @@ import com.bigshark.smartlight.pro.index.view.MapActivity;
 import com.bigshark.smartlight.pro.index.view.navigation.IndexNavigationBuilder;
 import com.bigshark.smartlight.pro.mine.view.MessgeActivity;
 import com.bigshark.smartlight.pro.mine.view.MineActivity;
+import com.bigshark.smartlight.utils.GPSUtil;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 
 import butterknife.BindView;
@@ -113,11 +114,14 @@ public class IndexActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_find:
+
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
-                    //申请WRITE_EXTERNAL_STORAGE权限
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0x01);
                 } else {
+                    if(!GPSUtil.isOPen(this)){
+                        GPSUtil.openGPS(this);
+                    }
                     isStart = true;
                     mapPreseter.start();
                     new Thread(new Runnable() {
@@ -126,7 +130,6 @@ public class IndexActivity extends BaseActivity {
                             ((SmartLightsApplication) IndexActivity.this.getApplication()).initJson();
                         }
                     }).start();
-                    // btnFind.setText("结束骑行");
                     btnFind.setVisibility(View.GONE);
                     IndexBottom.setVisibility(View.VISIBLE);
                 }
@@ -140,14 +143,14 @@ public class IndexActivity extends BaseActivity {
                 break;
             case R.id.bt_finish:
                 mapPreseter.stop();
-                EndConfirmActivity.openMapActivity(this, mapPreseter.getUplodeRecord(), mapPreseter.getSavesLatlng(),mapPreseter);
+                EndConfirmActivity.openMapActivity(this, mapPreseter.getUplodeRecord(), mapPreseter.getSavesLatlng(), mapPreseter);
                 break;
             case R.id.bt_stop:
-                if(btStop.getText().toString().equals("暂停骑行")) {
+                if (btStop.getText().toString().equals("暂停骑行")) {
                     isStart = false;
                     btStop.setText("恢复骑行");
                     mapPreseter.stop();
-                }else{
+                } else {
                     btStop.setText("暂停骑行");
                     isStart = true;
                     mapPreseter.restart();
@@ -157,6 +160,7 @@ public class IndexActivity extends BaseActivity {
     }
 
     @Override
+
     protected void onResume() {
         super.onResume();
         registerBroadCasst();
@@ -224,7 +228,7 @@ public class IndexActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == EndConfirmActivity.REQUEST_END_CONFIRM && RESULT_OK ==resultCode ){
+        if (requestCode == EndConfirmActivity.REQUEST_END_CONFIRM && RESULT_OK == resultCode) {
             btnFind.setVisibility(View.VISIBLE);
             IndexBottom.setVisibility(View.GONE);
             tvSpeed.setText("0.00km/h");
@@ -233,7 +237,7 @@ public class IndexActivity extends BaseActivity {
             tvHeight.setText("0.0m");
             tvSpeed2.setText("0.00km/h");
             tvHighSpeed.setText("0.00km/h");
-        }else if(requestCode == EndConfirmActivity.REQUEST_END_CONFIRM && RESULT_OK == resultCode){
+        } else if (requestCode == EndConfirmActivity.REQUEST_END_CONFIRM && RESULT_OK == resultCode) {
             mapPreseter.restart();
         }
     }

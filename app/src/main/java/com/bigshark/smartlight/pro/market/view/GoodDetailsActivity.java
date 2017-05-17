@@ -151,7 +151,7 @@ public class GoodDetailsActivity extends BaseActivity {
     }
 
     private void addCar(final boolean idBuy) {
-        presenter.addGoodToCar(good.getId(),good.getPrice(), new BasePresenter.OnUIThreadListener<String>() {
+        presenter.addGoodToCar(good.getId(),good.getPrice(),good.getImg().get(0), new BasePresenter.OnUIThreadListener<String>() {
             @Override
             public void onResult(String result) {
                 if(idBuy){
