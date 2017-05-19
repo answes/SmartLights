@@ -45,6 +45,7 @@ dependencies {
     //选择相册，拍照，视频库
     compile files('libs/AMap2DMap_4.2.0_AMapLocation_3.3.0_20170120.jar')
     compile files('libs/wechat-sdk-android-with-mta-1.0.2.jar')
+    //compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
@@ -59,7 +60,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.contrarywind:Android-PickerView:3.2.4'
     compile 'com.github.LuckSiege.PictureSelector:picture_library:v1.2.7'
-    //compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
 }

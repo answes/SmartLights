@@ -12,12 +12,11 @@
         android:background="#2f3040"
         android:layout_height="wrap_content">
         <TextView
-            android:layout_width="1022px"
+            android:layout_width="match_parent"
             android:id="@+id/tv_date"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:textSize="49px"
-            android:text=""
+            android:textSize="48px"
+            android:paddingLeft="20px"
+            android:gravity="center_vertical"
             android:textColor="@color/white"
             android:layout_height="135px" />
     </LinearLayout>
@@ -188,28 +187,6 @@
             android:id="@+id/mapview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-        <Button
-            android:id="@+id/btn_cancel"
-            android:layout_width="160px"
-            android:gravity="center"
-            android:layout_margin="40px"
-            android:text="取消"
-            android:visibility="gone"
-            android:textColor="@color/white"
-            android:background="@drawable/shape_cicle_read"
-            android:layout_gravity="left|bottom"
-            android:layout_height="160px" />
-        <Button
-            android:id="@+id/btn_confirm"
-            android:layout_width="160px"
-            android:layout_margin="40px"
-            android:gravity="center"
-            android:visibility="gone"
-            android:text="确定"
-            android:textColor="@color/white"
-            android:background="@drawable/shape_cicle_blue"
-            android:layout_gravity="right|bottom"
-            android:layout_height="160px" />
     </FrameLayout>
 
 </LinearLayout>

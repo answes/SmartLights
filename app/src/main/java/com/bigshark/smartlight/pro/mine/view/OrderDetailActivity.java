@@ -60,8 +60,10 @@ public class OrderDetailActivity extends BaseActivity {
     TextView tvAddress;
     @BindView(R.id.ll_left)
     LinearLayout llLeft;
-    @BindView(R.id.stv_no)
-    SuperTextView stvNo;
+    @BindView(R.id.tv_no)
+    TextView tvNo;
+    @BindView(R.id.tv_state)
+    TextView tvState;
     @BindView(R.id.og_list)
     OrderGoodListView ogList;
     @BindView(R.id.tv_totalPrice)
@@ -206,14 +208,14 @@ public class OrderDetailActivity extends BaseActivity {
         stvName.setLeftString(order.getUsername());
         stvName.setRightString(order.getTel());
         tvAddress.setText("收货地址:".concat(order.getAddress()));
-        stvNo.setLeftString("订单编号：".concat(order.getOrder_num()));
+        tvNo.setText("订单编号：".concat(order.getOrder_num()));
         tvTotalPrice.setText("商品总价：".concat(order.getGmoney()));
         tvPrice.setText("共".concat(String.valueOf(goods.size())).concat("件商品， 合计：¥ ").concat(order.getOmoney()));
     }
 
     private void setState(String color, String state) {
-        stvNo.setRightString(state);
-        stvNo.setRightTVColor(Color.parseColor(color));
+        tvState.setText(state);
+        tvState.setTextColor(Color.parseColor(color));
     }
 
     private void initToolbar() {
@@ -247,6 +249,7 @@ public class OrderDetailActivity extends BaseActivity {
                 if (result == 1) {
                     showMsg("成功");
                     getOrder();
+                    OrderDetailActivity.this.setResult(RESULT_OK);
                 } else {
                     showMsg("失败");
                 }

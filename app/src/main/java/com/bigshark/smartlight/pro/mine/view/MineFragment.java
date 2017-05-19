@@ -65,7 +65,6 @@ public class MineFragment extends BaseFragment {
                 RideActivity.openRideActivity(getActivity());
                 break;
             case R.id.stv_myorder:
-                OrderActivity.openOrderActivity(getActivity());
                 break;
             case R.id.stv_myEquipment:
                 EquipmentActivity.openEquipmentActivity(getActivity());

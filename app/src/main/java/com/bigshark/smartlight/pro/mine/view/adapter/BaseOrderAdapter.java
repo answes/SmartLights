@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.allen.library.SuperTextView;
 import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
 import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.bean.OrderResult;
@@ -55,31 +54,31 @@ public class BaseOrderAdapter extends BaseRecyclerAdapter<BaseOrderAdapter.Order
         OrderResult.Order order = datas.get(position);
         holder.btLogistics.setVisibility(View.VISIBLE);
         holder.btReceipt.setVisibility(View.VISIBLE);
-        holder.stvNo.setLeftString("订单编号：".concat(order.getOrder_num()));
+        holder.tvNo.setText("订单编号：".concat(order.getOrder_num()));
 
         //订单状态0:待付款,1:待发货，2:已发货,3:已完成,-1,已取消
-        holder.stvNo.setRightTVColor(Color.parseColor("#ee3c57"));
+        holder.tvState.setTextColor(Color.parseColor("#ee3c57"));
         if ("0".equals(order.getStatus())) {
-            holder.stvNo.setRightString("待付款");
+            holder.tvState.setText("待付款");
             holder.btLogistics.setText("取消");
             holder.btReceipt.setText("付款");
         } else if ("1".equals(order.getStatus())) {
-            holder.stvNo.setRightString("待发货");
+            holder.tvState.setText("待发货");
             holder.btLogistics.setVisibility(View.GONE);
             holder.btReceipt.setVisibility(View.GONE);
         } else if ("2".equals(order.getStatus())) {
-            holder.stvNo.setRightString("已发货");
+            holder.tvState.setText("已发货");
             holder.btLogistics.setText("查看物流");
             holder.btReceipt.setText("收货");
         } else if ("3".equals(order.getStatus())) {
-            holder.stvNo.setRightString("已完成");
+            holder.tvState.setText("已完成");
             holder.btLogistics.setVisibility(View.GONE);
             holder.btReceipt.setVisibility(View.GONE);
         } else if ("-1".equals(order.getStatus())) {
-            holder.stvNo.setRightString("已取消");
+            holder.tvState.setText("已取消");
             holder.btLogistics.setVisibility(View.GONE);
             holder.btReceipt.setVisibility(View.GONE);
-            holder.stvNo.setRightTVColor(Color.parseColor("#7D7D7D"));
+            holder.tvState.setTextColor(Color.parseColor("#7D7D7D"));
         }
 
         if (!"null".equals(order.getGitems())) {
@@ -104,7 +103,8 @@ public class BaseOrderAdapter extends BaseRecyclerAdapter<BaseOrderAdapter.Order
 
     class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ItemOnClickListener itemOnClickListener;
-        private SuperTextView stvNo;
+        private TextView tvNo;
+        private TextView tvState;
         private OrderGoodListView ogList;
         private TextView tvPrice;
         private Button btLogistics;
@@ -114,7 +114,8 @@ public class BaseOrderAdapter extends BaseRecyclerAdapter<BaseOrderAdapter.Order
             super(itemView);
             this.itemOnClickListener = itemOnClickListener;
             if(isItem) {
-                stvNo = (SuperTextView) itemView.findViewById(R.id.stv_no);
+                tvNo = (TextView) itemView.findViewById(R.id.tv_no);
+                tvState = (TextView) itemView.findViewById(R.id.tv_state);
                 ogList = (OrderGoodListView) itemView.findViewById(R.id.og_list);
                 tvPrice = (TextView) itemView.findViewById(R.id.tv_price);
                 btLogistics = (Button) itemView.findViewById(R.id.bt_logistics);
@@ -122,13 +123,6 @@ public class BaseOrderAdapter extends BaseRecyclerAdapter<BaseOrderAdapter.Order
                 itemView.setOnClickListener(this);
                 btLogistics.setOnClickListener(this);
                 btReceipt.setOnClickListener(this);
-                stvNo.setOnSuperTextViewClickListener(new SuperTextView.OnSuperTextViewClickListener() {
-                    @Override
-                    public void onSuperTextViewClick() {
-                        super.onSuperTextViewClick();
-                        itemOnClickListener.onItemClick(stvNo, getPosition());
-                    }
-                });
             }
         }
 

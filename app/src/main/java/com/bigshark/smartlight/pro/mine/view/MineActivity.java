@@ -105,7 +105,6 @@ public class MineActivity extends BaseActivity {
                 RideActivity.openRideActivity(this);
                 break;
             case R.id.stv_myorder:
-//                OrderActivity.openOrderActivity(this);
                 MyOrderActivity.openMyOrderActivity(this);
                 break;
             case R.id.stv_myEquipment:

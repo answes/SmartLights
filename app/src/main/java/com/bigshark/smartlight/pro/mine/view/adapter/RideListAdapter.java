@@ -12,6 +12,7 @@ import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.bean.Ride;
 import com.bigshark.smartlight.utils.DateFomat;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
+import com.bigshark.smartlight.utils.ToastUtil;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -22,10 +23,11 @@ import java.util.List;
 public class RideListAdapter extends BaseRecyclerAdapter<RideListAdapter.MyViewHolder> {
     private List<Ride.Bike>  list;
     private Context context;
-    private ItemOnClickListener itemOnClickListener;
+    private OnItemOnClickListenr onItemOnClickListenr;
 
-    public void setItemOnClickListener(ItemOnClickListener itemOnClickListener) {
-        this.itemOnClickListener = itemOnClickListener;
+
+    public void setOnItemOnClickListre(OnItemOnClickListenr onItemOnClickListenr){
+        this.onItemOnClickListenr = onItemOnClickListenr;
     }
 
     public RideListAdapter(Context context, List<Ride.Bike> list){
@@ -34,20 +36,20 @@ public class RideListAdapter extends BaseRecyclerAdapter<RideListAdapter.MyViewH
     }
     @Override
     public MyViewHolder getViewHolder(View view) {
-        return new MyViewHolder(view,false,itemOnClickListener);
+        return new MyViewHolder(view,false,onItemOnClickListenr);
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType, boolean isItem) {
-        MyViewHolder myViewHolder = new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_mine_ride_list_layout,parent,false),true,itemOnClickListener);
+        MyViewHolder myViewHolder = new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_mine_ride_list_layout,parent,false),true,onItemOnClickListenr);
         return myViewHolder;
     }
 
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position, boolean isItem) {
-        Double cny = Double.parseDouble(list.get(position).getDistance());//转换成Double
-        DecimalFormat df = new DecimalFormat("0.00");//格式化
+    public void onBindViewHolder(MyViewHolder holder, final int position, boolean isItem) {
+        final Double cny = Double.parseDouble(list.get(position).getDistance())/1000;
+        DecimalFormat df = new DecimalFormat("0.000");
         holder.distance.setText(df.format(cny));
         holder.time.setText(DateFomat.convertSecond2DateSS(list.get(position).getCre_tm()));
     }
@@ -58,31 +60,33 @@ public class RideListAdapter extends BaseRecyclerAdapter<RideListAdapter.MyViewH
     }
 
 
-    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        OnItemOnClickListenr myonItemOnClickListenr;
         TextView distance;
         TextView time;
-        private ItemOnClickListener itemOnClickListener;
-        public MyViewHolder(View itemView,boolean is,ItemOnClickListener itemOnClickListener) {
+        public MyViewHolder(View itemView,boolean is,OnItemOnClickListenr myonItemOnClickListenr) {
             super(itemView);
+            this.myonItemOnClickListenr = myonItemOnClickListenr;
             SupportMultipleScreensUtil.scale(itemView);
             if(is){
-                this.itemOnClickListener = itemOnClickListener;
                 distance = (TextView) itemView.findViewById(R.id.tv_distance);
                 time = (TextView) itemView.findViewById(R.id.tv_time);
-                itemView.setOnClickListener(this);
             }
-
+            itemView.setOnClickListener(this);
         }
+
         @Override
         public void onClick(View view) {
-            if (itemOnClickListener != null) {
-                itemOnClickListener.onItemClick(view, getPosition());
+            ToastUtil.showToast(context,"点击");
+                if(myonItemOnClickListenr != null){
+                    myonItemOnClickListenr.clickItem(view,getPosition());
             }
         }
     }
 
-    public interface ItemOnClickListener {
-        void onItemClick(View view, int postion);
+
+    public interface  OnItemOnClickListenr{
+        void clickItem(View view , int postin);
     }
 
 }

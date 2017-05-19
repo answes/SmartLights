@@ -87,6 +87,12 @@ public class RideActivity extends BaseActivity {
             }
         });
 
+        adapter.setOnItemOnClickListre(new RideListAdapter.OnItemOnClickListenr() {
+            @Override
+            public void clickItem(View view, int postin) {
+                RideDetailActivity.openRideDetailActivity(RideActivity.this,datas.get(postin).getId());
+            }
+        });
 
         loadDatas(true);
 

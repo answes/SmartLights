@@ -6,15 +6,31 @@
               android:layout_height="wrap_content"
               android:layout_marginBottom="15px"
              >
-    <com.allen.library.SuperTextView
-        android:id="@+id/stv_no"
+    <LinearLayout
         android:layout_width="match_parent"
-        app:sLeftTextSize="40px"
-        app:sLeftTextString="订单编号：01923847083"
-        app:sLeftTextColor="#3d444a"
-        app:sRightTextString="待收货"
-        app:sLineShow="none"
-        android:layout_height="120px"/>
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:layout_height="120px">
+        <TextView
+            android:id="@+id/tv_no"
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:textColor="#3d444a"
+            android:textSize="40px"
+            android:paddingLeft="38px"
+            android:gravity="center_vertical"
+            android:text="订单编号：01923847083"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/tv_state"
+            android:layout_width="wrap_content"
+            android:textSize="40px"
+            android:textColor="#3d444a"
+            android:gravity="center_vertical"
+            android:paddingRight="38px"
+            android:text="待收货"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
    <com.bigshark.smartlight.weight.OrderGoodListView
        android:id="@+id/og_list"
@@ -47,18 +63,19 @@
             android:layout_width="0px"
             android:layout_weight="1"
             android:layout_height="match_parent"/>
+
         <Button
             android:id="@+id/bt_logistics"
             android:layout_width="202px"
-            android:background="@drawable/fragment_order_bt_bg"
-            android:textColor="@color/text_fist"
+            android:layout_height="86px"
             android:layout_gravity="center_vertical"
-            android:text="查看物流"
+            android:layout_marginBottom="30px"
             android:layout_marginRight="15px"
             android:layout_marginTop="30px"
-            android:layout_marginBottom="30px"
-            android:textSize="40px"
-            android:layout_height="86px"/>
+            android:background="@drawable/fragment_order_bt_bg"
+            android:text="查看物流"
+            android:textColor="@color/text_fist"
+            android:textSize="40px" />
 
         <Button
             android:id="@+id/bt_receipt"

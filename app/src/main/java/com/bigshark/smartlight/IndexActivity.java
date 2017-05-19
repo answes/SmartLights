@@ -142,6 +142,7 @@ public class IndexActivity extends BaseActivity {
                 }
                 break;
             case R.id.bt_finish:
+                isStart = false;
                 mapPreseter.stop();
                 EndConfirmActivity.openMapActivity(this, mapPreseter.getUplodeRecord(), mapPreseter.getSavesLatlng(), mapPreseter);
                 break;

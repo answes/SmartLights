@@ -1,6 +1,7 @@
 package com.bigshark.smartlight.pro.mine.view;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,6 +34,8 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by jlbs1 on 2017/5/16.
@@ -231,9 +234,16 @@ public class MyOrderFragment extends BaseFragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            loadDatas(true, getType());
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        loadDatas(true, getType());
     }
 
     @Override

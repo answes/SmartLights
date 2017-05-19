@@ -8,6 +8,8 @@ import android.util.Log;
 import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
+import com.bigshark.smartlight.pro.market.view.PayActivity;
+import com.bigshark.smartlight.pro.mine.view.OrderDetailActivity;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -33,7 +35,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
             builder.setMessage("支付返回的结果是"+getString(R.string.pay_result_callback_msg, String.valueOf(baseResp.errCode)));
             AlertDialog dialog = builder.show();
         }
-        //OrderDetailActivity.openOrderDetailActivityForResult(WXPayEntryActivity.this, Integer.parseInt(PayActivity.order.getData().get(0).getId()));
+        OrderDetailActivity.openOrderDetailActivityForResult(WXPayEntryActivity.this, Integer.parseInt(PayActivity.order.getData().get(0).getId()));
     }
 
     @Override

@@ -14,6 +14,7 @@ import com.bigshark.smartlight.bean.OrderDetailResult;
 import com.bigshark.smartlight.bean.OrderResult;
 import com.bigshark.smartlight.bean.RegisterResult;
 import com.bigshark.smartlight.bean.Ride;
+import com.bigshark.smartlight.bean.RideDetailResult;
 import com.bigshark.smartlight.http.VolleyHttpUtils;
 import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.mine.model.MineModel;
@@ -198,6 +199,7 @@ public class MinePresenter extends BasePresenter<MineModel> {
     }
 
     public void getBikeList(final boolean isDownRefresh, final OnUIThreadListener<List<Ride.Bike>> onUIThreadListener){
+        Log.e(TAG, "getBikeList: page = "+ page );
         getModel().getBikeList( page,  new VolleyHttpUtils.HttpResult() {
             @Override
             public void succss(String result) {
@@ -270,6 +272,26 @@ public class MinePresenter extends BasePresenter<MineModel> {
                 CodeBean codeBean = JSON.parseObject(t,CodeBean.class);
                 if(codeBean.getCode() == 1){
                     onUIThreadListener.onResult(String.valueOf(codeBean.getData()));
+                }else{
+                    onUIThreadListener.onErro(codeBean.getExtra());
+                }
+            }
+
+            @Override
+            public void erro(String msg) {
+                onUIThreadListener.onErro(msg);
+            }
+        });
+    }
+
+    public void getRideDetail(String id , final OnUIThreadListener<RideDetailResult.RideDetail> onUIThreadListener){
+        getModel().getRideDetail(id, new VolleyHttpUtils.HttpResult() {
+            @Override
+            public void succss(String t) {
+                Log.e("getRideDetail",t);
+                RideDetailResult codeBean = JSON.parseObject(t,RideDetailResult.class);
+                if(codeBean.getCode() == 1){
+                    onUIThreadListener.onResult(codeBean.getData());
                 }else{
                     onUIThreadListener.onErro(codeBean.getExtra());
                 }
