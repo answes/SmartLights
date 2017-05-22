@@ -290,7 +290,7 @@ public class MinePresenter extends BasePresenter<MineModel> {
             public void succss(String t) {
                 Log.e("getRideDetail",t);
                 RideDetailResult codeBean = JSON.parseObject(t,RideDetailResult.class);
-                if(codeBean.getCode() == 1){
+                if(codeBean != null ){
                     onUIThreadListener.onResult(codeBean.getData());
                 }else{
                     onUIThreadListener.onErro(codeBean.getExtra());

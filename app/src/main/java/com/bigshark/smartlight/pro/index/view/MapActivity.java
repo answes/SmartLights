@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,6 +32,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MapActivity extends BaseActivity {
 
@@ -54,7 +56,12 @@ public class MapActivity extends BaseActivity {
     TextView tvCal;
     @BindView(R.id.tv_height)
     TextView tvHeight;
+    @BindView(R.id.btn_cancel)
+    Button btnCancel;
+    @BindView(R.id.btn_confirm)
+    Button btnConfirm;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日的骑行");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +75,7 @@ public class MapActivity extends BaseActivity {
             mapview.getMap().clear();
             mapview.getMap().addPolyline(new PolylineOptions().
                     addAll(latLngs).width(10).color(Color.argb(255, 1, 1, 1)));
-            mapview.getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(latLngs.get(latLngs.size()-1),18));
+            mapview.getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(latLngs.get(latLngs.size() - 1), 18));
         }
     }
 
@@ -91,7 +98,8 @@ public class MapActivity extends BaseActivity {
     private static UpLoadRecord upLoadRecord;
     private static boolean isDoing = false;//正在骑行
     private static List<LatLng> latLngs;
-    public static void openMapActivity(Activity activity, UpLoadRecord upLoadRecord, boolean isDoing,List<LatLng> latLngs) {
+
+    public static void openMapActivity(Activity activity, UpLoadRecord upLoadRecord, boolean isDoing, List<LatLng> latLngs) {
         MapActivity.upLoadRecord = upLoadRecord;
         MapActivity.isDoing = isDoing;
         MapActivity.latLngs = latLngs;
@@ -109,6 +117,7 @@ public class MapActivity extends BaseActivity {
 
     private MapLocationRecive mapLocationRecive;
     private boolean isFist = true;
+
     private void registerBroadCasst() {
         if (mapLocationRecive == null) {
             mapLocationRecive = new MapLocationRecive(new MapLocationRecive.OnLocationReciveListener() {
@@ -117,25 +126,26 @@ public class MapActivity extends BaseActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            latLngs = new Gson().fromJson(record.getGps(),new TypeToken<List<LatLng>>(){}.getType());
-                            Log.e("TAG", "run: " +  record.getGps());
-                            tvHeight.setText(String.valueOf((double)record.getHeight()));
-                            tvMax.setText(String.format("%.2f",record.getMaxSpeed()));
-                            tvCal.setText(String.format("%.2f",record.getK()));
-                            tvAvgSpeed.setText(String.format("%.2f",record.getAvSpeed()));
-                            tvTotal.setText(String.format("%.2f",(record.getDistance())/1000));
+                            latLngs = new Gson().fromJson(record.getGps(), new TypeToken<List<LatLng>>() {
+                            }.getType());
+                            Log.e("TAG", "run: " + record.getGps());
+                            tvHeight.setText(String.valueOf((double) record.getHeight()));
+                            tvMax.setText(String.format("%.2f", record.getMaxSpeed()));
+                            tvCal.setText(String.format("%.2f", record.getK()));
+                            tvAvgSpeed.setText(String.format("%.2f", record.getAvSpeed()));
+                            tvTotal.setText(String.format("%.2f", (record.getDistance()) / 1000));
                             tvHour.setText(new StringBuffer()
-                            .append(String.format("%02d",record.getTime()/(60*60*1000)))
-                            .append(":")
-                            .append(String.format("%02d",record.getTime()%(60*60*1000)/(60*1000)))
+                                    .append(String.format("%02d", record.getTime() / (60 * 60 * 1000)))
                                     .append(":")
-                                    .append((String.format("%02d",record.getTime()%(60*60*1000)%(60*1000)/(1000))))
+                                    .append(String.format("%02d", record.getTime() % (60 * 60 * 1000) / (60 * 1000)))
+                                    .append(":")
+                                    .append((String.format("%02d", record.getTime() % (60 * 60 * 1000) % (60 * 1000) / (1000))))
                                     .toString()
                             );
                             mapview.getMap().clear();
                             mapview.getMap().addPolyline(new PolylineOptions().
                                     addAll(latLngs).width(10).color(Color.argb(255, 1, 1, 1)));
-                            if(isFist) {
+                            if (isFist) {
                                 isFist = false;
                                 mapview.getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(latLngs.get(latLngs.size() - 1), 18));
                             }
@@ -175,4 +185,8 @@ public class MapActivity extends BaseActivity {
         }
     }
 
+    @OnClick(R.id.tv_info)
+    public void onViewClicked() {
+//        SpeedDetailActivity.openSpeedDetailActivity(this);
+    }
 }

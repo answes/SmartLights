@@ -105,7 +105,9 @@ public class OrderGoodListView extends LinearLayout {
         }else{
             stvNumber.setRightString("x ".concat(good.getNum()));
         }
+
         SupportMultipleScreensUtil.scale(view);
         return  view;
     }
+
 }

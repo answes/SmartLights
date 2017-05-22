@@ -41,6 +41,7 @@
     android:id="@+id/stv_myStroke"
     android:layout_width="match_parent"
     app:sLeftTextSize="40px"
+        app:sUseRipple="true"
     app:sLeftTextColor="#3d444a"
     android:layout_marginTop="58px"
     android:layout_height="130px"
@@ -54,6 +55,7 @@
         app:sLeftTextSize="40px"
         app:sLeftTextColor="#3d444a"
         android:layout_height="130px"
+        app:sUseRipple="true"
         app:sLeftTextString="@string/mine_myorder"
         app:sRightIconRes="@drawable/right_comein"
         />
@@ -63,6 +65,7 @@
         app:sLeftTextSize="40px"
         app:sLeftTextColor="#3d444a"
         android:layout_height="130px"
+        app:sUseRipple="true"
         app:sLeftTextString="@string/mine_myequipment"
         app:sRightIconRes="@drawable/right_comein"
         />
@@ -72,6 +75,7 @@
         android:layout_width="match_parent"
         app:sLeftTextSize="40px"
         app:sLeftTextColor="#3d444a"
+        app:sUseRipple="true"
         android:layout_height="130px"
         app:sLeftTextString="@string/mine_market"
         app:sRightIconRes="@drawable/right_comein"
@@ -83,6 +87,7 @@
         app:sLeftTextSize="40px"
         app:sLeftTextColor="#3d444a"
         android:layout_height="130px"
+        app:sUseRipple="true"
         app:sLeftTextString="@string/mine_set"
         app:sRightIconRes="@drawable/right_comein"
         />

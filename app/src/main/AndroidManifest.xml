@@ -110,8 +110,10 @@
         <activity android:name=".pro.index.view.EndConfirmActivity" />
         <activity android:name=".pro.mine.view.UpdateNumActivity" />
         <activity android:name=".pro.mine.view.MyOrderActivity" />
-        <activity android:name=".pro.mine.view.RideDetailActivity"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".pro.mine.view.RideDetailActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".pro.index.view.SpeedDetailActivity"></activity>
     </application>
 
 </manifest>

@@ -12,7 +12,6 @@ import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.bean.Ride;
 import com.bigshark.smartlight.utils.DateFomat;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
-import com.bigshark.smartlight.utils.ToastUtil;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -77,7 +76,6 @@ public class RideListAdapter extends BaseRecyclerAdapter<RideListAdapter.MyViewH
 
         @Override
         public void onClick(View view) {
-            ToastUtil.showToast(context,"点击");
                 if(myonItemOnClickListenr != null){
                     myonItemOnClickListenr.clickItem(view,getPosition());
             }

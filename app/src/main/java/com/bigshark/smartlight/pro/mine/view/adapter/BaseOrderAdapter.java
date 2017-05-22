@@ -92,8 +92,6 @@ public class BaseOrderAdapter extends BaseRecyclerAdapter<BaseOrderAdapter.Order
         } else {
             holder.tvPrice.setText("共".concat(String.valueOf(1)).concat("件商品， 合计：¥ ").concat(order.getOmoney()));
         }
-
-
     }
 
     @Override
