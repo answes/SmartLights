@@ -2,12 +2,16 @@ package com.bigshark.smartlight.pro.mine.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapView;
+import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.PolylineOptions;
 import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.bean.RideDetailResult;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
@@ -16,7 +20,12 @@ import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.mine.presenter.MinePresenter;
 import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
 import com.bigshark.smartlight.utils.DateFomat;
+import com.bigshark.smartlight.utils.JSONUtil;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,6 +65,7 @@ public class RideDetailActivity extends BaseActivity {
         ButterKnife.bind(this);
         initToolbar();
         SupportMultipleScreensUtil.scale(activityMap);
+        mapview.onCreate(savedInstanceState);
         getIntentAndData();
     }
 
@@ -82,16 +92,16 @@ public class RideDetailActivity extends BaseActivity {
     }
 
     private void setData(RideDetailResult.RideDetail result) {
-//        List<LatLng> latLngs = JSONUtil.getObjects(result.getGps(),LatLng.class);
+        List<LatLng> latLngs = new Gson().fromJson(result.getGps(),new TypeToken<List<LatLng>>(){}.getType());
         int time = Integer.parseInt(result.getTime());
 
         tvDate.setText(DateFomat.convertSecond2Date(result.getCre_tm()).concat("的骑行"));
-//        if (null != latLngs && latLngs.size() != 0) {
-//            mapview.getMap().clear();
-//            mapview.getMap().addPolyline(new PolylineOptions().
-//                    addAll(latLngs).width(10).color(Color.argb(255, 1, 1, 1)));
-//            mapview.getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(latLngs.get(latLngs.size()-1),18));
-//        }
+        if (null != latLngs && latLngs.size() != 0) {
+            mapview.getMap().clear();
+            mapview.getMap().addPolyline(new PolylineOptions().
+                    addAll(latLngs).width(10).color(Color.argb(255, 1, 1, 1)));
+            mapview.getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(latLngs.get(latLngs.size()-1),18));
+        }
         tvHeight.setText(result.getHeight());
         tvMax.setText(result.getMaxspeed());
         tvCal.setText(result.getHeat());
@@ -126,5 +136,23 @@ public class RideDetailActivity extends BaseActivity {
     @OnClick(R.id.tv_info)
     public void onViewClicked() {
        // SpeedDetailActivity.openSpeedDetailActivity(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onRestart();
+        mapview.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mapview.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mapview.onDestroy();
     }
 }
