@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.bigshark.smartlight.pro.index.view.DeviceControlActivity">
+    <TextView
+        android:id="@+id/tv_device_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="设备名称:" />
+    <TextView
+        android:id="@+id/tv_device_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="设备地址:" />
+    <TextView
+        android:id="@+id/tv_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="状态:" />
+    <TextView
+        android:id="@+id/tv_data"
+        android:layout_width="match_parent"
+        android:text="数据:"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_batery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="回复电量" />
+        <Button
+            android:id="@+id/btn_brake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="回复刹车" />
+        <Button
+            android:id="@+id/btn_turn_on"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="回复转向" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_turn_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="左转" />
+        <Button
+            android:id="@+id/btn_turn_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="回复刹车" />
+        <Button
+            android:id="@+id/btn_find_car"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="寻车" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_open_alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="开启警戒" />
+        <Button
+            android:id="@+id/btn_close_alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="关闭警戒" />
+    </LinearLayout>
+</LinearLayout>

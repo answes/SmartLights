@@ -1,21 +1,27 @@
 package com.bigshark.smartlight;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.bigshark.smartlight.pro.index.service.BluetoothLeService;
 import com.bigshark.smartlight.pro.index.view.IndexFragment;
 import com.bigshark.smartlight.pro.market.view.MarketFragment;
 import com.bigshark.smartlight.pro.mine.view.MineFragment;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
+import com.bigshark.smartlight.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +32,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements TabHost.OnTabChangeListener {
 
     private List<TabItem> tabItemList;
+
+
 
     public static void oppenMainActivity(Activity activity){
         activity.startActivity(new Intent(activity,MainActivity.class));
@@ -39,6 +47,13 @@ public class MainActivity extends AppCompatActivity implements TabHost.OnTabChan
         initTabData();
         initTabHost();
         SupportMultipleScreensUtil.scale(rootView);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 
     //初始化Tab数据
@@ -202,4 +217,9 @@ public class MainActivity extends AppCompatActivity implements TabHost.OnTabChan
             return this.view;
         }
     }
+
+
+
+
+
 }

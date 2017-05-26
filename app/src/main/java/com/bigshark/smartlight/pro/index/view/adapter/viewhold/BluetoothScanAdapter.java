@@ -46,9 +46,15 @@ public class BluetoothScanAdapter extends RecyclerView.Adapter <BluetoothScanAda
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.superTextView.setLeftTopString(devices.get(position).getName()+"");
         holder.superTextView.setLeftBottomString(devices.get(position).getAddress()+"");
+        holder.superTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.onItemOnclickListner.onItemClick(position);
+            }
+        });
     }
 
     @Override

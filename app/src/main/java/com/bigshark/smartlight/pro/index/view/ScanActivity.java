@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -32,6 +33,7 @@ public class ScanActivity extends BaseActivity {
     LinearLayout activityScan;
 
     private BluetoothAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,15 +43,22 @@ public class ScanActivity extends BaseActivity {
         initData();
         initToolBar();
         adapter = BluetoothAdapter.getDefaultAdapter();
-        if(adapter == null){
+        if (adapter == null) {
             showMsg("当前设备不支持蓝牙设备");
         }
-        if(adapter.isEnabled()) {
+        if (adapter.isEnabled()) {
             adapter.startLeScan(callback);
-        }else{
+        } else {
             adapter.enable();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.startLeScan(callback);
+                }
+            }, 1000);
         }
     }
+
     BluetoothAdapter.LeScanCallback callback = new BluetoothAdapter.LeScanCallback() {
         @Override
         public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
@@ -57,7 +66,6 @@ public class ScanActivity extends BaseActivity {
                 @Override
                 public void run() {
                     check(device);
-                    bluetoothScanAdapter.notifyDataSetChanged();
                 }
             });
         }
@@ -65,7 +73,7 @@ public class ScanActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        if(adapter.isDiscovering()) {
+        if (adapter.isDiscovering()) {
             adapter.stopLeScan(callback);
         }
         super.onDestroy();
@@ -74,16 +82,17 @@ public class ScanActivity extends BaseActivity {
     /**
      * 检测是否拥有蓝牙
      */
-    private void check(BluetoothDevice device){
-        for (BluetoothDevice d:deivices){
-            if(d.getAddress().equals(device.getAddress())){
-                break;
+    private void check(BluetoothDevice device) {
+        for (BluetoothDevice d : deivices) {
+            if (d.getAddress().equals(device.getAddress())) {
+                return;
             }
         }
         deivices.add(device);
+        bluetoothScanAdapter.notifyDataSetChanged();
     }
 
-    private void initToolBar(){
+    private void initToolBar() {
         GoodDetailsNavigationBuilder toolbar = new GoodDetailsNavigationBuilder(this);
         toolbar.setLeftIcon(R.drawable.left_back)
                 .setLeftIconOnClickListener(new View.OnClickListener() {
@@ -96,22 +105,24 @@ public class ScanActivity extends BaseActivity {
 
     private List<BluetoothDevice> deivices;
     private BluetoothScanAdapter bluetoothScanAdapter;
+
     private void initData() {
         deivices = new ArrayList<>();
-        bluetooth.setLayoutManager( new LinearLayoutManager(this));
+        bluetooth.setLayoutManager(new LinearLayoutManager(this));
         bluetooth.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).size(20).colorResId(R.color.tongming).build());
-        bluetoothScanAdapter = new BluetoothScanAdapter(this,deivices);
+        bluetoothScanAdapter = new BluetoothScanAdapter(this, deivices);
         bluetooth.setAdapter(bluetoothScanAdapter);
         bluetoothScanAdapter.setOnItemOnclickListener(new BluetoothScanAdapter.onItemOnclickListner() {
             @Override
             public void onItemClick(int potsion) {
-                showMsg("链接蓝牙车灯设备地址为"+deivices.get(potsion).getAddress());
+                adapter.stopLeScan(callback);
+                DeviceControlActivity.oppenDeviceControlActivity(deivices.get(potsion).getAddress(), deivices.get(potsion).getName(), ScanActivity.this);
             }
         });
     }
 
-    public static  void openScanActivity(Activity activity){
-        activity.startActivity(new Intent(activity,ScanActivity.class));
+    public static void openScanActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, ScanActivity.class));
     }
 
     @Override

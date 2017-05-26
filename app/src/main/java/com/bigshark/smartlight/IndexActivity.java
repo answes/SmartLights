@@ -2,13 +2,17 @@ package com.bigshark.smartlight;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,13 +24,16 @@ import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.index.broadcast.MapLocationRecive;
 import com.bigshark.smartlight.pro.index.presenter.MapPreseter;
+import com.bigshark.smartlight.pro.index.service.BluetoothLeService;
 import com.bigshark.smartlight.pro.index.view.EndConfirmActivity;
 import com.bigshark.smartlight.pro.index.view.MapActivity;
+import com.bigshark.smartlight.pro.index.view.ScanActivity;
 import com.bigshark.smartlight.pro.index.view.navigation.IndexNavigationBuilder;
 import com.bigshark.smartlight.pro.mine.view.MessgeActivity;
 import com.bigshark.smartlight.pro.mine.view.MineActivity;
 import com.bigshark.smartlight.utils.GPSUtil;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
+import com.bigshark.smartlight.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,6 +78,9 @@ public class IndexActivity extends BaseActivity {
         ButterKnife.bind(this);
         initToolbar();
         SupportMultipleScreensUtil.scale(llContext);
+        //蓝牙连接服务
+        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
+        bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
     }
 
     private MapPreseter mapPreseter;
@@ -114,25 +124,25 @@ public class IndexActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_find:
-
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0x01);
-                } else {
-                    if(!GPSUtil.isOPen(this)){
-                        GPSUtil.openGPS(this);
-                    }
-                    isStart = true;
-                    mapPreseter.start();
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ((SmartLightsApplication) IndexActivity.this.getApplication()).initJson();
-                        }
-                    }).start();
-                    btnFind.setVisibility(View.GONE);
-                    IndexBottom.setVisibility(View.VISIBLE);
-                }
+                ScanActivity.openScanActivity(this);
+//                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+//                        != PackageManager.PERMISSION_GRANTED) {
+//                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0x01);
+//                } else {
+//                    if(!GPSUtil.isOPen(this)){
+//                        GPSUtil.openGPS(this);
+//                    }
+//                    isStart = true;
+//                    mapPreseter.start();
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            ((SmartLightsApplication) IndexActivity.this.getApplication()).initJson();
+//                        }
+//                    }).start();
+//                    btnFind.setVisibility(View.GONE);
+//                    IndexBottom.setVisibility(View.VISIBLE);
+//                }
                 break;
             case R.id.tv_location:
                 if (isStart) {
@@ -197,6 +207,8 @@ public class IndexActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         mapPreseter.finish(null);
+        unbindService(mServiceConnection);
+        mBluetoothLeService = null;
     }
 
     @Override
@@ -241,5 +253,29 @@ public class IndexActivity extends BaseActivity {
         } else if (requestCode == EndConfirmActivity.REQUEST_END_CONFIRM && RESULT_OK == resultCode) {
             mapPreseter.restart();
         }
+    }
+    private static BluetoothLeService mBluetoothLeService;//蓝牙连接服务
+    // Code to manage Service lifecycle.
+    private final ServiceConnection mServiceConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder service) {
+            mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
+            if (!mBluetoothLeService.initialize()) {
+                Log.e("Load", "Unable to initialize Bluetooth");
+                ToastUtil.showToast(IndexActivity.this,"次设",1000);
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            mBluetoothLeService = null;
+        }
+    };
+    public static  void conect(String addrss){
+        mBluetoothLeService.connect(addrss);
+    }
+    public static  void sendData(byte[] data){
+        Log.i("Test",mBluetoothLeService.sendValue(data)+"");
     }
 }
