@@ -52,7 +52,7 @@ dependencies {
     compile 'com.github.lygttpod:SuperTextView:1.0.9'
     compile 'com.android.support:design:24.0.0'
     compile 'com.android.support:recyclerview-v7:23.3.0'
-    compile 'com.huxq17.xrefreshview:xrefreshview:2.1.9'
+    compile 'com.huxq17.xrefreshview:xrefreshview:3.6.9'
     compile 'com.jude:easyrecyclerview:4.2.3'
     compile 'eu.the4thfloor.volley:com.android.volley:2015.05.28'
     compile 'com.youth.banner:banner:1.4.8'

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.bigshark.smartlight.bean.UpLoadRecord;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
+import com.bigshark.smartlight.pro.index.broadcast.BluetoothStateRecive;
 import com.bigshark.smartlight.pro.index.broadcast.MapLocationRecive;
 import com.bigshark.smartlight.pro.index.presenter.MapPreseter;
 import com.bigshark.smartlight.pro.index.service.BluetoothLeService;
@@ -43,6 +44,8 @@ import butterknife.OnClick;
  * 最新的首页
  */
 public class IndexActivity extends BaseActivity {
+    private boolean isLinkBlue;
+
     @BindView(R.id.tv_speed)
     TextView tvSpeed;
     @BindView(R.id.ll)
@@ -53,6 +56,8 @@ public class IndexActivity extends BaseActivity {
     TextView tvHot;
     @BindView(R.id.tv_total)
     TextView tvTotal;
+    @BindView(R.id.tv_ele)
+    TextView tvEle;
     @BindView(R.id.tv_height)
     TextView tvHeight;
     @BindView(R.id.tv_speed2)
@@ -124,25 +129,14 @@ public class IndexActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_find:
-                ScanActivity.openScanActivity(this);
-//                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-//                        != PackageManager.PERMISSION_GRANTED) {
-//                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0x01);
-//                } else {
-//                    if(!GPSUtil.isOPen(this)){
-//                        GPSUtil.openGPS(this);
-//                    }
-//                    isStart = true;
-//                    mapPreseter.start();
-//                    new Thread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            ((SmartLightsApplication) IndexActivity.this.getApplication()).initJson();
-//                        }
-//                    }).start();
-//                    btnFind.setVisibility(View.GONE);
-//                    IndexBottom.setVisibility(View.VISIBLE);
-//                }
+                if(!GPSUtil.isOPen(this)){
+                        GPSUtil.openGPS(this);
+                    }
+                    if(!isLinkBlue){
+                        ScanActivity.openScanActivity(this);
+                    }else{
+                        startRide();
+                    }
                 break;
             case R.id.tv_location:
                 if (isStart) {
@@ -170,6 +164,24 @@ public class IndexActivity extends BaseActivity {
         }
     }
 
+    private void startRide() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0x01);
+        } else {
+            isStart = true;
+            mapPreseter.start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ((SmartLightsApplication) IndexActivity.this.getApplication()).initJson();
+                }
+            }).start();
+            btnFind.setVisibility(View.GONE);
+            IndexBottom.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
 
     protected void onResume() {
@@ -178,6 +190,7 @@ public class IndexActivity extends BaseActivity {
     }
 
     private MapLocationRecive mapLocationRecive;
+    private BluetoothStateRecive bluetoothStateRecive;
 
     private void registerBroadCasst() {
         if (mapLocationRecive == null) {
@@ -198,9 +211,33 @@ public class IndexActivity extends BaseActivity {
                 }
             });
         }
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(MapLocationRecive.ACTION);
-        registerReceiver(mapLocationRecive, intentFilter);
+
+        if(null == bluetoothStateRecive){
+            bluetoothStateRecive = new BluetoothStateRecive(new BluetoothStateRecive.BlueetoothStateChangeListener() {
+                @Override
+                public void onReciveData(final int state, final String data) {
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(3 == state && null != data && !"".equals(data)){
+                              String[] datas = data.split(" ");
+                                if("03".equals(datas[4])){
+                                    int count = Integer.parseInt(datas[7]) * 10 + Integer.parseInt(datas[8]);
+                                    tvEle.setText(String.valueOf(count));
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        registerReceiver(bluetoothStateRecive,BluetoothStateRecive.makeGattUpdateIntentFilter());
+
+        IntentFilter mapFilter = new IntentFilter();
+        mapFilter.addAction(MapLocationRecive.ACTION);
+        registerReceiver(mapLocationRecive, mapFilter);
     }
 
     @Override
@@ -220,6 +257,9 @@ public class IndexActivity extends BaseActivity {
     private void unRegisterBroadCast() {
         if (mapLocationRecive != null) {
             unregisterReceiver(mapLocationRecive);
+        }
+        if(bluetoothStateRecive != null){
+            unregisterReceiver(bluetoothStateRecive);
         }
     }
 
@@ -252,6 +292,9 @@ public class IndexActivity extends BaseActivity {
             tvHighSpeed.setText("0.00km/h");
         } else if (requestCode == EndConfirmActivity.REQUEST_END_CONFIRM && RESULT_OK == resultCode) {
             mapPreseter.restart();
+        }else if(requestCode == ScanActivity.SACN_RESULT_CODE && RESULT_OK == resultCode){
+            isLinkBlue = true;
+            startRide();
         }
     }
     private static BluetoothLeService mBluetoothLeService;//蓝牙连接服务
@@ -272,9 +315,12 @@ public class IndexActivity extends BaseActivity {
             mBluetoothLeService = null;
         }
     };
+
+    //连接
     public static  void conect(String addrss){
         mBluetoothLeService.connect(addrss);
     }
+
     public static  void sendData(byte[] data){
         Log.i("Test",mBluetoothLeService.sendValue(data)+"");
     }

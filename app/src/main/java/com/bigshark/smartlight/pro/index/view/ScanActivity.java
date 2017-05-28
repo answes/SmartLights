@@ -6,14 +6,18 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.bigshark.smartlight.IndexActivity;
 import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
+import com.bigshark.smartlight.pro.index.broadcast.BluetoothStateRecive;
 import com.bigshark.smartlight.pro.index.view.adapter.viewhold.BluetoothScanAdapter;
 import com.bigshark.smartlight.pro.market.view.navigation.GoodDetailsNavigationBuilder;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
@@ -26,6 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ScanActivity extends BaseActivity {
+    public static final int SACN_RESULT_CODE = 0x110;
 
     @BindView(R.id.bluetooth)
     RecyclerView bluetooth;
@@ -105,6 +110,16 @@ public class ScanActivity extends BaseActivity {
 
     private List<BluetoothDevice> deivices;
     private BluetoothScanAdapter bluetoothScanAdapter;
+    Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Intent intent = new Intent();
+            intent.putExtra("link",true);
+            ScanActivity.this.setResult(RESULT_OK,intent);
+            ScanActivity.this.finish();
+        }
+    };
 
     private void initData() {
         deivices = new ArrayList<>();
@@ -114,19 +129,68 @@ public class ScanActivity extends BaseActivity {
         bluetooth.setAdapter(bluetoothScanAdapter);
         bluetoothScanAdapter.setOnItemOnclickListener(new BluetoothScanAdapter.onItemOnclickListner() {
             @Override
-            public void onItemClick(int potsion) {
+            public void onItemClick(final int potsion) {
                 adapter.stopLeScan(callback);
-                DeviceControlActivity.oppenDeviceControlActivity(deivices.get(potsion).getAddress(), deivices.get(potsion).getName(), ScanActivity.this);
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        IndexActivity.conect(deivices.get(potsion).getAddress());
+                    }
+                });
+
+//                DeviceControlActivity.oppenDeviceControlActivity(deivices.get(potsion).getAddress(), deivices.get(potsion).getName(), ScanActivity.this);
             }
         });
+
+
     }
 
     public static void openScanActivity(Activity activity) {
-        activity.startActivity(new Intent(activity, ScanActivity.class));
+        Intent intent = new Intent(activity, ScanActivity.class);
+        activity.startActivityForResult(intent,SACN_RESULT_CODE);
     }
 
     @Override
     public MVPBasePresenter bindPresneter() {
         return null;
+    }
+
+    private BluetoothStateRecive recive;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(recive == null){
+            recive = new BluetoothStateRecive(new BluetoothStateRecive.BlueetoothStateChangeListener() {
+                @Override
+                public void onReciveData(int state, String data) {
+                    if(state == 0){
+//                        tvState.setText("已连接");
+                    }else if(state == 1){
+//                        tvState.setText("断开连接");
+                    }else if(state == 2){
+//                        tvState.setText("通信状态");
+                    }else if(state == 3){
+                        Log.e("TAG", "mHandler.sendEmptyMessage(1): " );
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mHandler.sendEmptyMessage(1);
+                            }
+                        }).start();
+                        unregisterReceiver(recive);
+                        recive = null;
+
+                    }
+                }
+            });
+        }
+        registerReceiver(recive,BluetoothStateRecive.makeGattUpdateIntentFilter());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(null != recive)
+        unregisterReceiver(recive);
     }
 }

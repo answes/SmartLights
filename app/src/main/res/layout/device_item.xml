@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <com.allen.library.SuperTextView
-        android:id="@+id/device"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"/>
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:background="#2F3140"
+    android:layout_height="wrap_content">
+    <!--<com.allen.library.SuperTextView-->
+        <!--android:id="@+id/device"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="60dp"/>-->
+    <TextView
+        android:id="@+id/tv_equname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px"
+        android:textSize="40px"
+        android:textColor="@color/white"
+        android:text="设备1"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent" />
+    <Button
+        android:id="@+id/bt_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:textColor="@color/blue"
+        android:textSize="40px"
+        android:text="链接"/>
 </LinearLayout>

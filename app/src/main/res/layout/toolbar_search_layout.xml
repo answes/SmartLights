@@ -29,21 +29,27 @@
             android:layout_marginLeft="30px"
             android:src="@drawable/fragment_market_toolbar_search"/>
 
-        <TextView
-            android:id="@+id/tv_center"
+        <EditText
+            android:id="@+id/et_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30px"
-            android:text="@string/toolbar_search_text"
+            android:background="@android:color/transparent"
+            android:hint="@string/toolbar_search_text"
+            android:textColorHint="@color/white"
+            android:textSize="36px"
             android:textColor="@color/white"
            />
 
     </LinearLayout>
 
-        <ImageView
-            android:id="@+id/iv_right"
+        <TextView
+            android:id="@+id/tv_right"
             android:layout_marginLeft="49px"
             android:layout_marginRight="30px"
+            android:textColor="@color/white"
+            android:textSize="40px"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
            />

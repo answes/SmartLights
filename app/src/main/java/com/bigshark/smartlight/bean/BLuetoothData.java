@@ -1,8 +1,6 @@
 package com.bigshark.smartlight.bean;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by ch on 2017/5/25.
@@ -43,15 +41,27 @@ public class BLuetoothData {
     /**
      * 获得校验码
      *
-     * @param bytes
+     * @param
      * @return
      *
      */
-    private static  byte[] getCheckNumber(char[] chars,int length) {
+    private static  byte[] getCheckNumber(byte[] buffer, int size) {
+//        short crc = 0x0000;
+//
+//        for (int i = 0; i < chars.length; i++) {
+//            crc += (chars[i]) & 0x00FF;
+//            crc = (short) ~((crc << 1) & 0xFFFE);
+//            crc += 1;
+//            if ((i % 8) == 0) {
+//                crc ^= 0x1021;
+//            }
+//        }
+//        crc = (short) ((~crc) + 1);
+
         short crc = 0x0000;
 
-        for (int i = 0; i < chars.length; i++) {
-            crc += (chars[i]) & 0x00FF;
+        for (int i = 0; i < size; i++) {
+            crc += (((short) buffer[i]) & 0x00FF);
             crc = (short) ~((crc << 1) & 0xFFFE);
             crc += 1;
             if ((i % 8) == 0) {
@@ -59,6 +69,7 @@ public class BLuetoothData {
             }
         }
         crc = (short) ((~crc) + 1);
+
         return shortToByte(crc);
     }
 
@@ -125,12 +136,12 @@ public class BLuetoothData {
         for (int i=0;i<4;i++){
             arrayList.add((byte) 0x55);
         }
-        StringBuffer sb = new StringBuffer();
-        for(int i=0;i<bytes.length;i++){
-            arrayList.add(bytes[i]);
-            sb.append(String.format("%02d",bytes[i]));
-        }
-        byte[] checkNumbers = getCheckNumber(sb.toString().toCharArray(),3);
+//        StringBuffer sb = new StringBuffer();
+//        for(int i=0;i<bytes.length;i++){
+//            arrayList.add(bytes[i]);
+//            sb.append(String.format("%02d",bytes[i]));
+//        }
+        byte[] checkNumbers = getCheckNumber(bytes,3);
         for(int i=0;i<2;i++){
             arrayList.add(checkNumbers[i]);
         }

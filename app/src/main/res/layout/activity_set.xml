@@ -16,8 +16,7 @@
         android:layout_marginTop="101px"
         android:src="@drawable/logo"
         android:scaleType="fitXY"
-        android:layout_height="230px"
-        android:id="@+id/XCRoundRectImageView"/>
+        android:layout_height="230px" />
 
     <TextView
         android:id="@+id/tv_version"

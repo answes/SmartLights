@@ -5,7 +5,6 @@
     android:background="@color/root_view_bg"
     android:layout_height="match_parent">
     <ViewStub
-        android:id="@+id/vs_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>

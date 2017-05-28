@@ -199,7 +199,11 @@ public class MinePresenter extends BasePresenter<MineModel> {
     }
 
     public void getBikeList(final boolean isDownRefresh, final OnUIThreadListener<List<Ride.Bike>> onUIThreadListener){
-        Log.e(TAG, "getBikeList: page = "+ page );
+        if (isDownRefresh) {
+            page = 1;
+        } else {
+            page++;
+        }
         getModel().getBikeList( page,  new VolleyHttpUtils.HttpResult() {
             @Override
             public void succss(String result) {
@@ -208,11 +212,6 @@ public class MinePresenter extends BasePresenter<MineModel> {
                 int code = (int) json.get("code");
                 if (1 == code) {
                     Ride bike = JSONUtil.getObject(result, Ride.class);
-                    if (isDownRefresh) {
-                        page = 1;
-                    } else {
-                        page++;
-                    }
                     onUIThreadListener.onResult(bike.getData());
                 } else {
                     onUIThreadListener.onErro("");

@@ -6,8 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
-import com.allen.library.SuperTextView;
 import com.bigshark.smartlight.R;
 
 import java.util.ArrayList;
@@ -47,14 +48,16 @@ public class BluetoothScanAdapter extends RecyclerView.Adapter <BluetoothScanAda
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        holder.superTextView.setLeftTopString(devices.get(position).getName()+"");
-        holder.superTextView.setLeftBottomString(devices.get(position).getAddress()+"");
-        holder.superTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.onItemOnclickListner.onItemClick(position);
-            }
-        });
+        BluetoothDevice device = devices.get(position);
+        holder.equName.setText(device.getName()+"");
+//        holder.superTextView.setLeftBottomString(devices.get(position).getAddress()+"");
+//        holder.superTextView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                holder.onItemOnclickListner.onItemClick(position);
+//            }
+//        });
+        holder.link.setText("连接");
     }
 
     @Override
@@ -62,13 +65,25 @@ public class BluetoothScanAdapter extends RecyclerView.Adapter <BluetoothScanAda
         return devices.size();
     }
 
-    class MyViewHolder extends  RecyclerView.ViewHolder{
-        SuperTextView superTextView;
+    class MyViewHolder extends  RecyclerView.ViewHolder implements View.OnClickListener{
+        //SuperTextView superTextView;
+        TextView equName;
+        Button link;
         onItemOnclickListner onItemOnclickListner;
         public MyViewHolder(View itemView,onItemOnclickListner onItemOnclickListner) {
             super(itemView);
             this.onItemOnclickListner = onItemOnclickListner;
-            superTextView = (SuperTextView) itemView.findViewById(R.id.device);
+//            superTextView = (SuperTextView) itemView.findViewById(R.id.device);
+            equName = (TextView)itemView.findViewById(R.id.tv_equname);
+            link = (Button) itemView.findViewById(R.id.bt_link);
+            link.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if(null != onItemOnclickListner){
+                onItemOnclickListner.onItemClick(getPosition());
+            }
         }
     }
 

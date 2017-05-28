@@ -52,8 +52,6 @@ public class RideActivity extends BaseActivity {
         initRecyclerView();
     }
 
-
-
     private void initRecyclerView() {
 
         xrefreshview.setPullRefreshEnable(true);
@@ -83,7 +81,7 @@ public class RideActivity extends BaseActivity {
 
             @Override
             public void onLoadMore(boolean isSlience) {
-                loadDatas(false);
+                    loadDatas(false);
             }
         });
 

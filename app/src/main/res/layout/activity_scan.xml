@@ -4,10 +4,37 @@
     android:id="@+id/activity_scan"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mian_toolbar_bg"
     android:orientation="vertical"
     tools:context="com.bigshark.smartlight.pro.index.view.ScanActivity">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/bluetooth"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:background="#2F3140"
+        android:paddingBottom="100px"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="127px"
+            android:gravity="center_vertical"
+            android:paddingLeft="30px"
+            android:text="@string/equ_name"
+            android:textColor="@color/white"
+            android:textSize="@dimen/navigation_text_size" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4px"
+            android:layout_marginLeft="25px"
+            android:layout_marginRight="25px"
+            android:layout_marginBottom="25px"
+            android:background="#606271"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/bluetooth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             />
+    </LinearLayout>
 </LinearLayout>

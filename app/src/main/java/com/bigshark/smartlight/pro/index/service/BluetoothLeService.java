@@ -94,8 +94,12 @@ public class BluetoothLeService extends Service {
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
                 boolean isTrue = register(gatt,service,write);
+                if(isTrue){
+                    broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
+                }else{
+                    connect(mBluetoothDeviceAddress);
+                }
                 Log.i("Load",isTrue+"");
             } else {
                 Log.w(TAG, "onServicesDiscovered received: " + status);
@@ -151,6 +155,8 @@ public class BluetoothLeService extends Service {
                 final StringBuilder stringBuilder = new StringBuilder(data.length);
                 for(byte byteChar : data)
                     stringBuilder.append(String.format("%02X ", byteChar));
+
+                Log.e(TAG, "broadcastUpdate: " + stringBuilder.toString());
                 intent.putExtra(EXTRA_DATA, stringBuilder.toString());
             }
         }
@@ -325,7 +331,7 @@ public class BluetoothLeService extends Service {
 
     private static ArrayList<BluetoothGattCharacteristic> arrayNtfCharList = new ArrayList();//可通知列比饿哦
     private static BluetoothGattCharacteristic writeCharacteristic;
-    private static String service = "0000fee9-0000-1000-8000-00805f9b34fb";//骑格服务
+    private static String service = "0000e0ff-3c17-d293-8e48-14fe2e4da212";//骑格服务
     //00001800-0000-1000-8000-00805f9b34fb
     //0000e0ff-3c17-d293-8e48-14fe2e4da212
     //0000a0ff-3c17-d293-8e48-14fe2e4da212
@@ -355,7 +361,7 @@ public class BluetoothLeService extends Service {
                 arrayNtfCharList.add(chara);
 
                 //设置写的特征
-                BluetoothGattCharacteristic write = bluetoothGatt.getServices().get(0).getCharacteristics().get(0);
+                BluetoothGattCharacteristic write = bluetoothGatt.getServices().get(2).getCharacteristics().get(1);
                 writeCharacteristic = chara;
 
 //                List gattCharacteristics = qppService.getCharacteristics();

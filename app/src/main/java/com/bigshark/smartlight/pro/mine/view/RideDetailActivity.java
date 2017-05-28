@@ -20,7 +20,6 @@ import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.mine.presenter.MinePresenter;
 import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
 import com.bigshark.smartlight.utils.DateFomat;
-import com.bigshark.smartlight.utils.JSONUtil;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -140,7 +139,7 @@ public class RideDetailActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
-        super.onRestart();
+        super.onResume();
         mapview.onResume();
     }
 
