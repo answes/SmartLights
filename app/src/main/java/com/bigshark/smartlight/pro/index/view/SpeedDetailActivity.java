@@ -61,7 +61,7 @@ public class SpeedDetailActivity extends BaseActivity {
             }
         }else{
             xLabel = new String[]{"1", "2", "3", "4", "5", "6", "7"};
-            data1 = new int[]{0};
+            data1 = new int[]{0,0,0,0,0,0,0};
         }
         String []yLabel ={"0","10", "20", "30", "40", "50", "60", "70"};
         List<int[]> data = new ArrayList<>();

@@ -19,6 +19,8 @@ import com.bigshark.smartlight.utils.JSONUtil;
 
 import java.util.List;
 
+import static android.R.attr.type;
+
 /**
  * Created by bigShark on 2017/1/20.
  */
@@ -250,8 +252,8 @@ public class MarketListPresenter extends BasePresenter<MaketListModel> {
      * @param money   订单总金额
      * @param type   类型  1支付宝 2微信
      */
-    public void payAliMoney(String orderId, double money, int type, final OnUIThreadListener<ALi> uiThreadListener){
-        getModel().prepay(orderId, money, type, new VolleyHttpUtils.HttpResult() {
+    public void payAliMoney(String orderId, double money,  final OnUIThreadListener<ALi> uiThreadListener){
+        getModel().prepay(orderId, money, 1, new VolleyHttpUtils.HttpResult() {
             @Override
             public void succss(String t) {
                 Log.i("Load",t);

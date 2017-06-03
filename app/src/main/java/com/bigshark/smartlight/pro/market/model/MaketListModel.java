@@ -153,7 +153,7 @@ public class MaketListModel extends BaseModel {
     public void prepay(String orderId,double money,int type, VolleyHttpUtils.HttpResult onHttpResultListener){
         VolleyHttpUtils httpUtils = new VolleyHttpUtils();
         Map<String,String> requser = new HashMap<>();
-        requser.put("name",SmartLightsApplication.USER.getName()+"");
+        requser.put("name","骑格订单");
         requser.put("id",orderId);
         requser.put("money",String.valueOf(money));
         requser.put("type",String.valueOf(type));

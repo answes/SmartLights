@@ -38,8 +38,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ConfirmOrederActivity extends BaseActivity {
-    private final int  REQUESTCODE = 0x001;
-
+    public static final int  REQUESTCODE = 0x0112;
 
     @BindView(R.id.stv_name)
     SuperTextView stvName;
@@ -128,7 +127,7 @@ public class ConfirmOrederActivity extends BaseActivity {
     public static void openConfirmOrederActivity(Activity activity ,String data) {
         Intent intent = new Intent(activity, ConfirmOrederActivity.class);
         intent.putExtra("data",data);
-        activity.startActivity(intent);
+        activity.startActivityForResult(intent,REQUESTCODE);
     }
 
     private void initToolbar() {
@@ -184,7 +183,14 @@ public class ConfirmOrederActivity extends BaseActivity {
         return  total;
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            setResult(RESULT_OK);
+            finish();
+        }
+    }
 
     private OrderResult setOrderData(String orderId) {
         float max = caunltMax();
