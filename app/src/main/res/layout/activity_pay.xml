@@ -15,6 +15,7 @@
         app:sLeftTextString="支付宝支付"
         app:sRightIconRes="@drawable/right_comein"
         android:layout_height="160px"/>
+
     <com.allen.library.SuperTextView
         android:layout_marginTop="2px"
         android:id="@+id/wechat"

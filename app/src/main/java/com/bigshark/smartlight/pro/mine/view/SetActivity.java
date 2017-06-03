@@ -65,6 +65,7 @@ public class SetActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.stv_about:
+                AboutActivity.openAboutActivity(this);
                 break;
             case R.id.stv_changePsw:
                 ChangePswActivity.openChangePswActivity(this);

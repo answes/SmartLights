@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="550px"
-        android:layout_marginTop="300px">
+        android:layout_marginTop="250px">
 
         <LinearLayout
             android:id="@+id/ll"

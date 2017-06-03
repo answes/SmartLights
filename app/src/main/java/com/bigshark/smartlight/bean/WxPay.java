@@ -71,6 +71,49 @@ public class WxPay {
         private String packageX;
         @SerializedName("sign")
         private String sign;
+        @SerializedName("id")
+        private String id;
+        @SerializedName("money")
+        private String money;
+        @SerializedName("order_num")
+        private String order_num;
+
+        @SerializedName("url")
+        private String url;
+
+
+        public String getId() {
+
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getMoney() {
+            return money;
+        }
+
+        public void setMoney(String money) {
+            this.money = money;
+        }
+
+        public String getOrder_num() {
+            return order_num;
+        }
+
+        public void setOrder_num(String order_num) {
+            this.order_num = order_num;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
 
         public String getAppid() {
             return appid;

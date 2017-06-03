@@ -29,6 +29,7 @@ import java.util.List;
 
 public class MapPreseter extends BasePresenter<RecordModel> {
     private List<LatLng> savesLatlng = new ArrayList<>();//保存的经纬度信息
+    private List<String> savesSpeeds = new ArrayList<>();//保存的速度详情，每隔一分钟就保存一个。
     UpLoadRecord upLoadRecord;
     private float maxSpeed = 0;//最大速度
     private Context context;
@@ -56,6 +57,7 @@ public class MapPreseter extends BasePresenter<RecordModel> {
     private AMapLocationClient mlocationClient;
     private AMapLocationClientOption mLocationOption;
     private MyLocationListener myLocationListener = new MyLocationListener();
+
     /**
      * 开始骑行
      */
@@ -75,8 +77,10 @@ public class MapPreseter extends BasePresenter<RecordModel> {
         upLoadRecord = new UpLoadRecord();
 
     }
-    private void reste(){
+
+    private void reste() {
         savesLatlng.clear();
+        savesSpeeds.clear();
         maxSpeed = 0;//最大速度
         startTime = 0;
         endTIme = 0;
@@ -87,24 +91,23 @@ public class MapPreseter extends BasePresenter<RecordModel> {
     /**
      * 暂停骑行
      */
-    public void stop(){
+    public void stop() {
         isDuring = false;
     }
 
     /**
      * 重新开始骑行
      */
-    public void restart(){
+    public void restart() {
         isDuring = true;
     }
 
-    
 
     /**
      * 停止骑行
      */
     public void finish(final OnUIThreadListener<String> listener) {
-        if(mlocationClient!=null && mlocationClient.isStarted()) {
+        if (mlocationClient != null && mlocationClient.isStarted()) {
             isDuring = false;
             mlocationClient.stopLocation();
             mlocationClient.onDestroy();
@@ -118,6 +121,7 @@ public class MapPreseter extends BasePresenter<RecordModel> {
             upLoadRecord.setK(0.1797 * (time / (1000 * 60)) * 60);
             upLoadRecord.setTime(time);
             upLoadRecord.setAvSpeed((distance / 1000) / (time / (60 * 60 * 1000)));
+            upLoadRecord.setAllspeed(JSON.toJSONString(savesSpeeds));
             if (listener == null) {
                 return;
             }
@@ -148,25 +152,28 @@ public class MapPreseter extends BasePresenter<RecordModel> {
         return upLoadRecord;
     }
 
-    public List<LatLng> getSavesLatlng(){
-        return  savesLatlng;
+    public List<LatLng> getSavesLatlng() {
+        return savesLatlng;
     }
 
     private void initLocation() {
 
     }
+
     private boolean isFirst = true;
+
     public class MyLocationListener implements AMapLocationListener {
         LatLng lastLatLng;
+        long speedTime = System.currentTimeMillis();
 
         @Override
         public void onLocationChanged(AMapLocation aMapLocation) {
-            if(isFirst){
+            if (isFirst) {
                 isFirst = false;
                 return;
             }
 
-            if(!isDuring){
+            if (!isDuring) {
                 return;
             }
 
@@ -174,11 +181,16 @@ public class MapPreseter extends BasePresenter<RecordModel> {
                     && aMapLocation.getErrorCode() == 0) {
                 LatLng location = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
                 savesLatlng.add(location);
+                long newTime = System.currentTimeMillis();
+                if((newTime - speedTime) > 60000){
+                    savesSpeeds.add(String.valueOf(aMapLocation.getSpeed()));
+                    speedTime = newTime;
+                }
                 if (maxSpeed < aMapLocation.getSpeed()) {
                     maxSpeed = aMapLocation.getSpeed();
                 }
                 if (lastLatLng != null) {
-                    distance = distance + AMapUtils.calculateLineDistance(lastLatLng,location);
+                    distance = distance + AMapUtils.calculateLineDistance(lastLatLng, location);
                 }
                 height = aMapLocation.getAltitude();
                 lastLatLng = location;
@@ -187,7 +199,7 @@ public class MapPreseter extends BasePresenter<RecordModel> {
                 try {
                     time = endTIme - startTime;
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
 
                 Intent intent = new Intent(MapLocationRecive.ACTION);
@@ -196,10 +208,10 @@ public class MapPreseter extends BasePresenter<RecordModel> {
                 upLoadRecord.setHeight(height);
                 upLoadRecord.setMaxSpeed(maxSpeed);
                 upLoadRecord.setSpeed(aMapLocation.getSpeed());
-                upLoadRecord.setK(0.1797 * (time/(1000*60)) * 60);
+                upLoadRecord.setK(0.1797 * (time / (1000 * 60)) * 60);
                 upLoadRecord.setTime(time);
                 //距离（x/1000）/时间(h) 1000L * 60 * 60;
-                upLoadRecord.setAvSpeed(distance*time/(double) (1000*1000*60*60));
+                upLoadRecord.setAvSpeed(distance * time / (double) (1000 * 1000 * 60 * 60));
 
                 intent.putExtra(MapLocationRecive.EXTRA_DATA, upLoadRecord);
                 context.sendBroadcast(intent);

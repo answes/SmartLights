@@ -16,6 +16,15 @@ public class UpLoadRecord implements Serializable {
     private double avSpeed;
     private double k;
     private double speed;//当前速度
+    private String allspeed;    //速度详情
+
+    public String getAllspeed() {
+        return allspeed;
+    }
+
+    public void setAllspeed(String allspeed) {
+        this.allspeed = allspeed;
+    }
 
     public double getSpeed() {
         return speed;

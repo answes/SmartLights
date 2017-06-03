@@ -33,6 +33,7 @@ import com.bigshark.smartlight.pro.index.view.navigation.IndexNavigationBuilder;
 import com.bigshark.smartlight.pro.mine.view.MessgeActivity;
 import com.bigshark.smartlight.pro.mine.view.MineActivity;
 import com.bigshark.smartlight.utils.GPSUtil;
+import com.bigshark.smartlight.utils.MediaPlayerUtils;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.bigshark.smartlight.utils.ToastUtil;
 
@@ -45,6 +46,7 @@ import butterknife.OnClick;
  */
 public class IndexActivity extends BaseActivity {
     private boolean isLinkBlue;
+    private MediaPlayerUtils mediaPlayerUtils;
 
     @BindView(R.id.tv_speed)
     TextView tvSpeed;
@@ -86,6 +88,7 @@ public class IndexActivity extends BaseActivity {
         //蓝牙连接服务
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+        mediaPlayerUtils = new MediaPlayerUtils(this);
     }
 
     private MapPreseter mapPreseter;
@@ -132,6 +135,7 @@ public class IndexActivity extends BaseActivity {
                 if(!GPSUtil.isOPen(this)){
                         GPSUtil.openGPS(this);
                     }
+//                startRide();
                     if(!isLinkBlue){
                         ScanActivity.openScanActivity(this);
                     }else{
@@ -226,6 +230,14 @@ public class IndexActivity extends BaseActivity {
                                     int count = Integer.parseInt(datas[7]) * 10 + Integer.parseInt(datas[8]);
                                     tvEle.setText(String.valueOf(count));
                                 }
+                                if("05".equals(datas[4])){
+                                    int tuen = Integer.parseInt(datas[6]);
+                                    if(1 == tuen){
+                                        mediaPlayerUtils.palyLeftMedia();
+                                    }else if(2 == tuen){
+                                        mediaPlayerUtils.palyRightMedia();
+                                    }
+                                }
                             }
                         }
                     });
@@ -246,6 +258,7 @@ public class IndexActivity extends BaseActivity {
         mapPreseter.finish(null);
         unbindService(mServiceConnection);
         mBluetoothLeService = null;
+        mediaPlayerUtils.release();
     }
 
     @Override

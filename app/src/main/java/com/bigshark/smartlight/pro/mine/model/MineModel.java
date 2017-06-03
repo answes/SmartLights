@@ -46,6 +46,9 @@ public class MineModel extends BaseModel {
     }
     private String getCodeUrl(){return getServerUrl().concat("/Mob/getmobverify");}
     private String getRideDetailUrl(){return getServerUrl().concat("/Bike/bikedetail");}
+    private String getAboutUrl(){
+        return getServerUrl().concat("/Index/index");
+    }
 
 
     public void login( String phone, String password ,VolleyHttpUtils.HttpResult httpResult){
@@ -177,5 +180,11 @@ public class MineModel extends BaseModel {
         paraps.put("user_id", SmartLightsApplication.USER.getId());
         paraps.put("id", id);
         httpUtils.postData(getRideDetailUrl(),paraps,httpResult);
+    }
+
+    public void getAbout( VolleyHttpUtils.HttpResult httpResult){
+        VolleyHttpUtils httpUtils = new VolleyHttpUtils();
+        Map<String,String> paraps = new HashMap<>();
+        httpUtils.postData(getAboutUrl(),paraps,httpResult);
     }
 }

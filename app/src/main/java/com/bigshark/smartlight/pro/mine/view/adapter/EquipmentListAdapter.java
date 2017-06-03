@@ -32,8 +32,8 @@ public class EquipmentListAdapter extends RecyclerView.Adapter<EquipmentListAdap
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.name.setText(list.get(position).getName());
-        holder.numbering.setText(list.get(position).getNumbering());
+        holder.name.setText("设备名称：".concat(list.get(position).getName()));
+        holder.numbering.setText("设备编号：".concat(list.get(position).getNumbering()));
     }
 
     @Override

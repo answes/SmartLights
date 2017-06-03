@@ -37,4 +37,17 @@
             android:layout_height="wrap_content"
              />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_scan"
+        android:text="搜索"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40px"
+        android:textColor="@color/white"
+        android:textSize="40px"
+        android:background="@drawable/fragment_index_button_bg"
+        android:layout_width="300px"
+        android:layout_height="40dp" />
+
 </LinearLayout>

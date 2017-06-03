@@ -14,9 +14,11 @@ import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.PolylineOptions;
 import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.bean.RideDetailResult;
+import com.bigshark.smartlight.bean.UpLoadRecord;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
+import com.bigshark.smartlight.pro.index.view.SpeedDetailActivity;
 import com.bigshark.smartlight.pro.mine.presenter.MinePresenter;
 import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
 import com.bigshark.smartlight.utils.DateFomat;
@@ -56,6 +58,7 @@ public class RideDetailActivity extends BaseActivity {
 
     private MinePresenter minePresenter;
     private String rideId;
+    private RideDetailResult.RideDetail rideDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,7 @@ public class RideDetailActivity extends BaseActivity {
         minePresenter.getRideDetail(rideId, new BasePresenter.OnUIThreadListener<RideDetailResult.RideDetail>() {
             @Override
             public void onResult(RideDetailResult.RideDetail result) {
+                rideDetail = result;
                 setData(result);
             }
 
@@ -134,7 +138,11 @@ public class RideDetailActivity extends BaseActivity {
 
     @OnClick(R.id.tv_info)
     public void onViewClicked() {
-       // SpeedDetailActivity.openSpeedDetailActivity(this);
+        UpLoadRecord upLoadRecord = new UpLoadRecord();
+        upLoadRecord.setAllspeed(rideDetail.getAllspeed());
+        upLoadRecord.setAvSpeed(Double.valueOf(rideDetail.getAvgspeed()));
+        upLoadRecord.setMaxSpeed(Float.valueOf(rideDetail.getMaxspeed()));
+        SpeedDetailActivity.openSpeedDetailActivity(this,upLoadRecord);
     }
 
     @Override

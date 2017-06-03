@@ -303,4 +303,19 @@ public class MinePresenter extends BasePresenter<MineModel> {
         });
     }
 
+    public void getAbout( final OnUIThreadListener<String> onUIThreadListener){
+        getModel().getAbout(new VolleyHttpUtils.HttpResult() {
+            @Override
+            public void succss(String t) {
+                Log.e("getRideDetail",t);
+                onUIThreadListener.onResult(t);
+            }
+
+            @Override
+            public void erro(String msg) {
+                onUIThreadListener.onErro(msg);
+            }
+        });
+    }
+
 }

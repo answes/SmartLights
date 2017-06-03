@@ -36,7 +36,6 @@ import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.bigshark.smartlight.utils.VolleyUtils;
 import com.bigshark.smartlight.weight.CircleNetworkImageImage;
 import com.luck.picture.lib.model.FunctionConfig;
-import com.luck.picture.lib.model.LocalMediaLoader;
 import com.luck.picture.lib.model.PictureConfig;
 import com.yalantis.ucrop.entity.LocalMedia;
 
@@ -122,21 +121,20 @@ public class MineActivity extends BaseActivity {
                     ActivityCompat.requestPermissions(this,
                             new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
                 }else{
-                    setPhotoConfig();
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(this).setTitle("更换头像")
                             .setMessage("请选择相册或拍照")
                             .setPositiveButton("相册", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     //选择相册
-                                    PictureConfig.getPictureConfig().openPhoto(MineActivity.this, resultCallback);
+                                    PictureConfig.getInstance().openPhoto(MineActivity.this, resultCallback);
                                 }
                             })
                             .setNegativeButton("拍照", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     //拍照
-                                    PictureConfig.getPictureConfig().startOpenCamera(MineActivity.this, resultCallback);
+                                    PictureConfig.getInstance().startOpenCamera(MineActivity.this);
                                 }
                             });
                     alertDialog.show();
@@ -162,14 +160,20 @@ public class MineActivity extends BaseActivity {
                 upLoadImage(photo);
             }
         }
+
+        @Override
+        public void onSelectSuccess(LocalMedia localMedia) {
+            upLoadImage(localMedia);
+        }
     };
 
     private void upLoadImage(LocalMedia photo) {
         //构造参数列表
         List<Part> partList = new ArrayList<>();
+        Log.e("TAG", "upLoadImage: "+photo.getCompressPath() );
         try {
-            partList.add(new StringPart("fmd", MD5Utils.getMd5ByFile(new File(photo.getCutPath()))));
-            partList.add(new FilePart("File", new File(photo.getCutPath())));
+            partList.add(new StringPart("fmd", MD5Utils.getMd5ByFile(new File(photo.getCompressPath()))));
+            partList.add(new FilePart("File", new File(photo.getCompressPath())));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -224,27 +228,30 @@ public class MineActivity extends BaseActivity {
 
     }
 
-
     /**
-     * 设置基本参数
+     * 単独拍照图片回调
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
      */
-    private  void setPhotoConfig(){
-        FunctionConfig config = new FunctionConfig();
-        config.setType(LocalMediaLoader.TYPE_IMAGE);
-        config.setSelectMode(2);
-        config.setCompress(false);
-        config.setEnablePixelCompress(true);
-        config.setEnableQualityCompress(true);
-        config.setMaxSelectNum(1);
-        config.setShowCamera(true);
-        config.setEnablePreview(true);
-        config.setEnableCrop(true);
-        config.setImageSpanCount(4);
-        config.setCropH(400);
-        config.setCropW(400);
-        // 先初始化参数配置，在启动相册
-        PictureConfig.init(config);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == FunctionConfig.CAMERA_RESULT) {
+                if (data != null) {
+                    List<LocalMedia> selectMedia = (List<LocalMedia>) data.getSerializableExtra(FunctionConfig.EXTRA_RESULT);
+                    if (selectMedia != null && selectMedia.size() != 0) {
+                        LocalMedia photo =  selectMedia.get(0);
+                        upLoadImage(photo);
+                    }
+                }
+            }
+        }
     }
+
+
 
     @Override
     protected void onResume() {

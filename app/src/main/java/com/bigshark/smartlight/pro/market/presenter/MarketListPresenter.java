@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.bigshark.smartlight.bean.ALi;
 import com.bigshark.smartlight.bean.GoodDetail;
 import com.bigshark.smartlight.bean.Market;
 import com.bigshark.smartlight.bean.OrderResult;
@@ -242,6 +243,33 @@ public class MarketListPresenter extends BasePresenter<MaketListModel> {
             }
         });
     }
+
+    /**
+     *
+     * @param orderId 订单ID
+     * @param money   订单总金额
+     * @param type   类型  1支付宝 2微信
+     */
+    public void payAliMoney(String orderId, double money, int type, final OnUIThreadListener<ALi> uiThreadListener){
+        getModel().prepay(orderId, money, type, new VolleyHttpUtils.HttpResult() {
+            @Override
+            public void succss(String t) {
+                Log.i("Load",t);
+                try {
+                    ALi ali = JSON.parseObject(t, ALi.class);
+                    uiThreadListener.onResult(ali);
+                }catch (Exception e){
+                    uiThreadListener.onErro("支付失败");
+                }
+            }
+
+            @Override
+            public void erro(String msg) {
+                uiThreadListener.onErro(msg);
+            }
+        });
+    }
+
 
     /**
      *

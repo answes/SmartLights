@@ -41,6 +41,7 @@ public class RecordModel extends BaseModel {
         request.put("heat",String.valueOf(upLoadRecord.getK()));
         request.put("tel",SmartLightsApplication.USER.getTel()+"");
         request.put("gps",upLoadRecord.getGps());
+        request.put("allspeed",upLoadRecord.getAllspeed());
         httpUtils.postData(getUpLoadUrl(),request,httpResult);
     }
 }

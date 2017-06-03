@@ -38,6 +38,13 @@ public class DateFomat {
         return  sdf.format(date);
     }
 
+    public static String getNowDateSS(){
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return  sdf.format(date);
+    }
+
+
     /**
      * 精确到天（"yyyy-MM-dd"）
      * @param time

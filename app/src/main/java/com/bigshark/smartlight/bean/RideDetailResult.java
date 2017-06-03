@@ -46,6 +46,15 @@ public class RideDetailResult {
         private String cre_tm;
         private String tel;
         private String gps;
+        private String allspeed;
+
+        public String getAllspeed() {
+            return allspeed;
+        }
+
+        public void setAllspeed(String allspeed) {
+            this.allspeed = allspeed;
+        }
 
         public String getId() {
             return id;

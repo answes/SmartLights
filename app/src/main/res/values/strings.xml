@@ -42,4 +42,7 @@
     <string name="index_stop">暂停骑行</string>
     <string name="index_finish">结束骑行</string>
     <string name="equ_name">设备名称</string>
+    <string name="noteqw">还没有装备，去购买</string>
+    <string name="app_time">Copyright@2017</string>
+    <string name="app_company">昆山浦伦斯网络科技有限公司 All Rights Reseved</string>
 </resources>

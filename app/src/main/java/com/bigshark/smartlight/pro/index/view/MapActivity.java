@@ -187,6 +187,6 @@ public class MapActivity extends BaseActivity {
 
     @OnClick(R.id.tv_info)
     public void onViewClicked() {
-//        SpeedDetailActivity.openSpeedDetailActivity(this);
+        SpeedDetailActivity.openSpeedDetailActivity(this,MapActivity.upLoadRecord);
     }
 }

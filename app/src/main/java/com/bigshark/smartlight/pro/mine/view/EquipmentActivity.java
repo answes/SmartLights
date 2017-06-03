@@ -13,9 +13,11 @@ import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.bean.Equipment;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
+import com.bigshark.smartlight.pro.index.view.ScanActivity;
 import com.bigshark.smartlight.pro.mine.presenter.MinePresenter;
 import com.bigshark.smartlight.pro.mine.view.adapter.EquipmentListAdapter;
 import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
+import com.bigshark.smartlight.utils.SQLUtils;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 
 import java.util.ArrayList;
@@ -36,6 +38,8 @@ public class EquipmentActivity extends BaseActivity {
     LinearLayout activityEquipment;
     @BindView(R.id.bt_addEqu)
     Button btAddEqu;
+    @BindView(R.id.bt_toMarket)
+    Button btToMarket;
 
     private List<Equipment> datas = new ArrayList<>();
     private EquipmentListAdapter adapter;
@@ -52,14 +56,15 @@ public class EquipmentActivity extends BaseActivity {
     }
 
     private void initData() {
-        Equipment e= new Equipment();
-        e.setName("设备名称：Amy的设备1");
-        e.setNumbering("设备编号：20160708201");
-        datas.add(e);
-        datas.add(e);
         rvEquipment.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new EquipmentListAdapter(this,datas);
+        adapter = new EquipmentListAdapter(this, datas);
         rvEquipment.setAdapter(adapter);
+
+        List<Equipment> sqlDatas = SQLUtils.getEqus(this);
+        if(null != sqlDatas && sqlDatas.size() != 0){
+            datas.addAll(sqlDatas);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void initToolbar() {
@@ -70,7 +75,7 @@ public class EquipmentActivity extends BaseActivity {
                     public void onClick(View view) {
                         finish();
                     }
-                }).setTitle("我的设备") .createAndBind(activityEquipment);
+                }).setTitle("我的设备").createAndBind(activityEquipment);
     }
 
     @Override
@@ -83,7 +88,15 @@ public class EquipmentActivity extends BaseActivity {
         activity.startActivity(new Intent(activity, EquipmentActivity.class));
     }
 
-    @OnClick(R.id.bt_addEqu)
-    public void onClick() {
+    @OnClick({R.id.bt_addEqu, R.id.bt_toMarket})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.bt_addEqu:
+                ScanActivity.openScanActivity(this);
+                break;
+            case R.id.bt_toMarket:
+                MarketActivity.openMarketActivity(this);
+                break;
+        }
     }
 }

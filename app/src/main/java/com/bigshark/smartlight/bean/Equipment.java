@@ -9,6 +9,15 @@ public class Equipment {
     private String name;
     private String numbering;
 
+    public Equipment() {
+
+    }
+
+    public Equipment(String name, String numbering) {
+        this.name = name;
+        this.numbering = numbering;
+    }
+
     public String getName() {
         return name;
     }
