@@ -23,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ModifyInfoActivity extends BaseActivity {
+    public static final int INFORESULTCODE = 0x120;
     private String title;
     private String info;
 
@@ -106,6 +107,9 @@ public class ModifyInfoActivity extends BaseActivity {
         else if("体重修改".equals(title)){
             user.setWeight(etInfo.getText().toString().trim());
         }
+        else if("年龄修改".equals(title)){
+            user.setAge(etInfo.getText().toString().trim());
+        }
 
         upUserInfo();
 
@@ -137,6 +141,6 @@ public class ModifyInfoActivity extends BaseActivity {
         Intent intent = new Intent(activity, ModifyInfoActivity.class);
         intent.putExtra("title", title);
         intent.putExtra("info", info);
-        activity.startActivityForResult(intent,0x001);
+        activity.startActivityForResult(intent,INFORESULTCODE);
     }
 }

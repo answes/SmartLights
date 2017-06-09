@@ -336,7 +336,7 @@ public class BluetoothLeService extends Service {
     //0000e0ff-3c17-d293-8e48-14fe2e4da212
     //0000a0ff-3c17-d293-8e48-14fe2e4da212
     //0000180a-0000-1000-8000-00805f9b34fb
-    private static String write = "0000e0ff-3c17-d293-8e48-14fe2e4da212";
+    private static String write = "0000e0ff-3c17-d293-8e48-14fe2e4da212";//0000FFA2-3C17-D293-8E48-14FE2EA2A212
     private static BluetoothGattCharacteristic notifyCharacteristic;//通知的特征码
     private static boolean NotifyEnabled = false;
 

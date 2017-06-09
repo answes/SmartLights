@@ -34,6 +34,9 @@ public class MediaPlayerUtils {
         }
     }
 
+    /**
+     * 左转
+     */
     public void palyLeftMedia() {
         if (mediaPlayer == null) {
             mediaPlayer = MediaPlayer.create(context, R.raw.left);
@@ -47,6 +50,9 @@ public class MediaPlayerUtils {
 
     }
 
+    /**
+     * 右转
+     */
     public void palyRightMedia() {
         if (mediaPlayer == null) {
             mediaPlayer = MediaPlayer.create(context, R.raw.right);
@@ -56,6 +62,21 @@ public class MediaPlayerUtils {
             mediaPlayer.release();
             mediaPlayer = null;
             palyRightMedia();
+        }
+    }
+
+    /**
+     * 波放刹车
+     */
+    public void palyShacheMedia() {
+        if (mediaPlayer == null) {
+            mediaPlayer = MediaPlayer.create(context, R.raw.shache);
+            init();
+            mediaPlayer.start();
+        } else {
+            mediaPlayer.release();
+            mediaPlayer = null;
+            palyShacheMedia();
         }
     }
 

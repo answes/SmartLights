@@ -11,6 +11,7 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps2d.AMapUtils;
 import com.amap.api.maps2d.model.LatLng;
 import com.bigshark.smartlight.bean.Result;
+import com.bigshark.smartlight.bean.Speed;
 import com.bigshark.smartlight.bean.UpLoadRecord;
 import com.bigshark.smartlight.http.VolleyHttpUtils;
 import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
@@ -29,7 +30,7 @@ import java.util.List;
 
 public class MapPreseter extends BasePresenter<RecordModel> {
     private List<LatLng> savesLatlng = new ArrayList<>();//保存的经纬度信息
-    private List<String> savesSpeeds = new ArrayList<>();//保存的速度详情，每隔一分钟就保存一个。
+    private List<Speed> savesSpeeds = new ArrayList<>();//保存的速度详情，每隔一分钟就保存一个。
     UpLoadRecord upLoadRecord;
     private float maxSpeed = 0;//最大速度
     private Context context;
@@ -182,9 +183,11 @@ public class MapPreseter extends BasePresenter<RecordModel> {
                 LatLng location = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
                 savesLatlng.add(location);
                 long newTime = System.currentTimeMillis();
-                if((newTime - speedTime) > 60000){
-                    savesSpeeds.add(String.valueOf(aMapLocation.getSpeed()));
+                int times = 1;
+                if(times == 1 |(newTime - speedTime) > 60000){
+                    savesSpeeds.add(new Speed(String.valueOf(aMapLocation.getSpeed()),times));
                     speedTime = newTime;
+                    times++;
                 }
                 if (maxSpeed < aMapLocation.getSpeed()) {
                     maxSpeed = aMapLocation.getSpeed();

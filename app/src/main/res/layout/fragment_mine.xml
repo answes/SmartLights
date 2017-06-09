@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:background="@color/root_view_bg"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_context"
-              android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/root_view_bg"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,11 +20,11 @@
             android:layout_width="130px"
             android:layout_height="130px"
             android:layout_marginLeft="30px"
-            app:civ_border_width="1dp"
+            android:src="@drawable/hander"
             app:civ_border_color="@android:color/transparent"
             app:civ_border_overlay="true"
-            app:civ_fill_color="@android:color/transparent"
-            android:src="@drawable/hander" />
+            app:civ_border_width="1dp"
+            app:civ_fill_color="@android:color/transparent" />
 
         <TextView
             android:id="@+id/iv_userName"
@@ -38,58 +38,58 @@
     </LinearLayout>
 
     <com.allen.library.SuperTextView
-    android:id="@+id/stv_myStroke"
-    android:layout_width="match_parent"
-    app:sLeftTextSize="40px"
-        app:sUseRipple="true"
-    app:sLeftTextColor="#3d444a"
-    android:layout_marginTop="58px"
-    android:layout_height="130px"
-    app:sLeftTextString="@string/mine_mystroke"
-    app:sRightIconRes="@drawable/right_comein"
-    />
-
-    <com.allen.library.SuperTextView
-        android:id="@+id/stv_myorder"
+        android:id="@+id/stv_myStroke"
         android:layout_width="match_parent"
-        app:sLeftTextSize="40px"
-        app:sLeftTextColor="#3d444a"
         android:layout_height="130px"
-        app:sUseRipple="true"
-        app:sLeftTextString="@string/mine_myorder"
+        android:layout_marginTop="58px"
+        app:sLeftTextColor="#3d444a"
+        app:sLeftTextSize="40px"
+        app:sLeftTextString="@string/mine_mystroke"
         app:sRightIconRes="@drawable/right_comein"
-        />
+        app:sUseRipple="true" />
+
+
     <com.allen.library.SuperTextView
         android:id="@+id/stv_myEquipment"
         android:layout_width="match_parent"
-        app:sLeftTextSize="40px"
-        app:sLeftTextColor="#3d444a"
         android:layout_height="130px"
-        app:sUseRipple="true"
+        app:sLeftTextColor="#3d444a"
+
+        app:sLeftTextSize="40px"
         app:sLeftTextString="@string/mine_myequipment"
         app:sRightIconRes="@drawable/right_comein"
-        />
+        app:sUseRipple="true" />
 
     <com.allen.library.SuperTextView
         android:id="@+id/stv_market"
         android:layout_width="match_parent"
-        app:sLeftTextSize="40px"
-        app:sLeftTextColor="#3d444a"
-        app:sUseRipple="true"
         android:layout_height="130px"
+        android:layout_marginTop="30px"
+        app:sLeftTextColor="#3d444a"
+        app:sLeftTextSize="40px"
         app:sLeftTextString="@string/mine_market"
         app:sRightIconRes="@drawable/right_comein"
-        />
+        app:sUseRipple="true" />
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/stv_myorder"
+        android:layout_width="match_parent"
+        android:layout_height="130px"
+        app:sLeftTextColor="#3d444a"
+        app:sLeftTextSize="40px"
+        app:sLeftTextString="@string/mine_myorder"
+        app:sRightIconRes="@drawable/right_comein"
+        app:sUseRipple="true" />
 
     <com.allen.library.SuperTextView
         android:id="@+id/stv_set"
         android:layout_width="match_parent"
-        app:sLeftTextSize="40px"
-        app:sLeftTextColor="#3d444a"
         android:layout_height="130px"
-        app:sUseRipple="true"
+        android:layout_marginTop="30px"
+        app:sLeftTextColor="#3d444a"
+        app:sLeftTextSize="40px"
         app:sLeftTextString="@string/mine_set"
         app:sRightIconRes="@drawable/right_comein"
-        />
+        app:sUseRipple="true" />
 
 </LinearLayout>

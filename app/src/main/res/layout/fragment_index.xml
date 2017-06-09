@@ -11,19 +11,24 @@
         android:layout_width="match_parent"
         android:layout_height="550px"
         android:layout_marginTop="250px">
+        <com.bigshark.smartlight.weight.CustomArcView
+            android:id="@+id/arc_view"
+            android:layout_width="556px"
+            android:layout_centerHorizontal="true"
+            android:layout_height="600px" />
 
         <LinearLayout
             android:id="@+id/ll"
-            android:layout_width="500px"
-            android:layout_height="500px"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/index_ll_layer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
 
             <LinearLayout
-                android:layout_width="500px"
-                android:layout_height="500px"
+                android:layout_width="490px"
+                android:layout_height="490px"
                 android:background="@drawable/index_bg"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -40,7 +45,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15px"
-                    android:text="0km/h"
+                    android:text="0.00"
+                    android:textColor="@color/white"
+                    android:textSize="90px" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="km/h"
                     android:textColor="@color/white"
                     android:textSize="48px" />
 
@@ -53,11 +65,11 @@
                     <TextView
                         android:id="@+id/tv_location"
                         android:layout_width="wrap_content"
-                        android:gravity="center"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:drawableLeft="@drawable/index_icon_location"
                         android:drawablePadding="15px"
+                        android:gravity="center"
                         android:text="路径"
                         android:textColor="@color/white"
                         android:textSize="43px" />
@@ -71,7 +83,8 @@
                         android:drawableLeft="@drawable/index_icon_ele"
                         android:drawablePadding="15px"
                         android:gravity="center"
-                        android:text="电量"
+                        android:text="     "
+                        android:visibility="gone"
                         android:textColor="@color/white"
                         android:textSize="43px" />
                 </LinearLayout>
@@ -86,153 +99,176 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="120px"
-            app:srcCompat="@drawable/index_icon_lock" />
+            app:srcCompat="@drawable/index_mine" />
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="155px"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="80px"
         android:layout_marginRight="80px"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
+        android:layout_marginTop="100px"
+        android:orientation="horizontal">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
+
             <TextView
-            android:layout_width="wrap_content"
-            android:textSize="43px"
-            android:text="热量"
-            android:textColor="@color/white"
-            android:layout_height="wrap_content" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="热量"
+                android:textColor="@color/white"
+                android:textSize="43px" />
+
             <TextView
                 android:id="@+id/tv_hot"
                 android:layout_width="wrap_content"
-                android:textSize="69px"
-                android:text="0cal"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="44px"
+                android:text="0cal"
                 android:textColor="#ec6941"
-                android:layout_height="wrap_content" />
+                android:textSize="69px" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
-                android:textSize="43px"
+                android:layout_height="wrap_content"
                 android:text="里程"
                 android:textColor="@color/white"
-                android:layout_height="wrap_content" />
+                android:textSize="43px" />
+
             <TextView
                 android:id="@+id/tv_total"
                 android:layout_width="wrap_content"
-                android:textSize="69px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="44px"
                 android:text="0km"
-                android:layout_marginTop="44px"
                 android:textColor="#ec6941"
-                android:layout_height="wrap_content" />
+                android:textSize="69px" />
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:textSize="43px"
-                android:text="海拔"
-                android:textColor="@color/white"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:textSize="69px"
-                android:id="@+id/tv_height"
-                android:text="0m"
-                android:layout_marginTop="44px"
-                android:textColor="#ec6941"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_marginTop="83px"
-        android:layout_marginLeft="80px"
-        android:layout_marginRight="80px"
-        android:paddingBottom="20px"
-        android:background="@drawable/index_shape"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="海拔"
+                android:textColor="@color/white"
+                android:textSize="43px" />
+
+            <TextView
+                android:id="@+id/tv_height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="44px"
+                android:text="0m"
+                android:textColor="#ec6941"
+                android:textSize="69px" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80px"
+        android:layout_marginRight="80px"
+        android:layout_marginTop="83px"
+        android:background="@drawable/index_shape"
+        android:gravity="center"
+        android:padding="20px"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="120px"
+            android:layout_height="120px"
+            android:layout_marginLeft="40px"
+            android:background="@drawable/index_lev_shape"
+            android:padding="15px"
+            android:src="@drawable/icon_vel"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="20px"
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/tv_speed2"
                 android:layout_width="wrap_content"
-                android:textSize="69px"
+                android:layout_height="wrap_content"
                 android:text="0km/h"
                 android:textColor="@color/white"
-                android:layout_height="wrap_content" />
+                android:textSize="59px" />
+
             <TextView
                 android:layout_width="wrap_content"
-                android:textSize="52px"
-                android:text="时速"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="15px"
+                android:text="时速"
                 android:textColor="#ec6941"
-                android:layout_height="wrap_content" />
+                android:textSize="42px" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_high_speed"
                 android:layout_width="wrap_content"
-                android:textSize="69px"
+                android:layout_height="wrap_content"
                 android:text="0km/h"
                 android:textColor="@color/white"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_high_speed" />
+                android:textSize="59px" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:textSize="52px"
-                android:text="最高速度"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="15px"
+                android:text="最高速度"
                 android:textColor="#ec6941"
-                android:layout_height="wrap_content" />
+                android:textSize="42px" />
         </LinearLayout>
     </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/fragment_index_bottom"/>
+        <include layout="@layout/fragment_index_bottom" />
+
         <TextView
             android:id="@+id/btn_find"
             android:layout_width="match_parent"
-            android:background="@drawable/index_tab"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="48px"
-            android:text="开始骑行"
             android:layout_height="117px"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:background="@drawable/index_tab"
+            android:gravity="center"
+            android:text="开始骑行"
+            android:textColor="@color/white"
+            android:textSize="48px" />
     </RelativeLayout>
 
 </LinearLayout>

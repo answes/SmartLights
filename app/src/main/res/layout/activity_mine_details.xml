@@ -8,15 +8,56 @@
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.bigshark.smartlight.pro.mine.view.MineDetailsActivity">
+
+    <RelativeLayout
+        android:id="@+id/rl_haed"
+        android:layout_width="match_parent"
+        android:layout_height="180px"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+       >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40px"
+            android:text="头像"
+            android:layout_centerVertical="true"
+            android:textColor="#3d444a"
+            android:textSize="40px" />
+
+        <ImageView
+            android:id="@+id/iv_rightBack"
+            android:layout_width="wrap_content"
+            android:src="@drawable/right_comein"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content" />
+
+        <com.bigshark.smartlight.weight.CircleNetworkImageImage
+            android:id="@+id/iv_hander"
+            android:layout_width="130px"
+            android:layout_height="130px"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/iv_rightBack"
+            app:civ_border_color="@android:color/transparent"
+            app:civ_border_overlay="true"
+            app:civ_border_width="1dp"
+            app:civ_fill_color="@android:color/transparent" />
+
+
+    </RelativeLayout>
+
     <com.allen.library.SuperTextView
         android:id="@+id/stv_name"
         android:layout_width="match_parent"
         app:sLeftTextSize="40px"
         app:sLeftTextColor="#3d444a"
+        android:layout_marginTop="58px"
         app:sRightTextString="未设置"
         android:layout_height="130px"
         app:sRightIconMarginRight="0px"
         app:sRightTextMarginRight="80px"
+        app:sBackgroundColor="@color/white"
         app:sRightTextColor="#d7d7d7"
         app:sLeftTextString="姓名"
         app:sRightIconRes="@drawable/right_comein"
@@ -30,6 +71,7 @@
         android:layout_height="130px"
         app:sRightIconMarginRight="0px"
         app:sRightTextMarginRight="80px"
+        app:sBackgroundColor="@color/white"
         app:sRightTextColor="#d7d7d7"
         app:sLeftTextString="手机号"
         app:sRightIconRes="@drawable/right_comein"
@@ -42,35 +84,65 @@
         app:sRightTextString="男"
         android:layout_height="130px"
         app:sRightIconMarginRight="0px"
+        app:sBackgroundColor="@color/white"
         app:sRightTextMarginRight="80px"
         app:sRightTextColor="#d7d7d7"
         app:sLeftTextString="性别"
         app:sRightIconRes="@drawable/right_comein"
         />
+
     <com.allen.library.SuperTextView
         android:id="@+id/stv_height"
         android:layout_width="match_parent"
-        app:sLeftTextSize="40px"
-        app:sLeftTextColor="#3d444a"
-        app:sRightTextString="175"
         android:layout_height="130px"
-        app:sRightIconMarginRight="0px"
-        app:sRightTextMarginRight="80px"
-        app:sRightTextColor="#d7d7d7"
+        android:layout_marginTop="40px"
+        app:sBackgroundColor="@color/white"
+        app:sLeftTextColor="#3d444a"
+        app:sLeftTextSize="40px"
         app:sLeftTextString="身高"
+        app:sRightIconMarginRight="0px"
         app:sRightIconRes="@drawable/right_comein"
-        />
+        app:sRightTextColor="#d7d7d7"
+        app:sRightTextMarginRight="80px"
+        app:sRightTextString="0" />
+
     <com.allen.library.SuperTextView
         android:id="@+id/stv_weight"
         android:layout_width="match_parent"
         app:sLeftTextSize="40px"
         app:sLeftTextColor="#3d444a"
-        app:sRightTextString="130"
+        app:sRightTextString="0"
         android:layout_height="130px"
         app:sRightIconMarginRight="0px"
         app:sRightTextMarginRight="80px"
+        app:sBackgroundColor="@color/white"
         app:sRightTextColor="#d7d7d7"
         app:sLeftTextString="体重"
         app:sRightIconRes="@drawable/right_comein"
+        />
+    <com.allen.library.SuperTextView
+        android:id="@+id/stv_age"
+        android:layout_width="match_parent"
+        app:sLeftTextSize="40px"
+        app:sLeftTextColor="#3d444a"
+        app:sRightTextString="0"
+        android:layout_height="130px"
+        app:sRightIconMarginRight="0px"
+        app:sRightTextMarginRight="80px"
+        app:sBackgroundColor="@color/white"
+        app:sRightTextColor="#d7d7d7"
+        app:sLeftTextString="年龄"
+        app:sRightIconRes="@drawable/right_comein"
+        />
+    <Button
+        android:id="@+id/bt_logout"
+        android:text="退出登陆"
+        android:textColor="@color/white"
+        android:textSize="49px"
+        android:layout_marginTop="40px"
+        android:layout_width="match_parent"
+        android:layout_height="130px"
+        android:layout_gravity="center_horizontal"
+        android:background="#EE3C57"
         />
 </LinearLayout>

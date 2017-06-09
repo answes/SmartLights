@@ -12,7 +12,7 @@
     <string name="mine_myequipment">我的设备</string>
     <string name="mine_set">设置</string>
     <string name="fragment_mine">我的</string>
-    <string name="mine_market">商场</string>
+    <string name="mine_market">商   场</string>
     <string name="app_version">版本：V1.0.0</string>
     <string name="mine_about">关于我们</string>
     <string name="mine_change_psw">修改密码</string>
@@ -45,4 +45,7 @@
     <string name="noteqw">还没有装备，去购买</string>
     <string name="app_time">Copyright@2017</string>
     <string name="app_company">昆山浦伦斯网络科技有限公司 All Rights Reseved</string>
+    <string name="index_open">开锁</string>
+    <string name="index_close">关锁</string>
+    <string name="index_find">寻车</string>
 </resources>

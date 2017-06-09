@@ -13,12 +13,16 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.bigshark.smartlight.bean.BLuetoothData;
 import com.bigshark.smartlight.bean.UpLoadRecord;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
@@ -36,6 +40,8 @@ import com.bigshark.smartlight.utils.GPSUtil;
 import com.bigshark.smartlight.utils.MediaPlayerUtils;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.bigshark.smartlight.utils.ToastUtil;
+import com.bigshark.smartlight.weight.CustomArcView;
+import com.bigshark.smartlight.weight.TakePhotoPopWin;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,6 +80,8 @@ public class IndexActivity extends BaseActivity {
     Button btStop;
     @BindView(R.id.bt_finish)
     Button btFinish;
+    @BindView(R.id.arc_view)
+    CustomArcView arcView;
     @BindView(R.id.index_bottom)
     LinearLayout IndexBottom;
 
@@ -122,25 +130,27 @@ public class IndexActivity extends BaseActivity {
 
     private String mac;
     private boolean isStart = false;
+    private   WindowManager.LayoutParams params ;
+    private TakePhotoPopWin takePhotoPopWin;
 
     /**
      * 查找用户新车
      *
      * @param view
      */
-    @OnClick({R.id.btn_find, R.id.tv_location, R.id.bt_stop, R.id.bt_finish})
+    @OnClick({R.id.btn_find, R.id.tv_location, R.id.bt_stop, R.id.bt_finish,R.id.iv_lock})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_find:
                 if(!GPSUtil.isOPen(this)){
                         GPSUtil.openGPS(this);
                     }
-//                startRide();
-                    if(!isLinkBlue){
-                        ScanActivity.openScanActivity(this);
-                    }else{
-                        startRide();
-                    }
+                startRide();
+//                    if(!isLinkBlue){
+//                        ScanActivity.openScanActivity(this);
+//                    }else{
+//                        startRide();
+//                    }
                 break;
             case R.id.tv_location:
                 if (isStart) {
@@ -164,6 +174,56 @@ public class IndexActivity extends BaseActivity {
                     isStart = true;
                     mapPreseter.restart();
                 }
+                break;
+            case R.id.iv_lock:
+                  takePhotoPopWin = new TakePhotoPopWin(this, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        switch (view.getId()){
+                            case R.id.ll_open:
+                                if(isLinkBlue){
+                                    IndexActivity.sendData(BLuetoothData.getOpenAlert());
+                                    takePhotoPopWin.dismiss();
+                                }else{
+                                    ScanActivity.openScanActivity(IndexActivity.this);
+                                    takePhotoPopWin.dismiss();
+                                }
+                                break;
+                            case R.id.ll_close:
+                                if(isLinkBlue){
+                                    IndexActivity.sendData(BLuetoothData.getCloseAlert());
+                                    takePhotoPopWin.dismiss();
+                                }else{
+                                    ScanActivity.openScanActivity(IndexActivity.this);
+                                    takePhotoPopWin.dismiss();
+                                }
+                                break;
+                            case R.id.ll_find:
+                                if(isLinkBlue){
+                                    IndexActivity.sendData(BLuetoothData.getFindCar());
+                                    takePhotoPopWin.dismiss();
+                                }else{
+                                    ScanActivity.openScanActivity(IndexActivity.this);
+                                    takePhotoPopWin.dismiss();
+                                }
+                                break;
+
+                        }
+                    }
+                });
+                takePhotoPopWin.showAtLocation(llContext, Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+                params = getWindow().getAttributes();
+                params.alpha = 0.7f;
+                getWindow().setAttributes(params);
+                //设置Popupwindow关闭监听，当Popupwindow关闭，背景恢复1f
+                takePhotoPopWin.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        params = getWindow().getAttributes();
+                        params.alpha=1f;
+                        getWindow().setAttributes(params);
+                    }
+                });
                 break;
         }
     }
@@ -207,7 +267,7 @@ public class IndexActivity extends BaseActivity {
                             tvHeight.setText(String.valueOf(record.getHeight()) + "m");
                             tvHighSpeed.setText(String.format("%.2f", record.getMaxSpeed()) + "km/h");
                             tvHot.setText(String.format("%.2f", record.getK()) + "Cal");
-                            tvSpeed.setText(String.format("%.2f", record.getSpeed()) + "km/h");
+                            tvSpeed.setText(String.format("%.2f", record.getSpeed()));
                             tvSpeed2.setText(String.format("%.2f", record.getSpeed()) + "km/h");
                             tvTotal.setText(String.format("%.2f", (record.getDistance()) / 1000) + "km");
                         }
@@ -228,14 +288,19 @@ public class IndexActivity extends BaseActivity {
                               String[] datas = data.split(" ");
                                 if("03".equals(datas[4])){
                                     int count = Integer.parseInt(datas[7]) * 10 + Integer.parseInt(datas[8]);
+                                    tvEle.setVisibility(View.VISIBLE);
                                     tvEle.setText(String.valueOf(count));
                                 }
                                 if("05".equals(datas[4])){
                                     int tuen = Integer.parseInt(datas[6]);
                                     if(1 == tuen){
                                         mediaPlayerUtils.palyLeftMedia();
+                                        arcView.setLeftDraw();
                                     }else if(2 == tuen){
                                         mediaPlayerUtils.palyRightMedia();
+                                        arcView.setRihgtDraw();
+                                    }else{
+                                        arcView.setFuyuanDraw();
                                     }
                                 }
                             }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bigshark.smartlight.R;
+import com.bigshark.smartlight.bean.Speed;
 import com.bigshark.smartlight.bean.UpLoadRecord;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
@@ -49,15 +50,15 @@ public class SpeedDetailActivity extends BaseActivity {
     private void initCurveChart1() {
         tvMaxspeed.setText(upLoadRecord.getMaxSpeed()+"  km/h\n最高速度");
         tvAvgspeed.setText(upLoadRecord.getAvSpeed()+"  km/h\n最高速度");
-        List<String> speeds =  JSON.parseArray(upLoadRecord.getAllspeed(),String.class);
+        List<Speed> speeds =  JSON.parseArray(upLoadRecord.getAllspeed(),Speed.class);
         String[] xLabel;
         int[] data1;
         if(null != speeds && speeds.size() != 0){
             xLabel= new String[speeds.size()];
             data1 = new int[speeds.size()];
             for(int i= 0;i<speeds.size();i++){
-                xLabel[i] = String.valueOf(i);
-                data1[i] =Integer.valueOf(speeds.get(i));
+                xLabel[i] = String.valueOf(speeds.get(i).getTime());
+                data1[i] =Integer.valueOf(speeds.get(i).getSpeed());
             }
         }else{
             xLabel = new String[]{"1", "2", "3", "4", "5", "6", "7"};

@@ -80,6 +80,7 @@
         android:shadowColor="#EE3C57"
         android:shadowDx="0"
         android:shadowDy="0"
+        android:visibility="gone"
         android:shadowRadius="5"
         />
 

@@ -1,14 +1,8 @@
 package com.bigshark.smartlight.pro.mine.view;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -116,29 +110,7 @@ public class MineActivity extends BaseActivity {
                 SetActivity.openSetActivity(this);
                 break;
             case R.id.iv_hander:
-                if (ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
-                }else{
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(this).setTitle("更换头像")
-                            .setMessage("请选择相册或拍照")
-                            .setPositiveButton("相册", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    //选择相册
-                                    PictureConfig.getInstance().openPhoto(MineActivity.this, resultCallback);
-                                }
-                            })
-                            .setNegativeButton("拍照", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    //拍照
-                                    PictureConfig.getInstance().startOpenCamera(MineActivity.this);
-                                }
-                            });
-                    alertDialog.show();
-                }
+
                 break;
             case R.id.iv_userName:
                 MineDetailsActivity.openMineDetailsActivity(this);
