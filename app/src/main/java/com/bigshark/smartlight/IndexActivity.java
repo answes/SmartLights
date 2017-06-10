@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -279,29 +280,45 @@ public class IndexActivity extends BaseActivity {
         if(null == bluetoothStateRecive){
             bluetoothStateRecive = new BluetoothStateRecive(new BluetoothStateRecive.BlueetoothStateChangeListener() {
                 @Override
-                public void onReciveData(final int state, final String data) {
+                public void onReciveData(final int state, final String data,final byte[] realData) {
 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if(3 == state && null != data && !"".equals(data)){
-                              String[] datas = data.split(" ");
-                                if("03".equals(datas[4])){
-                                    int count = Integer.parseInt(datas[7]) * 10 + Integer.parseInt(datas[8]);
+                            if(3 == state){
+                                if(3 == realData[4]){
+                                    //0x0F 16禁止
+                                    int count = (realData[7] * 256 + realData[8])/700;
                                     tvEle.setVisibility(View.VISIBLE);
                                     tvEle.setText(String.valueOf(count));
                                 }
-                                if("05".equals(datas[4])){
-                                    int tuen = Integer.parseInt(datas[6]);
+                                //专项
+                                if(5 == realData[4]){
+                                    int tuen = realData[6];
                                     if(1 == tuen){
                                         mediaPlayerUtils.palyLeftMedia();
                                         arcView.setLeftDraw();
                                     }else if(2 == tuen){
                                         mediaPlayerUtils.palyRightMedia();
                                         arcView.setRihgtDraw();
-                                    }else{
-                                        arcView.setFuyuanDraw();
                                     }
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            arcView.setFuyuanDraw();
+                                        }
+                                    },2000);
+                                }
+
+                                if(1 == realData[4]){
+                                    mediaPlayerUtils.palyShacheMedia();
+                                    arcView.setShacheDraw();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            arcView.setFuyuanDraw();
+                                        }
+                                    },2000);
                                 }
                             }
                         }

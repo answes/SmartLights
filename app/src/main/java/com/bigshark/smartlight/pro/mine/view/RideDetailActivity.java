@@ -109,7 +109,7 @@ public class RideDetailActivity extends BaseActivity {
         tvMax.setText(result.getMaxspeed());
         tvCal.setText(result.getHeat());
         tvAvgSpeed.setText(result.getAvgspeed());
-        tvTotal.setText(String.format("%.2f", (Double.parseDouble(result.getDistance())) / 1000));
+        tvTotal.setText(String.format("%.2f", (Double.parseDouble(result.getDistance()))));
         tvHour.setText(new StringBuffer()
                 .append(String.format("%02d", time / (60 * 60 * 1000)))
                 .append(":")

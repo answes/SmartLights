@@ -29,6 +29,7 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -121,6 +122,11 @@ public class BluetoothLeService extends Service {
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
             Log.i("Load", Arrays.toString(characteristic.getValue()));
         }
+
+        @Override
+        public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            super.onCharacteristicWrite(gatt, characteristic, status);
+        }
     };
 
     private void broadcastUpdate(final String action) {
@@ -157,7 +163,9 @@ public class BluetoothLeService extends Service {
                     stringBuilder.append(String.format("%02X ", byteChar));
 
                 Log.e(TAG, "broadcastUpdate: " + stringBuilder.toString());
-                intent.putExtra(EXTRA_DATA, stringBuilder.toString());
+                Bundle bundle = new Bundle();
+                bundle.putByteArray(EXTRA_DATA,data);
+                intent.putExtras(bundle);
             }
         }
         sendBroadcast(intent);
@@ -362,7 +370,7 @@ public class BluetoothLeService extends Service {
 
                 //设置写的特征
                 BluetoothGattCharacteristic write = bluetoothGatt.getServices().get(2).getCharacteristics().get(1);
-                writeCharacteristic = chara;
+                writeCharacteristic = write;
 
 //                List gattCharacteristics = qppService.getCharacteristics();
 //

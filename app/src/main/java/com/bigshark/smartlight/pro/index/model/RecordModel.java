@@ -35,7 +35,7 @@ public class RecordModel extends BaseModel {
         request.put("user_id", SmartLightsApplication.USER.getId()+"");
         request.put("maxspeed", String.valueOf(upLoadRecord.getMaxSpeed()));
         request.put("avgspeed", String.valueOf(upLoadRecord.getAvSpeed()));
-        request.put("distance", String.valueOf(upLoadRecord.getDistance()));
+        request.put("distance", String.valueOf(upLoadRecord.getDistance()/1000d));
         request.put("time", String.valueOf(upLoadRecord.getTime()));
         request.put("height",String.valueOf(upLoadRecord.getHeight()));
         request.put("heat",String.valueOf(upLoadRecord.getK()));

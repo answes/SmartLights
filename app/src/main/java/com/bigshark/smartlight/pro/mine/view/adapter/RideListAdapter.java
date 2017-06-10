@@ -47,7 +47,7 @@ public class RideListAdapter extends BaseRecyclerAdapter<RideListAdapter.MyViewH
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position, boolean isItem) {
-        final Double cny = Double.parseDouble(list.get(position).getDistance())/1000;
+        final Double cny = Double.parseDouble(list.get(position).getDistance());
         DecimalFormat df = new DecimalFormat("0.000");
         holder.distance.setText(df.format(cny));
         holder.time.setText(DateFomat.convertSecond2DateSS(list.get(position).getCre_tm()));

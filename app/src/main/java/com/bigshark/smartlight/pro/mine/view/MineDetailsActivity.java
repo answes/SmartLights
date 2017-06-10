@@ -29,6 +29,7 @@ import com.bigshark.smartlight.bean.LoginResult;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
+import com.bigshark.smartlight.pro.market.view.SelectAddressActivity;
 import com.bigshark.smartlight.pro.market.view.navigation.GoodDetailsNavigationBuilder;
 import com.bigshark.smartlight.pro.mine.presenter.MinePresenter;
 import com.bigshark.smartlight.utils.MD5Utils;
@@ -70,6 +71,8 @@ public class MineDetailsActivity extends BaseActivity {
     RelativeLayout rlHaed;
     @BindView(R.id.stv_age)
     SuperTextView stvAge;
+    @BindView(R.id.stv_address)
+    SuperTextView stvAddress;
     @BindView(R.id.bt_logout)
     Button btLogout;
     private MinePresenter minePresenter;
@@ -138,6 +141,13 @@ public class MineDetailsActivity extends BaseActivity {
             public void onSuperTextViewClick() {
                 super.onSuperTextViewClick();
                 ModifyInfoActivity.openModifyInfoActivityForResult(MineDetailsActivity.this, "年龄修改", "年龄");
+            }
+        });
+        stvAddress.setOnSuperTextViewClickListener(new SuperTextView.OnSuperTextViewClickListener(){
+            @Override
+            public void onSuperTextViewClick() {
+                super.onSuperTextViewClick();
+                SelectAddressActivity.openSelectAddressActivityForResult(MineDetailsActivity.this, 0x020);
             }
         });
     }

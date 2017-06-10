@@ -134,6 +134,23 @@
         app:sLeftTextString="年龄"
         app:sRightIconRes="@drawable/right_comein"
         />
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/stv_address"
+        android:layout_width="match_parent"
+        app:sLeftTextSize="40px"
+        app:sLeftTextColor="#3d444a"
+        app:sRightTextString="0"
+        android:layout_height="130px"
+        app:sRightIconMarginRight="0px"
+        android:layout_marginTop="40px"
+        app:sRightTextMarginRight="80px"
+        app:sBackgroundColor="@color/white"
+        app:sRightTextColor="#d7d7d7"
+        app:sLeftTextString="地址"
+        app:sRightIconRes="@drawable/right_comein"
+        />
+
     <Button
         android:id="@+id/bt_logout"
         android:text="退出登陆"

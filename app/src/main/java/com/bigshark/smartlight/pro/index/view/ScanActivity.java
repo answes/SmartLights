@@ -175,7 +175,7 @@ public class ScanActivity extends BaseActivity {
         if (recive == null) {
             recive = new BluetoothStateRecive(new BluetoothStateRecive.BlueetoothStateChangeListener() {
                 @Override
-                public void onReciveData(int state, String data) {
+                public void onReciveData(int state, String data,byte[] datas) {
                     if (state == 0) {
 //                        tvState.setText("已连接");
                     } else if (state == 1) {

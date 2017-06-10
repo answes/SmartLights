@@ -141,8 +141,14 @@ public class BLuetoothData {
 //            arrayList.add(bytes[i]);
 //            sb.append(String.format("%02d",bytes[i]));
 //        }
+
+        //加入指令代码
+        for(int i=0;i<bytes.length;i++){
+            arrayList.add(bytes[i]);
+        }
+
         byte[] checkNumbers = getCheckNumber(bytes,3);
-        for(int i=0;i<2;i++){
+        for(int i=1;i>=0;i--){
             arrayList.add(checkNumbers[i]);
         }
 
