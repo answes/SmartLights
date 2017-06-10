@@ -36,7 +36,16 @@ public class RecordModel extends BaseModel {
         request.put("maxspeed", String.valueOf(upLoadRecord.getMaxSpeed()));
         request.put("avgspeed", String.valueOf(upLoadRecord.getAvSpeed()));
         request.put("distance", String.valueOf(upLoadRecord.getDistance()/1000d));
-        request.put("time", String.valueOf(upLoadRecord.getTime()));
+
+        String time = new StringBuffer()
+                .append(String.format("%02d",upLoadRecord.getTime()/(60*60*1000)))
+                .append(":")
+                .append(String.format("%02d",upLoadRecord.getTime()%(60*60*1000)/(60*1000)))
+                .append(":")
+                .append((String.format("%02d",upLoadRecord.getTime()%(60*60*1000)%(60*1000)/(1000))))
+                .toString();
+        request.put("time", time);
+
         request.put("height",String.valueOf(upLoadRecord.getHeight()));
         request.put("heat",String.valueOf(upLoadRecord.getK()));
         request.put("tel",SmartLightsApplication.USER.getTel()+"");

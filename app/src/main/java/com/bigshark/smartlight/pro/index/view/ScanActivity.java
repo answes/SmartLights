@@ -182,8 +182,6 @@ public class ScanActivity extends BaseActivity {
 //                        tvState.setText("断开连接");
                     } else if (state == 2) {
 //                        tvState.setText("通信状态");
-                    } else if (state == 3) {
-                        Log.e("TAG", "mHandler.sendEmptyMessage(1): ");
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -192,6 +190,9 @@ public class ScanActivity extends BaseActivity {
                         }).start();
                         unregisterReceiver(recive);
                         recive = null;
+                    } else if (state == 3) {
+                        Log.e("TAG", "mHandler.sendEmptyMessage(1): ");
+
 
                     }
                 }

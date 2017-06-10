@@ -96,7 +96,7 @@ public class RideDetailActivity extends BaseActivity {
 
     private void setData(RideDetailResult.RideDetail result) {
         List<LatLng> latLngs = new Gson().fromJson(result.getGps(),new TypeToken<List<LatLng>>(){}.getType());
-        int time = Integer.parseInt(result.getTime());
+        //int time = Integer.parseInt(result.getTime());
 
         tvDate.setText(DateFomat.convertSecond2Date(result.getCre_tm()).concat("的骑行"));
         if (null != latLngs && latLngs.size() != 0) {
@@ -110,13 +110,7 @@ public class RideDetailActivity extends BaseActivity {
         tvCal.setText(result.getHeat());
         tvAvgSpeed.setText(result.getAvgspeed());
         tvTotal.setText(String.format("%.2f", (Double.parseDouble(result.getDistance()))));
-        tvHour.setText(new StringBuffer()
-                .append(String.format("%02d", time / (60 * 60 * 1000)))
-                .append(":")
-                .append(String.format("%02d", time % (60 * 60 * 1000) / (60 * 1000)))
-                .append(":")
-                .append((String.format("%02d", time % (60 * 60 * 1000) % (60 * 1000) / (1000))))
-                .toString());
+        tvHour.setText(result.getTime()+"");
 
     }
 
