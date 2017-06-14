@@ -97,7 +97,7 @@ public class IndexActivity extends BaseActivity {
         //蓝牙连接服务
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
-        mediaPlayerUtils = new MediaPlayerUtils(this);
+        mediaPlayerUtils = new MediaPlayerUtils(this,arcView);
     }
 
     private MapPreseter mapPreseter;
@@ -147,11 +147,6 @@ public class IndexActivity extends BaseActivity {
                         GPSUtil.openGPS(this);
                     }
                 startRide();
-//                    if(!isLinkBlue){
-//                        ScanActivity.openScanActivity(this);
-//                    }else{
-//                        startRide();
-//                    }
                 break;
             case R.id.tv_location:
                 if (isStart) {
@@ -177,54 +172,43 @@ public class IndexActivity extends BaseActivity {
                 }
                 break;
             case R.id.iv_lock:
-                  takePhotoPopWin = new TakePhotoPopWin(this, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        switch (view.getId()){
-                            case R.id.ll_open:
-                                if(isLinkBlue){
-                                    IndexActivity.sendData(BLuetoothData.getOpenAlert());
-                                    takePhotoPopWin.dismiss();
-                                }else{
-                                    ScanActivity.openScanActivity(IndexActivity.this);
-                                    takePhotoPopWin.dismiss();
-                                }
-                                break;
-                            case R.id.ll_close:
-                                if(isLinkBlue){
-                                    IndexActivity.sendData(BLuetoothData.getCloseAlert());
-                                    takePhotoPopWin.dismiss();
-                                }else{
-                                    ScanActivity.openScanActivity(IndexActivity.this);
-                                    takePhotoPopWin.dismiss();
-                                }
-                                break;
-                            case R.id.ll_find:
-                                if(isLinkBlue){
-                                    IndexActivity.sendData(BLuetoothData.getFindCar());
-                                    takePhotoPopWin.dismiss();
-                                }else{
-                                    ScanActivity.openScanActivity(IndexActivity.this);
-                                    takePhotoPopWin.dismiss();
-                                }
-                                break;
+                if(isLinkBlue){
+                    takePhotoPopWin = new TakePhotoPopWin(this, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            switch (view.getId()){
+                                case R.id.ll_open:
+                                        IndexActivity.sendData(BLuetoothData.getOpenAlert());
+                                        takePhotoPopWin.dismiss();
+                                    break;
+                                case R.id.ll_close:
+                                        IndexActivity.sendData(BLuetoothData.getCloseAlert());
+                                        takePhotoPopWin.dismiss();
+                                    break;
+                                case R.id.ll_find:
+                                        IndexActivity.sendData(BLuetoothData.getFindCar());
+                                        takePhotoPopWin.dismiss();
+                                    break;
 
+                            }
                         }
-                    }
-                });
-                takePhotoPopWin.showAtLocation(llContext, Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
-                params = getWindow().getAttributes();
-                params.alpha = 0.7f;
-                getWindow().setAttributes(params);
-                //设置Popupwindow关闭监听，当Popupwindow关闭，背景恢复1f
-                takePhotoPopWin.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                    @Override
-                    public void onDismiss() {
-                        params = getWindow().getAttributes();
-                        params.alpha=1f;
-                        getWindow().setAttributes(params);
-                    }
-                });
+                    });
+                    takePhotoPopWin.showAtLocation(llContext, Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+                    params = getWindow().getAttributes();
+                    params.alpha = 0.7f;
+                    getWindow().setAttributes(params);
+                    //设置Popupwindow关闭监听，当Popupwindow关闭，背景恢复1f
+                    takePhotoPopWin.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                        @Override
+                        public void onDismiss() {
+                            params = getWindow().getAttributes();
+                            params.alpha=1f;
+                            getWindow().setAttributes(params);
+                        }
+                    });
+                }else{
+                    ScanActivity.openScanActivity(IndexActivity.this);
+                }
                 break;
         }
     }
@@ -287,10 +271,16 @@ public class IndexActivity extends BaseActivity {
                         public void run() {
                             if(3 == state){
                                 if(3 == realData[4]){
-                                    //0x0F 16禁止
-                                    int count = (realData[7] * 256 + realData[8])/700;
+                                    //0x16禁止
+//                                    int count = (realData[7] * 256 + realData[8])/700;
+                                    try{
+                                    int count = ((Integer.parseInt(realData[7]+""+realData[8])) - 3500)/700;
                                     tvEle.setVisibility(View.VISIBLE);
-                                    tvEle.setText(String.valueOf(count));
+                                    tvEle.setText(String.valueOf(count)+"%");
+                                    }catch (Exception e){
+                                        tvEle.setVisibility(View.VISIBLE);
+                                        tvEle.setText(5+"%");
+                                    }
                                 }
                                 //专项
                                 if(5 == realData[4]){
@@ -312,13 +302,7 @@ public class IndexActivity extends BaseActivity {
 
                                 if(1 == realData[4]){
                                     mediaPlayerUtils.palyShacheMedia();
-                                    arcView.setShacheDraw();
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            arcView.setFuyuanDraw();
-                                        }
-                                    },2000);
+                                    arcView.setShacheDraw();//刷新UI
                                 }
                             }
                         }

@@ -59,13 +59,38 @@
         android:layout_width="match_parent"
         android:id="@+id/stv_emptyCache"
         app:sLeftTextString="@string/mine_emptyCache"
-        app:sLeftTextSize="40px"
-        app:sLeftTextColor="#022222"
         app:sUseRipple="true"
+        app:sLeftTextSize="40px"
+        app:sRightIconRes="@drawable/right_comein"
         app:sLeftTextMarginLeft="130px"
         app:sRightIconMarginRight="130px"
-        app:sLineShow="none"
+        app:sLeftTextColor="#022222"
+        app:sBottomLineMargin="130px"
         android:layout_height="130px"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="130px"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0px"
+            android:textSize="40px"
+            android:textColor="#022222"
+            android:layout_marginLeft="130px"
+            android:layout_height="wrap_content"
+            android:text="语音开关"/>
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_marginRight="130px"
+            android:layout_width="wrap_content"
+            android:checked="true"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/bt_logout"

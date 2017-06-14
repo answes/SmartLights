@@ -111,4 +111,33 @@ public class SQLUtils {
     }
 
 
+    /**
+     * 保存是否播放语音
+     * @param activity
+     * @param isOpenVoice
+     */
+    public static void appConfig(Activity activity ,boolean isOpenVoice){
+        SharedPreferences mySharedPreferences= activity.getSharedPreferences("config",
+                Activity.MODE_PRIVATE);
+        //实例化SharedPreferences.Editor对象（第二步）
+        SharedPreferences.Editor editor = mySharedPreferences.edit();
+        //用putString的方法保存数据
+        editor.putBoolean("isOpenVoice",isOpenVoice);
+        //提交当前数据
+        editor.commit();
+    }
+
+    /**
+     * 查询是否播放语音数据  默认为播放
+     * @param activity
+     * @return
+     */
+    public static boolean getConfig(Activity activity){
+        SharedPreferences sharedPreferences= activity.getSharedPreferences("config",
+                Activity.MODE_PRIVATE);
+        // 使用getString方法获得value，注意第2个参数是value的默认值
+        return sharedPreferences.getBoolean("isOpenVoice", true);
+    }
+
+
 }

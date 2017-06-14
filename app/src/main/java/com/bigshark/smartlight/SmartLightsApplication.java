@@ -28,7 +28,7 @@ public class SmartLightsApplication extends Application {
 
     public static LoginResult.User USER = null;
     public static RequestQueue queue;//volley 队列
-
+    public static boolean isOpenVioce;  //是否播放语音
 
     //开启线程初始化 省市区数据 及附属数据
     public static List<Province> provinces = new ArrayList<>();
@@ -53,7 +53,6 @@ public class SmartLightsApplication extends Application {
         initPhoto();
         initErrorHandler();
     }
-
     private void initPhoto() {
         FunctionOptions options = new FunctionOptions.Builder()
                 .setType( FunctionConfig.TYPE_IMAGE) // 图片or视频 FunctionConfig.TYPE_IMAGE  TYPE_VIDEO

@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="156px"
+        android:layout_height="166px"
         android:layout_marginTop="58px"
         android:background="@color/white"
         android:gravity="center_vertical"
@@ -33,17 +33,17 @@
             android:layout_marginLeft="30px"
             android:text="13510344127"
             android:textColor="#3d444a"
-            android:textSize="40px" />
+            android:textSize="50px" />
 
     </LinearLayout>
 
     <com.allen.library.SuperTextView
         android:id="@+id/stv_myStroke"
         android:layout_width="match_parent"
-        android:layout_height="130px"
+        android:layout_height="140px"
         android:layout_marginTop="58px"
         app:sLeftTextColor="#3d444a"
-        app:sLeftTextSize="40px"
+        app:sLeftTextSize="50px"
         app:sLeftTextString="@string/mine_mystroke"
         app:sRightIconRes="@drawable/right_comein"
         app:sUseRipple="true" />
@@ -52,10 +52,9 @@
     <com.allen.library.SuperTextView
         android:id="@+id/stv_myEquipment"
         android:layout_width="match_parent"
-        android:layout_height="130px"
+        android:layout_height="140px"
         app:sLeftTextColor="#3d444a"
-
-        app:sLeftTextSize="40px"
+        app:sLeftTextSize="50px"
         app:sLeftTextString="@string/mine_myequipment"
         app:sRightIconRes="@drawable/right_comein"
         app:sUseRipple="true" />
@@ -63,10 +62,10 @@
     <com.allen.library.SuperTextView
         android:id="@+id/stv_market"
         android:layout_width="match_parent"
-        android:layout_height="130px"
+        android:layout_height="140px"
         android:layout_marginTop="30px"
         app:sLeftTextColor="#3d444a"
-        app:sLeftTextSize="40px"
+        app:sLeftTextSize="50px"
         app:sLeftTextString="@string/mine_market"
         app:sRightIconRes="@drawable/right_comein"
         app:sUseRipple="true" />
@@ -74,9 +73,9 @@
     <com.allen.library.SuperTextView
         android:id="@+id/stv_myorder"
         android:layout_width="match_parent"
-        android:layout_height="130px"
+        android:layout_height="140px"
         app:sLeftTextColor="#3d444a"
-        app:sLeftTextSize="40px"
+        app:sLeftTextSize="50px"
         app:sLeftTextString="@string/mine_myorder"
         app:sRightIconRes="@drawable/right_comein"
         app:sUseRipple="true" />
@@ -84,10 +83,10 @@
     <com.allen.library.SuperTextView
         android:id="@+id/stv_set"
         android:layout_width="match_parent"
-        android:layout_height="130px"
+        android:layout_height="140px"
         android:layout_marginTop="30px"
         app:sLeftTextColor="#3d444a"
-        app:sLeftTextSize="40px"
+        app:sLeftTextSize="50px"
         app:sLeftTextString="@string/mine_set"
         app:sRightIconRes="@drawable/right_comein"
         app:sUseRipple="true" />

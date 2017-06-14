@@ -32,11 +32,11 @@ public class BLuetoothData {
     //寻车
     private static byte[] findCar = new byte[]{0x0a, 0x00, 0x00};
 
-    //开启警戒
-    private static byte[] openAlert = new byte[]{0x0c, 0x01, 0x00, 0x01};
+    //开锁
+    private static byte[] openAlert = new byte[]{0x0c, 0x01, 0x00, 0x02};
 
-    //关闭警戒
-    private static byte[] closeAlert = new byte[]{0x0c, 0x01, 0x0, 0x02};
+    //关锁
+    private static byte[] closeAlert = new byte[]{0x0c, 0x01, 0x0, 0x01};
 
     /**
      * 获得校验码

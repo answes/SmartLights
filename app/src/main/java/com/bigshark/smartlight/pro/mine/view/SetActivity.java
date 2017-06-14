@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.allen.library.SuperTextView;
@@ -35,6 +37,8 @@ public class SetActivity extends BaseActivity {
     Button btLogout;
     @BindView(R.id.activity_set)
     LinearLayout rootView;
+    @BindView(R.id.switch1)
+    Switch switch1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,17 +47,29 @@ public class SetActivity extends BaseActivity {
         ButterKnife.bind(this);
         initToolbar();
         SupportMultipleScreensUtil.scale(rootView);
+
+        switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    SQLUtils.appConfig(SetActivity.this,true);
+                }else{
+                    SQLUtils.appConfig(SetActivity.this,false);
+                }
+            }
+        });
+
     }
 
     private void initToolbar() {
         MineNavigationBuilder toolbar = new MineNavigationBuilder(this);
         toolbar.setLeftIcon(R.drawable.left_back)
                 .setLeftIconOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        }).setTitle("设置") .createAndBind( rootView);
+                    @Override
+                    public void onClick(View view) {
+                        finish();
+                    }
+                }).setTitle("设置").createAndBind(rootView);
     }
 
     @Override
@@ -71,7 +87,7 @@ public class SetActivity extends BaseActivity {
                 ChangePswActivity.openChangePswActivity(this);
                 break;
             case R.id.stv_emptyCache:
-                ToastUtil.showToast(this,"已清除30k缓存");
+                ToastUtil.showToast(this, "已清除30k缓存");
                 break;
             case R.id.bt_logout:
                 SQLUtils.clearUser(this);
@@ -80,7 +96,7 @@ public class SetActivity extends BaseActivity {
         }
     }
 
-    public static void openSetActivity(Activity activity){
-        activity.startActivity(new Intent(activity,SetActivity.class));
+    public static void openSetActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, SetActivity.class));
     }
 }

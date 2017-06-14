@@ -21,9 +21,9 @@ public class LaunchingActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launching);
 
+        SmartLightsApplication.isOpenVioce = SQLUtils.getConfig(this);
         //判断以前是否登陆
         final String userId = SQLUtils.getUser(this);
-        Log.e("Load", "SQLUtils: " + userId );
         if(null == userId){
             //开启一个线程
             new Thread(new Runnable() {

@@ -46,6 +46,6 @@
     <string name="app_time">Copyright@2017</string>
     <string name="app_company">昆山浦伦斯网络科技有限公司 All Rights Reseved</string>
     <string name="index_open">开锁</string>
-    <string name="index_close">关锁</string>
+    <string name="index_close">锁定</string>
     <string name="index_find">寻车</string>
 </resources>

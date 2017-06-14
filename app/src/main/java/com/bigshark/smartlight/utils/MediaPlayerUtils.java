@@ -4,6 +4,8 @@ import android.content.Context;
 import android.media.MediaPlayer;
 
 import com.bigshark.smartlight.R;
+import com.bigshark.smartlight.SmartLightsApplication;
+import com.bigshark.smartlight.weight.CustomArcView;
 
 /**
  * Created by jlbs1 on 2017/5/31.
@@ -12,8 +14,10 @@ import com.bigshark.smartlight.R;
 public class MediaPlayerUtils {
     private Context context;
     private MediaPlayer mediaPlayer;//MediaPlayer对象
+    private CustomArcView arcView;  //背景变色
 
-    public MediaPlayerUtils(Context context) {
+    public MediaPlayerUtils(Context context,CustomArcView arcView) {
+        this.arcView = arcView;
         this.context = context;
     }
 
@@ -24,6 +28,7 @@ public class MediaPlayerUtils {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
                 mediaPlayer.release();
+                arcView.setFuyuanDraw();
             }
         });
     }
@@ -38,14 +43,16 @@ public class MediaPlayerUtils {
      * 左转
      */
     public void palyLeftMedia() {
-        if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer.create(context, R.raw.left);
-            init();
-            mediaPlayer.start();
-        } else {
-            mediaPlayer.release();
-            mediaPlayer = null;
-            palyLeftMedia();
+        if(SmartLightsApplication.isOpenVioce){
+            if (mediaPlayer == null) {
+                mediaPlayer = MediaPlayer.create(context, R.raw.left);
+                init();
+                mediaPlayer.start();
+            } else {
+                mediaPlayer.release();
+                mediaPlayer = null;
+                palyLeftMedia();
+            }
         }
 
     }
@@ -54,14 +61,16 @@ public class MediaPlayerUtils {
      * 右转
      */
     public void palyRightMedia() {
-        if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer.create(context, R.raw.right);
-            init();
-            mediaPlayer.start();
-        } else {
-            mediaPlayer.release();
-            mediaPlayer = null;
-            palyRightMedia();
+        if(SmartLightsApplication.isOpenVioce) {
+            if (mediaPlayer == null) {
+                mediaPlayer = MediaPlayer.create(context, R.raw.right);
+                init();
+                mediaPlayer.start();
+            } else {
+                mediaPlayer.release();
+                mediaPlayer = null;
+                palyRightMedia();
+            }
         }
     }
 
@@ -69,14 +78,16 @@ public class MediaPlayerUtils {
      * 波放刹车
      */
     public void palyShacheMedia() {
-        if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer.create(context, R.raw.shache);
-            init();
-            mediaPlayer.start();
-        } else {
-            mediaPlayer.release();
-            mediaPlayer = null;
-            palyShacheMedia();
+        if (SmartLightsApplication.isOpenVioce) {
+            if (mediaPlayer == null) {
+                mediaPlayer = MediaPlayer.create(context, R.raw.shache);
+                init();
+                mediaPlayer.start();
+            } else {
+                mediaPlayer.release();
+                mediaPlayer = null;
+                palyShacheMedia();
+            }
         }
     }
 

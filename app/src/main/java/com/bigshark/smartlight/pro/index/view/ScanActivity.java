@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -191,8 +190,6 @@ public class ScanActivity extends BaseActivity {
                         unregisterReceiver(recive);
                         recive = null;
                     } else if (state == 3) {
-                        Log.e("TAG", "mHandler.sendEmptyMessage(1): ");
-
 
                     }
                 }
