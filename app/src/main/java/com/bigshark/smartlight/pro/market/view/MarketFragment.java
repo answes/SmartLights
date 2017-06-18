@@ -2,7 +2,6 @@ package com.bigshark.smartlight.pro.market.view;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,10 +15,8 @@ import com.bigshark.smartlight.pro.base.view.BaseFragment;
 import com.bigshark.smartlight.pro.market.presenter.MarketListPresenter;
 import com.bigshark.smartlight.pro.market.view.adapter.viewholder.MarKetListAdapter;
 import com.bigshark.smartlight.pro.market.view.navigation.MarketNavigationBuilder;
-import com.bigshark.smartlight.pro.mine.view.MarketActivity;
 import com.bigshark.smartlight.utils.DividerGridItemDecoration;
 import com.bigshark.smartlight.utils.ToastUtil;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +71,10 @@ public class MarketFragment extends BaseFragment {
 
         goodsAdapter = new MarKetListAdapter(getContext(), goodsList);
         rvContent.setAdapter(goodsAdapter);
+
+
+
+
 
         goodsAdapter.setCustomLoadMoreView(new XRefreshViewFooter(getContext()));
         xRefreshView.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {

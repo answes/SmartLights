@@ -1,5 +1,6 @@
 package com.bigshark.smartlight.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.media.MediaPlayer;
 
@@ -13,30 +14,48 @@ import com.bigshark.smartlight.weight.CustomArcView;
 
 public class MediaPlayerUtils {
     private Context context;
-    private MediaPlayer mediaPlayer;//MediaPlayer对象
     private CustomArcView arcView;  //背景变色
+
+
+    private MediaPlayer playerLeft;
+    private MediaPlayer playeRight;
+    private MediaPlayer playEnd;
+    private MediaPlayer playShache;
+    private MediaPlayer playTime;
+
 
     public MediaPlayerUtils(Context context,CustomArcView arcView) {
         this.arcView = arcView;
         this.context = context;
+        init();
     }
 
     public void init() {
-        //当播放完音频资源时，会触发onCompletion事件，可以在该事件中释放音频资源，
-        //以便其他应用程序可以使用该资源:
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        playerLeft =  MediaPlayer.create(context, R.raw.left);
+        playeRight = MediaPlayer.create(context,R.raw.right);
+        playShache = MediaPlayer.create(context,R.raw.shache);
+        playEnd = MediaPlayer.create(context,R.raw.end);
+        playTime = MediaPlayer.create(context,R.raw.time);
+        playShache.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-                mediaPlayer.release();
-                arcView.setFuyuanDraw();
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        arcView.setFuyuanDraw();
+                    }
+                });
             }
         });
     }
 
     public void release() {
-        if (null != mediaPlayer) {
-            mediaPlayer.release();
-        }
+        playerLeft.release();
+        playeRight.release();
+        playShache.release();
+        playEnd.release();
+        playTime.release();
+        playShache.release();
     }
 
     /**
@@ -44,17 +63,10 @@ public class MediaPlayerUtils {
      */
     public void palyLeftMedia() {
         if(SmartLightsApplication.isOpenVioce){
-            if (mediaPlayer == null) {
-                mediaPlayer = MediaPlayer.create(context, R.raw.left);
-                init();
-                mediaPlayer.start();
-            } else {
-                mediaPlayer.release();
-                mediaPlayer = null;
-                palyLeftMedia();
-            }
+           if(!playerLeft.isPlaying()){
+               playerLeft.start();
+           }
         }
-
     }
 
     /**
@@ -62,14 +74,8 @@ public class MediaPlayerUtils {
      */
     public void palyRightMedia() {
         if(SmartLightsApplication.isOpenVioce) {
-            if (mediaPlayer == null) {
-                mediaPlayer = MediaPlayer.create(context, R.raw.right);
-                init();
-                mediaPlayer.start();
-            } else {
-                mediaPlayer.release();
-                mediaPlayer = null;
-                palyRightMedia();
+            if(!playeRight.isPlaying()){
+                playeRight.start();
             }
         }
     }
@@ -79,16 +85,25 @@ public class MediaPlayerUtils {
      */
     public void palyShacheMedia() {
         if (SmartLightsApplication.isOpenVioce) {
-            if (mediaPlayer == null) {
-                mediaPlayer = MediaPlayer.create(context, R.raw.shache);
-                init();
-                mediaPlayer.start();
-            } else {
-                mediaPlayer.release();
-                mediaPlayer = null;
-                palyShacheMedia();
+            if(!playShache.isPlaying()){
+                playShache.start();
             }
         }
     }
 
+    public void playEnd(){
+        if (SmartLightsApplication.isOpenVioce) {
+            if(!playEnd.isPlaying()){
+                playEnd.start();
+            }
+        }
+    }
+
+    public void setPlayTime(){
+        if (SmartLightsApplication.isOpenVioce) {
+            if(!playTime.isPlaying()){
+                playTime.start();
+            }
+        }
+    }
 }

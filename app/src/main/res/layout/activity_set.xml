@@ -27,11 +27,34 @@
         android:layout_gravity="center_horizontal"
         android:textColor="@color/text_three"
         android:text="@string/app_version"/>
+    <LinearLayout
+        android:layout_marginTop="101px"
+        android:layout_width="match_parent"
+        android:layout_height="130px"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0px"
+            android:textSize="40px"
+            android:textColor="#022222"
+            android:layout_marginLeft="130px"
+            android:layout_height="wrap_content"
+            android:text="语音开关"/>
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_marginRight="130px"
+            android:layout_width="wrap_content"
+            android:checked="true"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
     <com.allen.library.SuperTextView
     android:layout_width="match_parent"
     android:id="@+id/stv_about"
-    android:layout_marginTop="101px"
+
     app:sLeftTextString="@string/mine_about"
         app:sUseRipple="true"
     app:sRightIconRes="@drawable/right_comein"
@@ -67,29 +90,7 @@
         app:sLeftTextColor="#022222"
         app:sBottomLineMargin="130px"
         android:layout_height="130px"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="130px"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
 
-        <TextView
-            android:layout_weight="1"
-            android:layout_width="0px"
-            android:textSize="40px"
-            android:textColor="#022222"
-            android:layout_marginLeft="130px"
-            android:layout_height="wrap_content"
-            android:text="语音开关"/>
-        <Switch
-            android:id="@+id/switch1"
-            android:layout_marginRight="130px"
-            android:layout_width="wrap_content"
-            android:checked="true"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
 
 
     <Button

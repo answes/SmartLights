@@ -13,17 +13,13 @@ import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.PolylineOptions;
-import com.bigshark.smartlight.IndexActivity;
 import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.bean.UpLoadRecord;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.presenter.BasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.index.presenter.MapPreseter;
-import com.bigshark.smartlight.pro.index.view.navigation.IndexNavigationBuilder;
 import com.bigshark.smartlight.pro.market.view.navigation.GoodDetailsNavigationBuilder;
-import com.bigshark.smartlight.pro.mine.view.MessgeActivity;
-import com.bigshark.smartlight.pro.mine.view.MineActivity;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.bigshark.smartlight.utils.ToastUtil;
 
@@ -34,7 +30,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 /**
  * Created by ch on 2017/5/12.
  *
@@ -71,10 +66,10 @@ public class EndConfirmActivity extends BaseActivity {
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日的骑行");
 
-    private static MapPreseter mapPreseter;
+    private static MapPreseter mapseter;
     @Override
     public MVPBasePresenter bindPresneter() {
-        return mapPreseter;
+        return mapseter;
     }
 
 
@@ -127,7 +122,7 @@ public class EndConfirmActivity extends BaseActivity {
             ToastUtil.showToast(activity,"骑行时间太短，暂时计算不出骑行记录");
             return;
         }
-        EndConfirmActivity.mapPreseter = preseter;
+        EndConfirmActivity.mapseter = preseter;
         EndConfirmActivity.upLoadRecord = upLoadRecord;
         EndConfirmActivity.latLngs = latLngs;
         activity.startActivityForResult(new Intent(activity, EndConfirmActivity.class),REQUEST_END_CONFIRM);
@@ -149,8 +144,8 @@ public class EndConfirmActivity extends BaseActivity {
     protected void onDestroy() {
         mapview.onDestroy();
         super.onDestroy();
-        mapPreseter.restart();
-        mapPreseter = null;
+        mapseter.restart();
+        mapseter = null;
         upLoadRecord = null;
         latLngs = null;
     }
@@ -159,12 +154,12 @@ public class EndConfirmActivity extends BaseActivity {
     public void onClick(View view){
         switch (view.getId()){
             case R.id.btn_cancel:
-                mapPreseter.finish(null);
+                mapseter.finish(null);
                 setResult(RESULT_OK);
                 finish();
                 break;
             case R.id.btn_confirm:
-                mapPreseter.finish(new BasePresenter.OnUIThreadListener<String>() {
+                mapseter.finish(new BasePresenter.OnUIThreadListener<String>() {
                     @Override
                     public void onResult(String result) {
                         showMsg(result);

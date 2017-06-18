@@ -18,6 +18,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -52,39 +53,42 @@ import butterknife.OnClick;
  * 最新的首页
  */
 public class IndexActivity extends BaseActivity {
-    private boolean isLinkBlue;
-    private MediaPlayerUtils mediaPlayerUtils;
-
+    @BindView(R.id.arc_view)
+    CustomArcView arcView;
     @BindView(R.id.tv_speed)
     TextView tvSpeed;
+    @BindView(R.id.tv_ele)
+    ImageView tvEle;
     @BindView(R.id.ll)
     LinearLayout ll;
-    @BindView(R.id.iv_lock)
-    ImageView ivLock;
+    @BindView(R.id.frame_biz)
+    FrameLayout frameBiz;
+    @BindView(R.id.frame_location)
+    FrameLayout frameLocation;
+    @BindView(R.id.tv_hour)
+    TextView tvHour;
+    @BindView(R.id.tv_maxspeed)
+    TextView tvMaxspeed;
     @BindView(R.id.tv_hot)
     TextView tvHot;
-    @BindView(R.id.tv_total)
-    TextView tvTotal;
-    @BindView(R.id.tv_ele)
-    TextView tvEle;
-    @BindView(R.id.tv_height)
-    TextView tvHeight;
-    @BindView(R.id.tv_speed2)
-    TextView tvSpeed2;
-    @BindView(R.id.tv_high_speed)
-    TextView tvHighSpeed;
-    @BindView(R.id.btn_find)
-    TextView btnFind;
-    @BindView(R.id.ll_context)
-    LinearLayout llContext;
+    @BindView(R.id.tv_avg_speed)
+    TextView tvAvgSpeed;
+    @BindView(R.id.tv_high)
+    TextView tvHigh;
     @BindView(R.id.bt_stop)
     Button btStop;
     @BindView(R.id.bt_finish)
     Button btFinish;
-    @BindView(R.id.arc_view)
-    CustomArcView arcView;
     @BindView(R.id.index_bottom)
-    LinearLayout IndexBottom;
+    LinearLayout indexBottom;
+    @BindView(R.id.btn_find)
+    TextView btnFind;
+    @BindView(R.id.ll_context)
+    LinearLayout llContext;
+    @BindView(R.id.tv_distance)
+    TextView tvDistance;
+    private boolean isLinkBlue;
+    private MediaPlayerUtils mediaPlayerUtils;
 
 
     @Override
@@ -97,7 +101,7 @@ public class IndexActivity extends BaseActivity {
         //蓝牙连接服务
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
-        mediaPlayerUtils = new MediaPlayerUtils(this,arcView);
+        mediaPlayerUtils = new MediaPlayerUtils(this, arcView);
     }
 
     private MapPreseter mapPreseter;
@@ -131,7 +135,7 @@ public class IndexActivity extends BaseActivity {
 
     private String mac;
     private boolean isStart = false;
-    private   WindowManager.LayoutParams params ;
+    private WindowManager.LayoutParams params;
     private TakePhotoPopWin takePhotoPopWin;
 
     /**
@@ -139,16 +143,16 @@ public class IndexActivity extends BaseActivity {
      *
      * @param view
      */
-    @OnClick({R.id.btn_find, R.id.tv_location, R.id.bt_stop, R.id.bt_finish,R.id.iv_lock})
+    @OnClick({R.id.btn_find, R.id.frame_location, R.id.bt_stop, R.id.bt_finish, R.id.frame_biz})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_find:
-                if(!GPSUtil.isOPen(this)){
-                        GPSUtil.openGPS(this);
-                    }
+                if (!GPSUtil.isOPen(this)) {
+                    GPSUtil.openGPS(this);
+                }
                 startRide();
                 break;
-            case R.id.tv_location:
+            case R.id.frame_location:
                 if (isStart) {
                     MapActivity.openMapActivity(this, mapPreseter.getUplodeRecord(), true, mapPreseter.getSavesLatlng());
                 } else {
@@ -171,29 +175,29 @@ public class IndexActivity extends BaseActivity {
                     mapPreseter.restart();
                 }
                 break;
-            case R.id.iv_lock:
-                if(isLinkBlue){
+            case R.id.frame_biz:
+                if (isLinkBlue) {
                     takePhotoPopWin = new TakePhotoPopWin(this, new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            switch (view.getId()){
+                            switch (view.getId()) {
                                 case R.id.ll_open:
-                                        IndexActivity.sendData(BLuetoothData.getOpenAlert());
-                                        takePhotoPopWin.dismiss();
+                                    IndexActivity.sendData(BLuetoothData.getOpenAlert());
+                                    takePhotoPopWin.dismiss();
                                     break;
                                 case R.id.ll_close:
-                                        IndexActivity.sendData(BLuetoothData.getCloseAlert());
-                                        takePhotoPopWin.dismiss();
+                                    IndexActivity.sendData(BLuetoothData.getCloseAlert());
+                                    takePhotoPopWin.dismiss();
                                     break;
                                 case R.id.ll_find:
-                                        IndexActivity.sendData(BLuetoothData.getFindCar());
-                                        takePhotoPopWin.dismiss();
+                                    IndexActivity.sendData(BLuetoothData.getFindCar());
+                                    takePhotoPopWin.dismiss();
                                     break;
 
                             }
                         }
                     });
-                    takePhotoPopWin.showAtLocation(llContext, Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+                    takePhotoPopWin.showAtLocation(llContext, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                     params = getWindow().getAttributes();
                     params.alpha = 0.7f;
                     getWindow().setAttributes(params);
@@ -202,11 +206,11 @@ public class IndexActivity extends BaseActivity {
                         @Override
                         public void onDismiss() {
                             params = getWindow().getAttributes();
-                            params.alpha=1f;
+                            params.alpha = 1f;
                             getWindow().setAttributes(params);
                         }
                     });
-                }else{
+                } else {
                     ScanActivity.openScanActivity(IndexActivity.this);
                 }
                 break;
@@ -227,7 +231,7 @@ public class IndexActivity extends BaseActivity {
                 }
             }).start();
             btnFind.setVisibility(View.GONE);
-            IndexBottom.setVisibility(View.VISIBLE);
+            indexBottom.setVisibility(View.VISIBLE);
         }
     }
 
@@ -249,60 +253,94 @@ public class IndexActivity extends BaseActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            tvHeight.setText(String.valueOf(record.getHeight()) + "m");
-                            tvHighSpeed.setText(String.format("%.2f", record.getMaxSpeed()) + "km/h");
+                            tvHigh.setText(String.valueOf(record.getHeight()) + "m");
+                            tvMaxspeed.setText(String.format("%.2f", record.getMaxSpeed()) + "km/h");
                             tvHot.setText(String.format("%.2f", record.getK()) + "Cal");
                             tvSpeed.setText(String.format("%.2f", record.getSpeed()));
-                            tvSpeed2.setText(String.format("%.2f", record.getSpeed()) + "km/h");
-                            tvTotal.setText(String.format("%.2f", (record.getDistance()) / 1000) + "km");
+                            tvDistance.setText(String.format("%.2f", (record.getDistance()) / 1000) + "km");
+                            tvAvgSpeed.setText(String.format("%.2fkm/h", (record.getAvSpeed())));
+                            StringBuffer sb = new StringBuffer();
+                            sb.append(record.getTime()/60+":")
+                            .append(record.getTime()%60/60+":")
+                            .append(record.getTime()%60%60/60+":")
+                            ;
+                            tvHour.setText(sb.toString());
                         }
                     });
                 }
             });
         }
 
-        if(null == bluetoothStateRecive){
+        if (null == bluetoothStateRecive) {
             bluetoothStateRecive = new BluetoothStateRecive(new BluetoothStateRecive.BlueetoothStateChangeListener() {
                 @Override
-                public void onReciveData(final int state, final String data,final byte[] realData) {
+                public void onReciveData(final int state, final String data, final byte[] realData) {
 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if(3 == state){
-                                if(3 == realData[4]){
+                            if (3 == state) {
+                                if (3 == realData[4]) {
                                     //0x16禁止
 //                                    int count = (realData[7] * 256 + realData[8])/700;
-                                    try{
-                                    int count = ((Integer.parseInt(realData[7]+""+realData[8])) - 3500)/700;
-                                    tvEle.setVisibility(View.VISIBLE);
-                                    tvEle.setText(String.valueOf(count)+"%");
-                                    }catch (Exception e){
+                                    try {
+                                        int hight = realData[7];
+                                        int low = realData[8];
                                         tvEle.setVisibility(View.VISIBLE);
-                                        tvEle.setText(5+"%");
+                                        int count = ((Integer.parseInt( (int)realData[7] + "" + (int)realData[8])) - 3500) / 700;
+
+                                        if(count<20){
+                                            tvEle.setImageResource(R.drawable.ele_low);
+                                        }else if(count<40){
+                                            tvEle.setImageResource(R.drawable.ele_low2);
+                                        }else if(count<60){
+                                            tvEle.setImageResource(R.drawable.ele_medum);
+                                        }else if(count<80){
+                                            tvEle.setImageResource(R.drawable.ele_high1);
+                                        }else{
+                                            tvEle.setImageResource(R.drawable.ele_high2);
+                                        }
+                                    } catch (Exception e) {
+
                                     }
                                 }
                                 //专项
-                                if(5 == realData[4]){
+                                if (5 == realData[4]) {
                                     int tuen = realData[6];
-                                    if(1 == tuen){
+                                    if (1 == tuen) {
                                         mediaPlayerUtils.palyLeftMedia();
                                         arcView.setLeftDraw();
-                                    }else if(2 == tuen){
+                                    } else if (2 == tuen) {
                                         mediaPlayerUtils.palyRightMedia();
                                         arcView.setRihgtDraw();
+                                    }else if(3 == tuen){
+                                        mediaPlayerUtils.playEnd();
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                arcView.setFuyuanDraw();
+                                            }
+                                        }, 200);
+                                    }else{
+                                        mediaPlayerUtils.setPlayTime();
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                arcView.setFuyuanDraw();
+                                            }
+                                        }, 200);
                                     }
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            arcView.setFuyuanDraw();
-                                        }
-                                    },2000);
+
                                 }
 
-                                if(1 == realData[4]){
+                                if (1 == realData[4]) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            arcView.setShacheDraw();
+                                        }
+                                    });
                                     mediaPlayerUtils.palyShacheMedia();
-                                    arcView.setShacheDraw();//刷新UI
                                 }
                             }
                         }
@@ -311,7 +349,7 @@ public class IndexActivity extends BaseActivity {
             });
         }
 
-        registerReceiver(bluetoothStateRecive,BluetoothStateRecive.makeGattUpdateIntentFilter());
+        registerReceiver(bluetoothStateRecive, BluetoothStateRecive.makeGattUpdateIntentFilter());
 
         IntentFilter mapFilter = new IntentFilter();
         mapFilter.addAction(MapLocationRecive.ACTION);
@@ -337,7 +375,7 @@ public class IndexActivity extends BaseActivity {
         if (mapLocationRecive != null) {
             unregisterReceiver(mapLocationRecive);
         }
-        if(bluetoothStateRecive != null){
+        if (bluetoothStateRecive != null) {
             unregisterReceiver(bluetoothStateRecive);
         }
     }
@@ -362,20 +400,21 @@ public class IndexActivity extends BaseActivity {
 
         if (requestCode == EndConfirmActivity.REQUEST_END_CONFIRM && RESULT_OK == resultCode) {
             btnFind.setVisibility(View.VISIBLE);
-            IndexBottom.setVisibility(View.GONE);
+            indexBottom.setVisibility(View.GONE);
             tvSpeed.setText("0.00km/h");
             tvHot.setText("0Cal");
-            tvTotal.setText("0km");
-            tvHeight.setText("0.0m");
-            tvSpeed2.setText("0.00km/h");
-            tvHighSpeed.setText("0.00km/h");
+            tvDistance.setText("0km");
+            tvHigh.setText("0.0m");
+            tvMaxspeed.setText("0.00km/h");
+            tvHour.setText("00:00:00");
         } else if (requestCode == EndConfirmActivity.REQUEST_END_CONFIRM && RESULT_OK == resultCode) {
             mapPreseter.restart();
-        }else if(requestCode == ScanActivity.SACN_RESULT_CODE && RESULT_OK == resultCode){
+        } else if (requestCode == ScanActivity.SACN_RESULT_CODE && RESULT_OK == resultCode) {
             isLinkBlue = true;
-            startRide();
+            //startRide();
         }
     }
+
     private static BluetoothLeService mBluetoothLeService;//蓝牙连接服务
     // Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -385,7 +424,7 @@ public class IndexActivity extends BaseActivity {
             mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
             if (!mBluetoothLeService.initialize()) {
                 Log.e("Load", "Unable to initialize Bluetooth");
-                ToastUtil.showToast(IndexActivity.this,"次设",1000);
+                ToastUtil.showToast(IndexActivity.this, "次设", 1000);
             }
         }
 
@@ -396,11 +435,11 @@ public class IndexActivity extends BaseActivity {
     };
 
     //连接
-    public static  void conect(String addrss){
+    public static void conect(String addrss) {
         mBluetoothLeService.connect(addrss);
     }
 
-    public static  void sendData(byte[] data){
-        Log.i("Test",mBluetoothLeService.sendValue(data)+"");
+    public static void sendData(byte[] data) {
+        Log.i("Test", mBluetoothLeService.sendValue(data) + "");
     }
 }

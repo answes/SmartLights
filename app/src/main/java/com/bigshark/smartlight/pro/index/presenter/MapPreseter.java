@@ -10,6 +10,7 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps2d.AMapUtils;
 import com.amap.api.maps2d.model.LatLng;
+import com.bigshark.smartlight.SmartLightsApplication;
 import com.bigshark.smartlight.bean.Result;
 import com.bigshark.smartlight.bean.Speed;
 import com.bigshark.smartlight.bean.UpLoadRecord;
@@ -70,6 +71,7 @@ public class MapPreseter extends BasePresenter<RecordModel> {
             mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
             mlocationClient.setLocationOption(mLocationOption);
             mLocationOption.setSensorEnable(true);
+            mLocationOption.setInterval(1000);
             mlocationClient.setLocationListener(myLocationListener);
             reste();
             mlocationClient.startLocation();
@@ -169,6 +171,9 @@ public class MapPreseter extends BasePresenter<RecordModel> {
 
         @Override
         public void onLocationChanged(AMapLocation aMapLocation) {
+            if(aMapLocation.getCity()!=null) {
+                SmartLightsApplication.cityName = aMapLocation.getCity();
+            }
             if (isFirst) {
                 isFirst = false;
                 return;

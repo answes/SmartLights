@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -46,39 +47,50 @@ public class CustomArcView extends View {
     }
 
     public void setLeftDraw() {
-        isRight = false;
-        isShache = false;
-        isLeft = true;
-        fuyuan = false;
-        //重绘
-        this.postInvalidate();
+        synchronized (this) {
+            isRight = false;
+            isShache = false;
+            isLeft = true;
+            fuyuan = false;
+            //重绘
+            invalidate();
+        }
     }
 
     public void setRihgtDraw() {
-        isRight = true;
-        isShache = false;
-        isLeft = false;
-        fuyuan = false;
-        //重绘
-        this.postInvalidate();
+        synchronized (this) {
+            isRight = true;
+            isShache = false;
+            isLeft = false;
+            fuyuan = false;
+            //重绘
+            invalidate();
+        }
     }
 
     public void setShacheDraw() {
-        isRight = false;
-        isShache = true;
-        isLeft = false;
-        fuyuan = false;
-        //重绘
-        this.postInvalidate();
+        synchronized (this) {
+
+            Log.i("Load","设置刹车");
+            isRight = false;
+            isShache = true;
+            isLeft = false;
+            fuyuan = false;
+            //重绘
+            invalidate();
+        }
     }
 
     public void setFuyuanDraw() {
-        isRight = false;
-        isShache = false;
-        fuyuan = true;
-        isLeft = false;
-        //重绘
-        this.postInvalidate();
+        synchronized (this) {
+            Log.i("Load","设置复原");
+            isRight = false;
+            isShache = false;
+            fuyuan = true;
+            isLeft = false;
+            //重绘
+           invalidate();
+        }
     }
 
     @Override
@@ -89,11 +101,15 @@ public class CustomArcView extends View {
 //
         RectF oval = new RectF(8,5,
                 getWidth()-8, getHeight()-5);
-        drawBGArc(canvas, oval);
-        drawLeftArc(canvas, oval);
-        drawRightArc(canvas, oval);
-        drawShacheArc(canvas, oval);
-        drawFuyuanArc(canvas, oval);
+         drawBGArc(canvas, oval);
+
+            drawLeftArc(canvas, oval);
+
+            drawRightArc(canvas, oval);
+
+            drawShacheArc(canvas, oval);
+
+            drawFuyuanArc(canvas, oval);
     }
 
     private void drawFuyuanArc(Canvas canvas, RectF oval) {
@@ -117,7 +133,7 @@ public class CustomArcView extends View {
 
     private void drawShacheArc(Canvas canvas, RectF oval) {
         if (isShache) {
-            canvas.drawArc(oval, 110, 320, false, mPaint);
+            canvas.drawArc(oval, 110,320, false, mPaint);
         }
     }
 

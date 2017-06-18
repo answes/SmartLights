@@ -2,7 +2,6 @@ package com.bigshark.smartlight.pro.market.view.adapter.viewholder;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +25,12 @@ public class MarKetListAdapter extends BaseRecyclerAdapter<MarKetListAdapter.Vie
     private List<Market.Goods> datas;
     private ItemOnClickListener itemOnClickListener;
 
+    public MarKetListAdapter(Context context, List<Market.Goods> datas,int itemHeight) {
+        this.context = context;
+        this.datas = datas;
+        this.itemHeight = itemHeight;
+    }
+
     public MarKetListAdapter(Context context, List<Market.Goods> datas) {
         this.context = context;
         this.datas = datas;
@@ -41,6 +46,11 @@ public class MarKetListAdapter extends BaseRecyclerAdapter<MarKetListAdapter.Vie
         View v = LayoutInflater.from(context).inflate(
                 R.layout.item_market_miunte_layout, parent, false);
         SupportMultipleScreensUtil.scale(v);
+        if(itemHeight != - 1) {
+            ViewGroup.LayoutParams params = v.getLayoutParams();
+            params.height = itemHeight;
+            v.setLayoutParams(params);
+        }
         ViewHolder viewHolder = new ViewHolder(v, true, itemOnClickListener);
         return viewHolder;
     }
@@ -84,6 +94,12 @@ public class MarKetListAdapter extends BaseRecyclerAdapter<MarKetListAdapter.Vie
 
         }
     }
+
+    private int itemHeight = -1;
+    public  void setItemHeight(int itemHeight){
+        this.itemHeight = itemHeight;
+    }
+
 
     public interface ItemOnClickListener {
         void onItemClick(View view, int postion);

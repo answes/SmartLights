@@ -4,10 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.amap.api.maps2d.model.LatLng;
 import com.bigshark.smartlight.bean.UpLoadRecord;
-
-import java.util.List;
 
 /**
  * Created by ch on 2017/4/18.

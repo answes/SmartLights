@@ -21,7 +21,6 @@ import com.bigshark.smartlight.pro.market.view.GoodDetailsActivity;
 import com.bigshark.smartlight.pro.market.view.SearchGoodActivity;
 import com.bigshark.smartlight.pro.market.view.adapter.viewholder.MarKetListAdapter;
 import com.bigshark.smartlight.pro.market.view.navigation.MarketNavigationBuilder;
-import com.bigshark.smartlight.utils.DividerGridItemDecoration;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.bigshark.smartlight.utils.ToastUtil;
 
@@ -67,12 +66,12 @@ public class MarketActivity extends BaseActivity {
         xRefreshView.enablePullUpWhenLoadCompleted(true);
 
         rvContent.setLayoutManager(new GridLayoutManager(this,2));
-        rvContent.addItemDecoration(new DividerGridItemDecoration(this));
+        //rvContent.addItemDecoration(new DividerGridItemDecoration(this));
         rvContent.setHasFixedSize(true);
 
         initData(true);
-
-        goodsAdapter = new MarKetListAdapter(this,goodsList);
+        int itemHeight =(com.bigshark.smartlight.utils.ScreenUtils.getActivityHeight(this) - SupportMultipleScreensUtil.getScaleValue(137)-com.yalantis.ucrop.util.ScreenUtils.getStatusBarHeight(this))/3;
+        goodsAdapter = new MarKetListAdapter(this,goodsList,itemHeight);
         rvContent.setAdapter(goodsAdapter);
 
         goodsAdapter.setCustomLoadMoreView(new XRefreshViewFooter(this));

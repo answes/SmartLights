@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rootview"
+    android:orientation="vertical"
+    tools:context="com.bigshark.smartlight.pro.index.view.NagivaActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="match_parent"
+            android:paddingLeft="20px"
+            android:hint="输入目的地"
+            android:layout_weight="1"
+            android:layout_height="160px" />
+        <Button
+            android:id="@+id/btn_sure"
+            android:layout_width="240px"
+            android:textColor="@color/white"
+            android:layout_margin="10px"
+            android:text="确定"
+            android:background="@drawable/index_tab"
+            android:layout_height="100px" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="600px"
+            android:visibility="gone"
+            android:listSelector="@color/transparent"/>
+
+        <com.amap.api.navi.AMapNaviView
+            android:id="@+id/navi_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </RelativeLayout>
+</LinearLayout>

@@ -35,6 +35,8 @@ public class SmartLightsApplication extends Application {
     public static List<List<City>> cities = new ArrayList<>();
     public static List<List<List<String>>> areas = new ArrayList<>();
 
+    public  static String cityName = "";
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -51,7 +53,7 @@ public class SmartLightsApplication extends Application {
             }
         }).start();
         initPhoto();
-        initErrorHandler();
+        //initErrorHandler();
     }
     private void initPhoto() {
         FunctionOptions options = new FunctionOptions.Builder()

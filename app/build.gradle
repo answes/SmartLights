@@ -19,6 +19,8 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.config
+
+
     }
     buildTypes {
         release {
@@ -34,6 +36,11 @@ android {
     useLibrary 'org.apache.http.legacy'
     productFlavors {
     }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
@@ -43,10 +50,10 @@ dependencies {
     })
     compile files('libs/fastjson-1.1.40.jar')
     //选择相册，拍照，视频库
-    compile files('libs/AMap2DMap_4.2.0_AMapLocation_3.3.0_20170120.jar')
     compile files('libs/wechat-sdk-android-with-mta-1.0.2.jar')
     //compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile files('libs/alipaySingle-20170510.jar')
+    compile files('libs/AMap2DMap_4.2.0_AMapLocation_3.3.0_20170120.jar')
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
@@ -64,4 +71,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile files('libs/AMap3DMap_5.2.0_AMapNavi_5.1.0_20170602.jar')
+    compile files('libs/AMap2DMap_4.2.0_AMapSearch_5.1.0_AMapLocation_3.4.0_20170517.jar')
 }

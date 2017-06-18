@@ -1,15 +1,12 @@
 package com.bigshark.smartlight;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.os.Looper;
 
 import com.bigshark.smartlight.utils.Contact;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 
 /**
  * Created by ch on 2017/5/10.
@@ -79,8 +76,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         // .create().show();
         // }
         // });
-
-
         return true;
     }
 
