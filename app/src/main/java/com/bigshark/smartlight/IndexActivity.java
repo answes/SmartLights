@@ -259,12 +259,14 @@ public class IndexActivity extends BaseActivity {
                             tvSpeed.setText(String.format("%.2f", record.getSpeed()));
                             tvDistance.setText(String.format("%.2f", (record.getDistance()) / 1000) + "km");
                             tvAvgSpeed.setText(String.format("%.2fkm/h", (record.getAvSpeed())));
-                            StringBuffer sb = new StringBuffer();
-                            sb.append(record.getTime()/60+":")
-                            .append(record.getTime()%60/60+":")
-                            .append(record.getTime()%60%60/60+":")
-                            ;
-                            tvHour.setText(sb.toString());
+                            tvHour.setText(new StringBuffer()
+                                            .append(String.format("%02d", record.getTime() / (60 * 60 * 1000)))
+                                            .append(":")
+                                            .append(String.format("%02d", record.getTime() % (60 * 60 * 1000) / (60 * 1000)))
+                                            .append(":")
+                                            .append((String.format("%02d", record.getTime() % (60 * 60 * 1000) % (60 * 1000) / (1000))))
+                                            .toString());
+
                         }
                     });
                 }

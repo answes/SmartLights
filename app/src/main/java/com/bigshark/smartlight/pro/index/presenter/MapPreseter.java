@@ -219,7 +219,7 @@ public class MapPreseter extends BasePresenter<RecordModel> {
                 upLoadRecord.setK(0.1797 * (time / (1000 * 60)) * 60);
                 upLoadRecord.setTime(time);
                 //距离（x/1000）/时间(h) 1000L * 60 * 60;
-                upLoadRecord.setAvSpeed(distance * time / (double) (1000 * 1000 * 60 * 60));
+                upLoadRecord.setAvSpeed((distance/1000) / (time/(1000 * 1000 * 60 * 60)));
 
                 intent.putExtra(MapLocationRecive.EXTRA_DATA, upLoadRecord);
                 context.sendBroadcast(intent);
