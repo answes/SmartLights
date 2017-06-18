@@ -71,6 +71,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
-    compile files('libs/AMap3DMap_5.2.0_AMapNavi_5.1.0_20170602.jar')
+
     compile files('libs/AMap2DMap_4.2.0_AMapSearch_5.1.0_AMapLocation_3.4.0_20170517.jar')
 }

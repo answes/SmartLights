@@ -41,11 +41,11 @@
             android:visibility="gone"
             android:listSelector="@color/transparent"/>
 
-        <com.amap.api.navi.AMapNaviView
-            android:id="@+id/navi_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+        <!--<com.amap.api.navi.AMapNaviView-->
+            <!--android:id="@+id/navi_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--/>-->
 
     </RelativeLayout>
 </LinearLayout>
