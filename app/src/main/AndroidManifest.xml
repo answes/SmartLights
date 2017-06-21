@@ -59,6 +59,7 @@
 
         <activity
             android:name=".LaunchingActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/LaunchingTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -68,82 +69,110 @@
         </activity>
         <activity
             android:name=".pro.mine.view.LoginActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".pro.mine.view.MarketActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".pro.mine.view.SetActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".pro.mine.view.ChangePswActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".pro.market.view.GoodDetailsActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".pro.market.view.CarActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".pro.market.view.ConfirmOrederActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".pro.mine.view.MessgeActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".pro.mine.view.RideActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".pro.mine.view.EquipmentActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".pro.mine.view.RegisteredActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity android:name=".IndexActivity" />
         <activity
             android:name=".pro.mine.view.FindPswActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".pro.mine.view.MineDetailsActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".pro.mine.view.ModifyInfoActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".pro.mine.view.MineActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".pro.market.view.SelectAddressActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".pro.market.view.AddAndEditAddressActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".pro.market.view.PayActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".pro.index.view.ScanActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".pro.index.view.MapActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".pro.mine.view.OrderDetailActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
 
         <service android:name="com.amap.api.location.APSService" />
 
         <activity android:name=".wxapi.WXPayEntryActivity" />
-        <activity android:name=".pro.index.view.EndConfirmActivity" />
-        <activity android:name=".pro.mine.view.UpdateNumActivity" />
-        <activity android:name=".pro.mine.view.MyOrderActivity" />
+        <activity android:name=".pro.index.view.EndConfirmActivity"  android:screenOrientation="portrait"/>
+        <activity android:name=".pro.mine.view.UpdateNumActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".pro.mine.view.MyOrderActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".pro.mine.view.RideDetailActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
-        <activity android:name=".pro.index.view.SpeedDetailActivity" />
-        <activity android:name=".pro.index.view.DeviceControlActivity" />
-        <activity android:name=".pro.market.view.SearchGoodActivity" />
-        <activity android:name=".pro.mine.view.AboutActivity" />
+        <activity android:name=".pro.index.view.SpeedDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".pro.index.view.DeviceControlActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".pro.market.view.SearchGoodActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".pro.mine.view.AboutActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"

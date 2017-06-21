@@ -41,6 +41,7 @@ import com.bigshark.smartlight.pro.mine.view.MineActivity;
 import com.bigshark.smartlight.utils.GPSUtil;
 import com.bigshark.smartlight.utils.MediaPlayerUtils;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
+import com.bigshark.smartlight.utils.TimeUtil;
 import com.bigshark.smartlight.utils.ToastUtil;
 import com.bigshark.smartlight.weight.CustomArcView;
 import com.bigshark.smartlight.weight.TakePhotoPopWin;
@@ -90,6 +91,29 @@ public class IndexActivity extends BaseActivity {
     private boolean isLinkBlue;
     private MediaPlayerUtils mediaPlayerUtils;
 
+    private boolean isStopCount = false;
+    private boolean isPause = true;
+    private Handler mHandler = new Handler();
+    private long timer = 0;
+    private String timeStr = "";
+
+
+    private Runnable TimerRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            if(!isStopCount){
+                timer += 1000;
+                timeStr = TimeUtil.getFormatTime(timer);
+                tvHour.setText(timeStr);
+            }
+            countTimer();
+        }
+    };
+
+    private void countTimer(){
+        mHandler.postDelayed(TimerRunnable, 1000);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +174,7 @@ public class IndexActivity extends BaseActivity {
                 if (!GPSUtil.isOPen(this)) {
                     GPSUtil.openGPS(this);
                 }
+                countTimer();
                 startRide();
                 break;
             case R.id.frame_location:
@@ -162,6 +187,8 @@ public class IndexActivity extends BaseActivity {
             case R.id.bt_finish:
                 isStart = false;
                 mapPreseter.stop();
+                isPause = false;
+                isStopCount = true;
                 EndConfirmActivity.openMapActivity(this, mapPreseter.getUplodeRecord(), mapPreseter.getSavesLatlng(), mapPreseter);
                 break;
             case R.id.bt_stop:
@@ -169,10 +196,15 @@ public class IndexActivity extends BaseActivity {
                     isStart = false;
                     btStop.setText("恢复骑行");
                     mapPreseter.stop();
+                    isPause = false;
+                    isStopCount = true;
                 } else {
                     btStop.setText("暂停骑行");
                     isStart = true;
                     mapPreseter.restart();
+                    isPause = true;
+                    isStopCount = false;
+
                 }
                 break;
             case R.id.frame_biz:
@@ -259,13 +291,13 @@ public class IndexActivity extends BaseActivity {
                             tvSpeed.setText(String.format("%.2f", record.getSpeed()));
                             tvDistance.setText(String.format("%.2f", (record.getDistance()) / 1000) + "km");
                             tvAvgSpeed.setText(String.format("%.2fkm/h", (record.getAvSpeed())));
-                            tvHour.setText(new StringBuffer()
-                                            .append(String.format("%02d", record.getTime() / (60 * 60 * 1000)))
-                                            .append(":")
-                                            .append(String.format("%02d", record.getTime() % (60 * 60 * 1000) / (60 * 1000)))
-                                            .append(":")
-                                            .append((String.format("%02d", record.getTime() % (60 * 60 * 1000) % (60 * 1000) / (1000))))
-                                            .toString());
+//                            tvHour.setText(new StringBuffer()
+//                                            .append(String.format("%02d", record.getTime() / (60 * 60 * 1000)))
+//                                            .append(":")
+//                                            .append(String.format("%02d", record.getTime() % (60 * 60 * 1000) / (60 * 1000)))
+//                                            .append(":")
+//                                            .append((String.format("%02d", record.getTime() % (60 * 60 * 1000) % (60 * 1000) / (1000))))
+//                                            .toString());
 
                         }
                     });
@@ -376,6 +408,7 @@ public class IndexActivity extends BaseActivity {
         unbindService(mServiceConnection);
         mBluetoothLeService = null;
         mediaPlayerUtils.release();
+        mHandler.removeCallbacks(TimerRunnable);
     }
 
     @Override
