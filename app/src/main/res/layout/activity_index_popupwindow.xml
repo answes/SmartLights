@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/pop_layout"
-    android:paddingBottom="130px"
     android:background="#2B283B">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
+        android:paddingBottom="130px"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -86,9 +86,8 @@
         android:id="@+id/iv_close"
         android:layout_width="60px"
         android:src="@drawable/index_popupwindow_close"
-        android:layout_gravity="right"
-        android:layout_marginTop="20px"
-        android:layout_marginRight="20px"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="30px"
         android:layout_height="60px" />
 
 </FrameLayout>

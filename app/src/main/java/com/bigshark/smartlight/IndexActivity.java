@@ -344,6 +344,17 @@ public class IndexActivity extends BaseActivity {
                                     });
                                     mediaPlayerUtils.palyShacheMedia();
                                 }
+                            }else if(1== state){    //失去通信，断开连接
+                                tvEle.setVisibility(View.GONE);
+//                                btnFind.setVisibility(View.VISIBLE);
+//                                indexBottom.setVisibility(View.GONE);
+//                                tvSpeed.setText("0.00km/h");
+//                                tvHot.setText("0Cal");
+//                                tvDistance.setText("0km");
+//                                tvHigh.setText("0.0m");
+//                                tvMaxspeed.setText("0.00km/h");
+//                                tvHour.setText("00:00:00");
+                                isLinkBlue = false;
                             }
                         }
                     });

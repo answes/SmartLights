@@ -156,8 +156,8 @@
             android:exported="false"
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".pro.index.view.NagivaActivity" />
-        <activity android:name=".pro.index.TestActivity"></activity>
+        <!--<activity android:name=".pro.index.view.NagivaActivity" />-->
+        <!--<activity android:name=".pro.index.TestActivity"></activity>-->
     </application>
 
 </manifest>
