@@ -42,7 +42,7 @@ public class MediaPlayerUtils {
                 ((Activity)context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        arcView.setFuyuanDraw();
+                        arcView.setDataType(CustomArcView.DataType.NONE);
                     }
                 });
             }

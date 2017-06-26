@@ -1,5 +1,6 @@
 package com.bigshark.smartlight.pro.index.broadcast;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -37,6 +38,23 @@ public class BluetoothStateRecive extends BroadcastReceiver {
             //获得数据
             listener.onReciveData(3,null,intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA));
         }
+        if(action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)){
+            int blueState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);
+            switch(blueState) {
+                case BluetoothAdapter.STATE_TURNING_ON:
+
+                    break;
+                case BluetoothAdapter.STATE_ON:
+                    listener.onReciveData(4,"蓝牙已经打开",null);
+                    break;
+                case BluetoothAdapter.STATE_TURNING_OFF:
+
+                    break;
+                case BluetoothAdapter.STATE_OFF:
+
+                    break;
+            }
+        }
     }
 
 
@@ -46,6 +64,7 @@ public class BluetoothStateRecive extends BroadcastReceiver {
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
+        intentFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
         return intentFilter;
     }
     private BlueetoothStateChangeListener listener;

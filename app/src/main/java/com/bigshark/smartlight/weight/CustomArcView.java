@@ -17,7 +17,15 @@ import android.view.View;
 public class CustomArcView extends View {
     private Paint mPaint;
     private Paint bgPaint;
+    private Paint tunPaint;
     private boolean isLeft, isRight, isShache,fuyuan;
+
+    private DataType currentType = DataType.NONE;
+
+    public void setDataType(DataType currentType){
+        this.currentType = currentType;
+        invalidate();
+    }
     /**
      * 圆的宽度
      */
@@ -40,6 +48,9 @@ public class CustomArcView extends View {
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(mCircleWidth);
         mPaint.setColor(Color.RED);
+        tunPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        tunPaint.setStrokeWidth(mCircleWidth);
+        tunPaint.setColor(Color.YELLOW);
     }
 
     public CustomArcView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -101,15 +112,26 @@ public class CustomArcView extends View {
 //
         RectF oval = new RectF(8,5,
                 getWidth()-8, getHeight()-5);
-         drawBGArc(canvas, oval);
 
-            drawLeftArc(canvas, oval);
+        if(currentType == DataType.NONE){
+            canvas.drawArc(oval, 110, 320, false, bgPaint);
+        }
 
-            drawRightArc(canvas, oval);
+        if(currentType == DataType.SHACHE){
+            canvas.drawArc(oval, 110, 320, false, mPaint);
+        }
 
-            drawShacheArc(canvas, oval);
 
-            drawFuyuanArc(canvas, oval);
+        if(currentType == DataType.RIGHT){
+            canvas.drawArc(oval, 110, 320, false, bgPaint);//绘制背景
+            canvas.drawArc(oval, 270, 160, false, tunPaint);
+        }
+
+
+        if(currentType == DataType.LEFT){
+            canvas.drawArc(oval, 110, 320, false, bgPaint);//绘制背景
+            canvas.drawArc(oval, 110, 160, false, tunPaint);
+        }
     }
 
     private void drawFuyuanArc(Canvas canvas, RectF oval) {
@@ -140,5 +162,9 @@ public class CustomArcView extends View {
 
     private void drawBGArc(Canvas canvas, RectF oval) {
         canvas.drawArc(oval, 110, 320, false, bgPaint);
+    }
+
+    public static enum DataType{
+        RIGHT,LEFT,SHACHE,NONE;
     }
 }

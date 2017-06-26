@@ -2,6 +2,7 @@ package com.bigshark.smartlight;
 
 import android.Manifest;
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -204,7 +205,6 @@ public class IndexActivity extends BaseActivity {
                     mapPreseter.restart();
                     isPause = true;
                     isStopCount = false;
-
                 }
                 break;
             case R.id.frame_biz:
@@ -243,7 +243,18 @@ public class IndexActivity extends BaseActivity {
                         }
                     });
                 } else {
-                    ScanActivity.openScanActivity(IndexActivity.this);
+                    BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+                    if(adapter == null){
+                        showMsg("当前设备不支持蓝牙");
+                        return;
+                    }
+                    if(adapter.isEnabled()){
+                        //是否打开
+                        ScanActivity.openScanActivity(IndexActivity.this);
+                    }else{
+                        showMsg("正在打开蓝牙，请稍后");
+                        adapter.enable();
+                    }
                 }
                 break;
         }
@@ -266,8 +277,6 @@ public class IndexActivity extends BaseActivity {
             indexBottom.setVisibility(View.VISIBLE);
         }
     }
-
-    @Override
 
     protected void onResume() {
         super.onResume();
@@ -313,15 +322,19 @@ public class IndexActivity extends BaseActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+
+                            if(state == 4){
+                                ScanActivity.openScanActivity(IndexActivity.this);
+                            }
                             if (3 == state) {
                                 if (3 == realData[4]) {
                                     //0x16禁止
 //                                    int count = (realData[7] * 256 + realData[8])/700;
                                     try {
-                                        int hight = realData[7];
-                                        int low = realData[8];
                                         tvEle.setVisibility(View.VISIBLE);
-                                        int count = ((Integer.parseInt( (int)realData[7] + "" + (int)realData[8])) - 3500) / 700;
+
+                                        String elcNumber= new StringBuffer().append(String.format("%02X",realData[7])).append(String.format("%02X",realData[8])).toString();
+                                        int count = (Integer.valueOf(elcNumber,16) - 3500)*100 / 700;
 
                                         if(count<20){
                                             tvEle.setImageResource(R.drawable.ele_low);
@@ -338,31 +351,31 @@ public class IndexActivity extends BaseActivity {
 
                                     }
                                 }
-                                //专项
+                                //转向
                                 if (5 == realData[4]) {
-                                    int tuen = realData[6];
+                                    int tuen = realData[7];
                                     if (1 == tuen) {
                                         mediaPlayerUtils.palyLeftMedia();
-                                        arcView.setLeftDraw();
+                                        arcView.setDataType(CustomArcView.DataType.LEFT);
                                     } else if (2 == tuen) {
                                         mediaPlayerUtils.palyRightMedia();
-                                        arcView.setRihgtDraw();
+                                        arcView.setDataType(CustomArcView.DataType.RIGHT);
                                     }else if(3 == tuen){
                                         mediaPlayerUtils.playEnd();
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
-                                                arcView.setFuyuanDraw();
+                                                arcView.setDataType(CustomArcView.DataType.NONE);
                                             }
                                         }, 200);
-                                    }else{
+                                    }else if(4 == tuen){
                                         mediaPlayerUtils.setPlayTime();
-                                        new Handler().postDelayed(new Runnable() {
+                                        runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                arcView.setFuyuanDraw();
+                                                arcView.setDataType(CustomArcView.DataType.NONE);
                                             }
-                                        }, 200);
+                                        });
                                     }
 
                                 }
@@ -371,7 +384,7 @@ public class IndexActivity extends BaseActivity {
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            arcView.setShacheDraw();
+                                            arcView.setDataType(CustomArcView.DataType.SHACHE);
                                         }
                                     });
                                     mediaPlayerUtils.palyShacheMedia();
