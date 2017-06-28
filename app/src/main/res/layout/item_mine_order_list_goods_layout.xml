@@ -22,7 +22,7 @@
             android:layout_marginBottom="11px"
             android:layout_marginLeft="30px"
             android:layout_marginTop="11px"
-            android:src="@drawable/logo" />
+            android:src="@mipmap/logo" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -323,9 +323,24 @@ public class IndexActivity extends BaseActivity {
                         @Override
                         public void run() {
 
+                             if(state == 0){
+                                isLinkBlue = true;
+                             }
+
                             if(state == 4){
-                                ScanActivity.openScanActivity(IndexActivity.this);
+                                if(mBluetoothLeService!=null && mBluetoothLeService.isConnect() !=null) {
+                                   mBluetoothLeService.erConnect();
+                                }else{
+                                    ScanActivity.openScanActivity(IndexActivity.this);
+                                }
                             }
+
+                            if(state == 6){
+                                tvEle.setVisibility(View.GONE);
+                                isLinkBlue = false;
+                                mBluetoothLeService.localBluetoothClose();
+                            }
+
                             if (3 == state) {
                                 if (3 == realData[4]) {
                                     //0x16禁止
@@ -456,7 +471,6 @@ public class IndexActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == EndConfirmActivity.REQUEST_END_CONFIRM && RESULT_OK == resultCode) {
             btnFind.setVisibility(View.VISIBLE);
             indexBottom.setVisibility(View.GONE);
@@ -489,6 +503,7 @@ public class IndexActivity extends BaseActivity {
 
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
+            mBluetoothLeService.close();
             mBluetoothLeService = null;
         }
     };

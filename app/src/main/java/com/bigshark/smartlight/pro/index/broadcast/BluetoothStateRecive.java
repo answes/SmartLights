@@ -48,10 +48,10 @@ public class BluetoothStateRecive extends BroadcastReceiver {
                     listener.onReciveData(4,"蓝牙已经打开",null);
                     break;
                 case BluetoothAdapter.STATE_TURNING_OFF:
-
+                    listener.onReciveData(6,"正在关闭蓝牙",null);
                     break;
                 case BluetoothAdapter.STATE_OFF:
-
+                    listener.onReciveData(5,"蓝牙已经关闭",null);
                     break;
             }
         }

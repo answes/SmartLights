@@ -39,6 +39,8 @@ public class SetActivity extends BaseActivity {
     LinearLayout rootView;
     @BindView(R.id.switch1)
     Switch switch1;
+    @BindView(R.id.switch_auto)
+    Switch switchAuto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,16 @@ public class SetActivity extends BaseActivity {
         SupportMultipleScreensUtil.scale(rootView);
 
         switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    SQLUtils.appConfig(SetActivity.this,true);
+                }else{
+                    SQLUtils.appConfig(SetActivity.this,false);
+                }
+            }
+        });
+        switchAuto.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){

@@ -14,7 +14,7 @@
         android:layout_width="230px"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="101px"
-        android:src="@drawable/logo"
+        android:src="@mipmap/logo"
         android:scaleType="fitXY"
         android:layout_height="230px" />
 
@@ -27,8 +27,33 @@
         android:layout_gravity="center_horizontal"
         android:textColor="@color/text_three"
         android:text="@string/app_version"/>
+
     <LinearLayout
         android:layout_marginTop="101px"
+        android:layout_width="match_parent"
+        android:layout_height="130px"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0px"
+            android:textSize="40px"
+            android:textColor="#022222"
+            android:layout_marginLeft="130px"
+            android:layout_height="wrap_content"
+            android:text="自动上锁"/>
+        <Switch
+            android:id="@+id/switch_auto"
+            android:layout_marginRight="130px"
+            android:layout_width="wrap_content"
+            android:checked="true"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="130px"
         android:background="@color/white"

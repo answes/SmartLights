@@ -33,9 +33,13 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.bigshark.smartlight.bean.BLuetoothData;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 /**
@@ -126,6 +130,14 @@ public class BluetoothLeService extends Service {
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicWrite(gatt, characteristic, status);
+        }
+
+        @Override
+        public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
+            super.onReadRemoteRssi(gatt, rssi, status);
+            if(Math.abs(rssi)>=100){
+                sendValue(BLuetoothData.getOpenAlert());
+            }
         }
     };
 
@@ -245,7 +257,6 @@ public class BluetoothLeService extends Service {
                 return false;
             }
         }
-
         final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
         if (device == null) {
             Log.w(TAG, "Device not found.  Unable to connect.");
@@ -253,11 +264,22 @@ public class BluetoothLeService extends Service {
         }
         // We want to directly connect to the device, so we are setting the autoConnect
         // parameter to false.
-        mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
+
+        mBluetoothGatt = device.connectGatt(this, true, mGattCallback);
         Log.d(TAG, "Trying to create a new connection.");
         mBluetoothDeviceAddress = address;
         mConnectionState = STATE_CONNECTING;
         return true;
+    }
+
+    public void erConnect(){
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(mBluetoothDeviceAddress);
+                mBluetoothGatt = device.connectGatt(BluetoothLeService.this, true, mGattCallback);
+            }
+        },500);
     }
 
     /**
@@ -282,7 +304,12 @@ public class BluetoothLeService extends Service {
         if (mBluetoothGatt == null) {
             return;
         }
+        mBluetoothDeviceAddress = null;
         mBluetoothGatt.close();
+        mBluetoothGatt = null;
+    }
+
+    public void localBluetoothClose(){
         mBluetoothGatt = null;
     }
 
@@ -455,6 +482,10 @@ public class BluetoothLeService extends Service {
         } else {
             return writeValue(mBluetoothGatt, writeCharacteristic, datas);
         }
+    }
+
+    public String isConnect(){
+        return mBluetoothDeviceAddress;
     }
 
     private static boolean writeValue(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, byte[] bytes) {

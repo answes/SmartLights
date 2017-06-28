@@ -115,6 +115,7 @@ public class SQLUtils {
      * 保存是否播放语音
      * @param activity
      * @param isOpenVoice
+     *
      */
     public static void appConfig(Activity activity ,boolean isOpenVoice){
         SharedPreferences mySharedPreferences= activity.getSharedPreferences("config",
