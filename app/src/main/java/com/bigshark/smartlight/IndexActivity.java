@@ -413,6 +413,7 @@ public class IndexActivity extends BaseActivity {
                                         mediaPlayerUtils.stopSahceMedia();
                                     }
                                 }
+                               
 
                                 if(13 == realData[4]){
                                     //警报
