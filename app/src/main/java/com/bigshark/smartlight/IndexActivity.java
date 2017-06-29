@@ -28,6 +28,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bigshark.smartlight.bean.BLuetoothData;
+import com.bigshark.smartlight.bean.Equipment;
 import com.bigshark.smartlight.bean.UpLoadRecord;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
@@ -49,6 +50,9 @@ import com.bigshark.smartlight.utils.TimeUtil;
 import com.bigshark.smartlight.utils.ToastUtil;
 import com.bigshark.smartlight.weight.CustomArcView;
 import com.bigshark.smartlight.weight.TakePhotoPopWin;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -100,6 +104,7 @@ public class IndexActivity extends BaseActivity {
     private Handler mHandler = new Handler();
     private long timer = 0;
     private String timeStr = "";
+    private List<Equipment> blueDatas = new ArrayList<>();
 
 
     private Runnable TimerRunnable = new Runnable() {
@@ -131,6 +136,9 @@ public class IndexActivity extends BaseActivity {
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
         mediaPlayerUtils = new MediaPlayerUtils(this, arcView);
+        if(null != SQLUtils.getEqus(this)){
+            blueDatas.addAll(SQLUtils.getEqus(this));
+        }
     }
 
     private MapPreseter mapPreseter;
@@ -166,6 +174,7 @@ public class IndexActivity extends BaseActivity {
     private boolean isStart = false;
     private WindowManager.LayoutParams params;
     private TakePhotoPopWin takePhotoPopWin;
+
 
     /**
      * 查找用户新车
@@ -252,13 +261,26 @@ public class IndexActivity extends BaseActivity {
                         showMsg("当前设备不支持蓝牙");
                         return;
                     }
-                    if(adapter.isEnabled()){
-                        //是否打开
-                        ScanActivity.openScanActivity(IndexActivity.this);
+                    //如果保存有数据，取最后博保存的尝试链接
+                    if(null != blueDatas && blueDatas.size() != 0){
+                        if(adapter.isEnabled()){
+
+                        }else{
+                            showMsg("正在连接"+blueDatas.get(blueDatas.size()-1).getName()+"，请稍后");
+                            IndexActivity.conect(blueDatas.get(blueDatas.size()-1).getNumbering());
+                            adapter.enable();
+                        }
+
                     }else{
-                        showMsg("正在打开蓝牙，请稍后");
-                        adapter.enable();
+                        if(adapter.isEnabled()){
+                            //是否打开
+                            ScanActivity.openScanActivity(IndexActivity.this);
+                        }else{
+                            showMsg("正在打开蓝牙，请稍后");
+                            adapter.enable();
+                        }
                     }
+
                 }
                 break;
         }
@@ -289,6 +311,7 @@ public class IndexActivity extends BaseActivity {
 
     private MapLocationRecive mapLocationRecive;
     private BluetoothStateRecive bluetoothStateRecive;
+    private AlertDialog alertDialog = null;
 
     private void registerBroadCasst() {
         if (mapLocationRecive == null) {
@@ -417,33 +440,28 @@ public class IndexActivity extends BaseActivity {
 
                                 if(13 == realData[4]){
                                     //警报
-                                     AlertDialog alertDialog = new AlertDialog.Builder(IndexActivity.this)
-                                            .setTitle("警报")
-                                            .setMessage("收到警报信号")
-                                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    dialog.cancel();
-                                                }
-                                            }).setPositiveButton("忽略", new DialogInterface.OnClickListener() {
-                                                 @Override
-                                                 public void onClick(DialogInterface dialog, int which) {
-                                                     dialog.cancel();
-                                                     sendData(BLuetoothData.getOpenAlert());
-                                                 }
-                                             }).create();
-                                    alertDialog.show();
+                                    if(alertDialog == null){
+                                        alertDialog = new AlertDialog.Builder(IndexActivity.this)
+                                                .setTitle("警报")
+                                                .setMessage("收到警报信号")
+                                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        alertDialog = null;
+                                                        dialog.cancel();
+                                                    }
+                                                }).setPositiveButton("忽略", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.cancel();
+                                                        sendData(BLuetoothData.getOpenAlert());
+                                                    }
+                                                }).create();
+                                        alertDialog.show();
+                                    }
                                 }
                             }else if(1== state){    //失去通信，断开连接
                                 tvEle.setVisibility(View.GONE);
-//                                btnFind.setVisibility(View.VISIBLE);
-//                                indexBottom.setVisibility(View.GONE);
-//                                tvSpeed.setText("0.00km/h");
-//                                tvHot.setText("0Cal");
-//                                tvDistance.setText("0km");
-//                                tvHigh.setText("0.0m");
-//                                tvMaxspeed.setText("0.00km/h");
-//                                tvHour.setText("00:00:00");
                                 isLinkBlue = false;
                             }
                         }

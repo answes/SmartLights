@@ -115,23 +115,23 @@ public class CustomArcView extends View {
                 getWidth()-8, getHeight()-5);
 
         if(currentType == DataType.NONE){
-            canvas.drawArc(oval, 110, 320, false, bgPaint);
+            canvas.drawArc(oval, 110, 360, false, bgPaint);
         }
 
         if(currentType == DataType.SHACHE){
-            canvas.drawArc(oval, 110, 320, false, mPaint);
+            canvas.drawArc(oval, 110, 360, false, mPaint);
         }
 
 
         if(currentType == DataType.RIGHT){
-            canvas.drawArc(oval, 110, 320, false, bgPaint);//绘制背景
-            canvas.drawArc(oval, 270, 160, false, tunPaint);
+            canvas.drawArc(oval, 110, 360, false, bgPaint);//绘制背景
+            canvas.drawArc(oval, 270, 180, false, tunPaint);
         }
 
 
         if(currentType == DataType.LEFT){
-            canvas.drawArc(oval, 110, 320, false, bgPaint);//绘制背景
-            canvas.drawArc(oval, 110, 160, false, tunPaint);
+            canvas.drawArc(oval, 90, 360, false, bgPaint);//绘制背景
+            canvas.drawArc(oval, 90, 180, false, tunPaint);
         }
     }
 
