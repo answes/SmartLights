@@ -8,6 +8,7 @@ import com.bigshark.smartlight.bean.City;
 import com.bigshark.smartlight.bean.LoginResult;
 import com.bigshark.smartlight.bean.Province;
 import com.bigshark.smartlight.utils.GetJsonDataUtil;
+import com.bigshark.smartlight.utils.SQLUtils;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -29,6 +30,7 @@ public class SmartLightsApplication extends Application {
     public static LoginResult.User USER = null;
     public static RequestQueue queue;//volley 队列
     public static boolean isOpenVioce;  //是否播放语音
+    public static  boolean isAutoClose;
 
     //开启线程初始化 省市区数据 及附属数据
     public static List<Province> provinces = new ArrayList<>();
@@ -41,6 +43,7 @@ public class SmartLightsApplication extends Application {
     public void onCreate() {
         super.onCreate();
         SupportMultipleScreensUtil.init(this);
+
         initVolley();
         new Thread(new Runnable() {
             @Override

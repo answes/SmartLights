@@ -64,12 +64,15 @@ public class SetActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
-                    SQLUtils.appConfig(SetActivity.this,true);
+                    SQLUtils.appAutoConfig(SetActivity.this,true);
                 }else{
-                    SQLUtils.appConfig(SetActivity.this,false);
+                    SQLUtils.appAutoConfig(SetActivity.this,false);
                 }
             }
         });
+
+        switch1.setChecked(SQLUtils.getConfig(this));
+        switchAuto.setChecked(SQLUtils.getAutoConfig(this));
 
     }
 

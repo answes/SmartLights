@@ -49,6 +49,7 @@ public class CustomArcView extends View {
         mPaint.setStrokeWidth(mCircleWidth);
         mPaint.setColor(Color.RED);
         tunPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        tunPaint.setStyle(Paint.Style.STROKE);
         tunPaint.setStrokeWidth(mCircleWidth);
         tunPaint.setColor(Color.YELLOW);
     }

@@ -128,6 +128,24 @@ public class SQLUtils {
         editor.commit();
     }
 
+    public static  void appAutoConfig(Activity activity,boolean isAuto){
+        SharedPreferences mySharedPreferences= activity.getSharedPreferences("config",
+                Activity.MODE_PRIVATE);
+        //实例化SharedPreferences.Editor对象（第二步）
+        SharedPreferences.Editor editor = mySharedPreferences.edit();
+        //用putString的方法保存数据
+        editor.putBoolean("isAuto",isAuto);
+        //提交当前数据
+        editor.commit();
+    }
+
+    public static  boolean getAutoConfig(Activity activity){
+        SharedPreferences sharedPreferences= activity.getSharedPreferences("config",
+                Activity.MODE_PRIVATE);
+        // 使用getString方法获得value，注意第2个参数是value的默认值
+        return sharedPreferences.getBoolean("isAuto", true);
+    }
+
     /**
      * 查询是否播放语音数据  默认为播放
      * @param activity

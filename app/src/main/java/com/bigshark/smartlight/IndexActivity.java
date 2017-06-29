@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -14,6 +15,7 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -41,6 +43,7 @@ import com.bigshark.smartlight.pro.mine.view.MessgeActivity;
 import com.bigshark.smartlight.pro.mine.view.MineActivity;
 import com.bigshark.smartlight.utils.GPSUtil;
 import com.bigshark.smartlight.utils.MediaPlayerUtils;
+import com.bigshark.smartlight.utils.SQLUtils;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.bigshark.smartlight.utils.TimeUtil;
 import com.bigshark.smartlight.utils.ToastUtil;
@@ -123,6 +126,7 @@ public class IndexActivity extends BaseActivity {
         ButterKnife.bind(this);
         initToolbar();
         SupportMultipleScreensUtil.scale(llContext);
+        SmartLightsApplication.isAutoClose = SQLUtils.getAutoConfig(this);
         //蓝牙连接服务
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
@@ -394,15 +398,40 @@ public class IndexActivity extends BaseActivity {
                                     }
 
                                 }
-
+                                //55 55 55 55 01 01 00 01 55 55 55 55
                                 if (1 == realData[4]) {
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            arcView.setDataType(CustomArcView.DataType.SHACHE);
-                                        }
-                                    });
-                                    mediaPlayerUtils.palyShacheMedia();
+                                    if(realData[7] == 1) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                arcView.setDataType(CustomArcView.DataType.SHACHE);
+                                            }
+                                        });
+                                        mediaPlayerUtils.palyShacheMedia();
+                                    }else{
+                                        arcView.setDataType(CustomArcView.DataType.NONE);
+                                        mediaPlayerUtils.stopSahceMedia();
+                                    }
+                                }
+
+                                if(13 == realData[4]){
+                                    //警报
+                                     AlertDialog alertDialog = new AlertDialog.Builder(IndexActivity.this)
+                                            .setTitle("警报")
+                                            .setMessage("收到警报信号")
+                                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.cancel();
+                                                }
+                                            }).setPositiveButton("忽略", new DialogInterface.OnClickListener() {
+                                                 @Override
+                                                 public void onClick(DialogInterface dialog, int which) {
+                                                     dialog.cancel();
+                                                     sendData(BLuetoothData.getOpenAlert());
+                                                 }
+                                             }).create();
+                                    alertDialog.show();
                                 }
                             }else if(1== state){    //失去通信，断开连接
                                 tvEle.setVisibility(View.GONE);

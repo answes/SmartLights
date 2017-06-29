@@ -33,6 +33,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.bigshark.smartlight.SmartLightsApplication;
 import com.bigshark.smartlight.bean.BLuetoothData;
 
 import java.util.ArrayList;
@@ -135,8 +136,8 @@ public class BluetoothLeService extends Service {
         @Override
         public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
             super.onReadRemoteRssi(gatt, rssi, status);
-            if(Math.abs(rssi)>=100){
-                sendValue(BLuetoothData.getOpenAlert());
+            if(Math.abs(rssi)>=100 && SmartLightsApplication.isAutoClose){
+                sendValue(BLuetoothData.getCloseAlert());
             }
         }
     };
