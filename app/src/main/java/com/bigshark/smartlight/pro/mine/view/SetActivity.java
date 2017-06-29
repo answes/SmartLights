@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.allen.library.SuperTextView;
 import com.bigshark.smartlight.R;
+import com.bigshark.smartlight.SmartLightsApplication;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
@@ -68,6 +69,7 @@ public class SetActivity extends BaseActivity {
                 }else{
                     SQLUtils.appAutoConfig(SetActivity.this,false);
                 }
+                SmartLightsApplication.isAutoClose = b;
             }
         });
 

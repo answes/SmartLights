@@ -83,7 +83,7 @@ public class MediaPlayerUtils {
 
     public void stopSahceMedia(){
         if(SmartLightsApplication.isOpenVioce){
-            if(!playShache.isLooping()){
+            if(playShache.isPlaying()){
                 playShache.stop();
             }
         }

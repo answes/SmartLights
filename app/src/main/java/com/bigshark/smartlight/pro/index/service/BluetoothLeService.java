@@ -42,6 +42,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Service for managing connection and data communication with a GATT server hosted on a
@@ -94,6 +97,7 @@ public class BluetoothLeService extends Service {
                 mConnectionState = STATE_DISCONNECTED;
                 Log.i(TAG, "Disconnected from GATT server.");
                 broadcastUpdate(intentAction);
+                stopRssi();
             }
         }
 
@@ -102,6 +106,7 @@ public class BluetoothLeService extends Service {
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 boolean isTrue = register(gatt,service,write);
                 if(isTrue){
+                    startRssi();
                     broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
                 }else{
                     connect(mBluetoothDeviceAddress);
@@ -265,7 +270,6 @@ public class BluetoothLeService extends Service {
         }
         // We want to directly connect to the device, so we are setting the autoConnect
         // parameter to false.
-
         mBluetoothGatt = device.connectGatt(this, true, mGattCallback);
         Log.d(TAG, "Trying to create a new connection.");
         mBluetoothDeviceAddress = address;
@@ -280,7 +284,7 @@ public class BluetoothLeService extends Service {
                 final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(mBluetoothDeviceAddress);
                 mBluetoothGatt = device.connectGatt(BluetoothLeService.this, true, mGattCallback);
             }
-        },500);
+        },50);
     }
 
     /**
@@ -295,6 +299,7 @@ public class BluetoothLeService extends Service {
             return;
         }
         mBluetoothGatt.disconnect();
+        stopRssi();
     }
 
     /**
@@ -302,6 +307,7 @@ public class BluetoothLeService extends Service {
      * released properly.
      */
     public void close() {
+        stopRssi();
         if (mBluetoothGatt == null) {
             return;
         }
@@ -502,4 +508,28 @@ public class BluetoothLeService extends Service {
             return gatt.writeCharacteristic(characteristic);
         }
     }
+
+    ScheduledExecutorService mSchduledExecutorService;
+    /**
+     * 开始
+     */
+    public void startRssi(){
+       Runnable runnable = new Runnable() {
+           public void run() {
+              if(mBluetoothGatt!=null){
+                  mBluetoothGatt.readRemoteRssi();
+              }
+           }
+       };
+        mSchduledExecutorService = Executors
+               .newSingleThreadScheduledExecutor();
+       // 第二个参数为首次执行的延时时间，第三个参数为定时执行的间隔时间
+        mSchduledExecutorService.scheduleAtFixedRate(runnable, 10, 1, TimeUnit.SECONDS);
+   }
+
+   public void stopRssi(){
+       if(mSchduledExecutorService!=null)
+       mSchduledExecutorService.shutdown();
+   }
+
 }
