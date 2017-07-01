@@ -3,9 +3,12 @@ package com.bigshark.smartlight.pro.mine.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,6 +42,8 @@ public class RegisteredActivity extends BaseActivity {
     TextView tvProtocol;
     @BindView(R.id.activity_registered)
     LinearLayout activityRegistered;
+    @BindView(R.id.cbDisplayPassword)
+    CheckBox checkBox;
     @BindView(R.id.iv_code)
     ImageView ivCode;
 
@@ -51,6 +56,16 @@ public class RegisteredActivity extends BaseActivity {
         bindPresneter();
         SupportMultipleScreensUtil.scale(activityRegistered);
         ivCode.setImageBitmap(code.createBitmap());
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    etPsw.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                }else{
+                    etPsw.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+            }
+        });
     }
 
     private void initToolbar() {
@@ -85,7 +100,7 @@ public class RegisteredActivity extends BaseActivity {
                 minePresenter.registered(etPhone.getText().toString(), etPsw.getText().toString(), new BasePresenter.OnUIThreadListener<RegisterResult>() {
                     @Override
                     public void onResult(RegisterResult result) {
-                        showMsg(result.getExtra());
+                        showMsg("注册成功");
                         if (result.getCode() == 1) {
                             LoginActivity.openLoginActivity(RegisteredActivity.this);
                             finish();

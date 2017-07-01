@@ -116,7 +116,7 @@ public class ScanActivity extends BaseActivity {
                     public void onClick(View view) {
                         finish();
                     }
-                }).setTitle("巡找蓝牙车灯").createAndBind(activityScan);
+                }).setTitle("寻找蓝牙车灯").createAndBind(activityScan);
     }
 
     private List<BluetoothDevice> deivices;

@@ -49,7 +49,7 @@
             android:id="@+id/et_yan"
             android:layout_width="match_parent"
             android:layout_height="130px"
-            android:hint="手机验证码"
+            android:hint="短信验证码"
             android:drawablePadding="30px"
             android:textColorHint="@color/white"
             android:background="@android:color/transparent"
@@ -79,23 +79,39 @@
         android:background="@color/white"
         android:layout_marginLeft="80px"
         android:layout_marginRight="80px"/>
-    <EditText
-        android:id="@+id/et_psw"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="130px"
-        android:hint="设置6-18位密码"
-        android:drawablePadding="30px"
-        android:inputType="textPassword"
-        android:padding="20px"
-        android:singleLine="true"
-        android:background="@android:color/transparent"
-        android:drawableLeft="@drawable/mine_sign_up_psd"
-        android:textSize="35px"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
-        android:layout_marginLeft="100px"
-        android:layout_marginRight="100px"
-        />
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/et_psw"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="130px"
+            android:hint="设置6-18位密码"
+            android:drawablePadding="30px"
+            android:padding="20px"
+            android:singleLine="true"
+            android:layout_marginLeft="100px"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/mine_sign_up_psd"
+            android:textSize="35px"
+            android:inputType="textPassword"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            />
+        <CheckBox
+            android:checked="false"
+            android:id="@+id/cbDisplayPassword"
+            android:layout_width="wrap_content"
+            android:layout_marginRight="100px"
+            android:layout_marginLeft="20px"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:button="@drawable/selector_password"/>
+
+    </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"

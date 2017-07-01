@@ -3,9 +3,12 @@ package com.bigshark.smartlight.pro.mine.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,6 +40,8 @@ public class LoginActivity extends BaseActivity {
     Button btLogin;
     @BindView(R.id.tv_registered)
     TextView tvRegistered;
+    @BindView(R.id.cbDisplayPassword)
+    CheckBox checkBox;
     @BindView(R.id.tv_findPsw)
     TextView tvFindPsw;
     @BindView(R.id.activity_login)
@@ -51,6 +56,17 @@ public class LoginActivity extends BaseActivity {
         ButterKnife.bind(this);
         initToolbar();
         SupportMultipleScreensUtil.scale(activityLogin);
+
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    etPsw.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                }else{
+                    etPsw.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+            }
+        });
     }
 
     private void initToolbar() {
