@@ -41,36 +41,40 @@
         android:background="@color/white"
         android:layout_marginLeft="80px"
         android:layout_marginRight="80px"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <EditText
             android:id="@+id/et_yan"
             android:layout_width="match_parent"
             android:layout_height="130px"
-            android:hint="短信验证码"
-            android:drawablePadding="30px"
-            android:textColorHint="@color/white"
-            android:background="@android:color/transparent"
-            android:textColor="@color/white"
-            android:padding="20px"
-            android:maxLength="6"
-            android:singleLine="true"
-            android:drawableLeft="@drawable/mine_sign_up_code_ico"
-            android:textSize="35px"
             android:layout_marginLeft="100px"
             android:layout_marginRight="100px"
-            />
-        <ImageView
-            android:id="@+id/iv_code"
-            android:layout_width="200px"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/mine_sign_up_code"
-            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/mine_sign_up_code_ico"
+            android:drawablePadding="30px"
+            android:hint="短信验证码"
+            android:maxLength="6"
+            android:padding="20px"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="35px" />
+
+        <Button
+            android:id="@+id/btn_code"
+            android:layout_width="260px"
+            android:layout_height="100px"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
             android:layout_marginRight="100px"
-            android:layout_height="130px" />
+            android:background="@drawable/fragment_index_button_bg"
+            android:text="获取验证码"
+            android:textColor="@color/white" />
     </RelativeLayout>
 
     <View

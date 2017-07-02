@@ -31,9 +31,21 @@ public class EquipmentListAdapter extends RecyclerView.Adapter<EquipmentListAdap
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.name.setText("设备名称：".concat(list.get(position).getName()));
         holder.numbering.setText("设备编号：".concat(list.get(position).getNumbering()));
+        if(onItemClickListener != null){
+            holder.root.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.onItemClickListener(position);
+                }
+            });
+        }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -45,12 +57,18 @@ public class EquipmentListAdapter extends RecyclerView.Adapter<EquipmentListAdap
     class MyViewHolder extends RecyclerView.ViewHolder{
         TextView numbering;
         TextView name;
-
+        View root;
         public MyViewHolder(View itemView) {
             super(itemView);
+            root = itemView;
             SupportMultipleScreensUtil.scale(itemView);
             name= (TextView) itemView.findViewById(R.id.tv_name);
             numbering = (TextView) itemView.findViewById(R.id.tv_numbering);
         }
+    }
+
+    private OnItemClickListener onItemClickListener;
+    public interface  OnItemClickListener{
+        void onItemClickListener(int postion);
     }
 }

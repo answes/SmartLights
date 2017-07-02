@@ -3,6 +3,7 @@ package com.bigshark.smartlight.pro.mine.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -18,9 +19,6 @@ import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.mine.presenter.MinePresenter;
 import com.bigshark.smartlight.pro.mine.view.navigation.RegiteredNavigationBuilder;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
-import com.bigshark.smartlight.weight.Code;
-
-import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,9 +40,9 @@ public class FindPswActivity extends BaseActivity {
     Button btConfim;
     @BindView(R.id.activity_login)
     LinearLayout activityLogin;
-    @BindView(R.id.iv_code)
-    ImageView ivCode;
-    private Code code = Code.getInstance();
+    @BindView(R.id.btn_code)
+    Button btnCode;
+    private String code;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +50,6 @@ public class FindPswActivity extends BaseActivity {
         ButterKnife.bind(this);
         initToolbar();
         SupportMultipleScreensUtil.scale(activityLogin);
-        ivCode.setImageBitmap(code.createBitmap());
     }
 
     private void initToolbar() {
@@ -71,14 +68,18 @@ public class FindPswActivity extends BaseActivity {
         return minePresenter;
     }
 
-    @OnClick({R.id.bt_confim,R.id.iv_code})
+    @OnClick({R.id.bt_confim,R.id.btn_code})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_confim:
             if (!check()) {
                 return;
             }
-            if (!etYan.getText().toString().equals("5374")) {
+            if(code == null){
+                showMsg("请获取验证码");
+                return;
+            }
+            if (!etYan.getText().toString().equals(code)) {
                 showMsg("验证码不正确");
                 return;
             }
@@ -98,11 +99,24 @@ public class FindPswActivity extends BaseActivity {
                 }
             });
                 break;
-            case R.id.iv_code:
-                ivCode.setImageBitmap(code.createBitmap());
+            case R.id.btn_code:
+                getCode();
                 break;
         }
     }
+
+    private CountDownTimer countDownTimer = new CountDownTimer(61000L,1000L) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+            btnCode.setText(millisUntilFinished/1000+"S");
+        }
+
+        @Override
+        public void onFinish() {
+            btnCode.setEnabled(true);
+            btnCode.setText("获取验证码");
+        }
+    };
 
     public static void openFindPswActivity(Activity activity){
         activity.startActivity(new Intent(activity,FindPswActivity.class));
@@ -131,4 +145,30 @@ public class FindPswActivity extends BaseActivity {
         }
         return  true;
     }
+    private void getCode(){
+        if(TextUtils.isEmpty(etPhone.getText())){
+            showMsg("请填写手机号码");
+            return;
+        }
+        if(etPhone.getText().toString().length() !=11){
+            showMsg("请填写正确的手机号码");
+            return;
+        }
+        btnCode.setEnabled(false);
+        countDownTimer.start();
+        minePresenter.getCode(etPhone.getText().toString(),new BasePresenter.OnUIThreadListener<String>() {
+            @Override
+            public void onResult(String result) {
+                showMsg("验证码已经发送到您的手机，请注意查收");
+                code = result;
+            }
+
+            @Override
+            public void onErro(String string) {
+                showMsg(string);
+            }
+        });
+
+    }
+
 }

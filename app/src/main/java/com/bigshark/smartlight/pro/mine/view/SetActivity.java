@@ -59,6 +59,7 @@ public class SetActivity extends BaseActivity {
                 }else{
                     SQLUtils.appConfig(SetActivity.this,false);
                 }
+                SmartLightsApplication.isOpenVioce = b ;
             }
         });
         switchAuto.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

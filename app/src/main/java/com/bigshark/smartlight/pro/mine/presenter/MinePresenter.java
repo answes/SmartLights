@@ -283,6 +283,26 @@ public class MinePresenter extends BasePresenter<MineModel> {
         });
     }
 
+    public void getCode(String phone,final  OnUIThreadListener<String> onUIThreadListener){
+        getModel().getCode(phone, new VolleyHttpUtils.HttpResult() {
+            @Override
+            public void succss(String t) {
+                Log.i("Load",t);
+                CodeBean codeBean = JSON.parseObject(t,CodeBean.class);
+                if(codeBean.getCode() == 1){
+                    onUIThreadListener.onResult(String.valueOf(codeBean.getData()));
+                }else{
+                    onUIThreadListener.onErro(codeBean.getExtra());
+                }
+            }
+
+            @Override
+            public void erro(String msg) {
+                onUIThreadListener.onErro(msg);
+            }
+        });
+    }
+
     public void getRideDetail(String id , final OnUIThreadListener<RideDetailResult.RideDetail> onUIThreadListener){
         getModel().getRideDetail(id, new VolleyHttpUtils.HttpResult() {
             @Override

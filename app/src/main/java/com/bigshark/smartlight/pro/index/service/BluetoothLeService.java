@@ -141,6 +141,7 @@ public class BluetoothLeService extends Service {
         @Override
         public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
             super.onReadRemoteRssi(gatt, rssi, status);
+            Log.i("Load",rssi+"强度");
             if(Math.abs(rssi)>=100 && SmartLightsApplication.isAutoClose){
                 sendValue(BLuetoothData.getCloseAlert());
             }
@@ -271,6 +272,9 @@ public class BluetoothLeService extends Service {
         // We want to directly connect to the device, so we are setting the autoConnect
         // parameter to false.
         mBluetoothGatt = device.connectGatt(this, true, mGattCallback);
+        if(mBluetoothGatt == null){
+            return false;
+        }
         Log.d(TAG, "Trying to create a new connection.");
         mBluetoothDeviceAddress = address;
         mConnectionState = STATE_CONNECTING;

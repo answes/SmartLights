@@ -126,7 +126,6 @@ public class LoginActivity extends BaseActivity {
                 IndexActivity.openIndexActivity(LoginActivity.this);
                 finish();
             }
-
             @Override
             public void onErro(String string) {
 

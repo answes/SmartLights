@@ -71,7 +71,7 @@ public class BluetoothStateRecive extends BroadcastReceiver {
 
     public interface BlueetoothStateChangeListener {
         /**
-         * @param state 0已经连接上 1失去连接 2 可通信状态  3 获得数据
+         * @param state 0已经连接上 1失去连接 2 可通信状态  3 获得数据 4打开蓝牙 6 正在关闭蓝牙
          * @param data  数据
          */
         void onReciveData(int state, String data,byte[] realData);

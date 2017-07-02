@@ -143,7 +143,7 @@ public class SQLUtils {
         SharedPreferences sharedPreferences= activity.getSharedPreferences("config",
                 Activity.MODE_PRIVATE);
         // 使用getString方法获得value，注意第2个参数是value的默认值
-        return sharedPreferences.getBoolean("isAuto", false);
+        return sharedPreferences.getBoolean("isAuto", true);
     }
 
     /**

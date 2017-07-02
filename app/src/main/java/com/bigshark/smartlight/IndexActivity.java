@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -40,6 +41,7 @@ import com.bigshark.smartlight.pro.index.view.EndConfirmActivity;
 import com.bigshark.smartlight.pro.index.view.MapActivity;
 import com.bigshark.smartlight.pro.index.view.ScanActivity;
 import com.bigshark.smartlight.pro.index.view.navigation.IndexNavigationBuilder;
+import com.bigshark.smartlight.pro.mine.view.EquipmentActivity;
 import com.bigshark.smartlight.pro.mine.view.MessgeActivity;
 import com.bigshark.smartlight.pro.mine.view.MineActivity;
 import com.bigshark.smartlight.utils.GPSUtil;
@@ -99,6 +101,8 @@ public class IndexActivity extends BaseActivity {
     private boolean isLinkBlue;
     private MediaPlayerUtils mediaPlayerUtils;
 
+    private static Context mContext;
+
     private boolean isStopCount = false;
     private boolean isPause = true;
     private Handler mHandler = new Handler();
@@ -111,7 +115,7 @@ public class IndexActivity extends BaseActivity {
 
         @Override
         public void run() {
-            if(!isStopCount){
+            if (!isStopCount) {
                 timer += 1000;
                 timeStr = TimeUtil.getFormatTime(timer);
                 tvHour.setText(timeStr);
@@ -120,7 +124,7 @@ public class IndexActivity extends BaseActivity {
         }
     };
 
-    private void countTimer(){
+    private void countTimer() {
         mHandler.postDelayed(TimerRunnable, 1000);
     }
 
@@ -136,9 +140,10 @@ public class IndexActivity extends BaseActivity {
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
         mediaPlayerUtils = new MediaPlayerUtils(this, arcView);
-        if(null != SQLUtils.getEqus(this)){
+        if (null != SQLUtils.getEqus(this)) {
             blueDatas.addAll(SQLUtils.getEqus(this));
         }
+        mContext = this;
     }
 
     private MapPreseter mapPreseter;
@@ -188,6 +193,7 @@ public class IndexActivity extends BaseActivity {
                 if (!GPSUtil.isOPen(this)) {
                     GPSUtil.openGPS(this);
                 }
+                isStart = true;
                 countTimer();
                 startRide();
                 break;
@@ -257,32 +263,35 @@ public class IndexActivity extends BaseActivity {
                     });
                 } else {
                     BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-                    if(adapter == null){
+                    if (adapter == null) {
                         showMsg("当前设备不支持蓝牙");
                         return;
                     }
-                    //如果保存有数据，取最后博保存的尝试链接
-                    if(null != blueDatas && blueDatas.size() != 0){
-                        if(adapter.isEnabled()){
-
-                        }else{
-                            showMsg("正在连接"+blueDatas.get(blueDatas.size()-1).getName()+"，请稍后");
-                            IndexActivity.conect(blueDatas.get(blueDatas.size()-1).getNumbering());
-                            adapter.enable();
-                        }
-
-                    }else{
-                        if(adapter.isEnabled()){
-                            //是否打开
-                            ScanActivity.openScanActivity(IndexActivity.this);
-                        }else{
-                            showMsg("正在打开蓝牙，请稍后");
-                            adapter.enable();
-                        }
+                    if (adapter.isEnabled()) {
+                        //是否打开
+                        openEquipmentOrConnect();
+                    } else {
+                        showMsg("正在打开蓝牙，请稍后");
+                        adapter.enable();
                     }
 
                 }
                 break;
+        }
+    }
+
+
+    private void initBluetoothAdapter(){
+        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+        if (adapter == null) {
+            showMsg("当前设备不支持蓝牙");
+            return;
+        }
+        if (adapter.isEnabled()) {
+            //是否打开
+            openEquipmentOrConnect();
+        } else {
+           showMsg("蓝牙未打开");
         }
     }
 
@@ -312,6 +321,28 @@ public class IndexActivity extends BaseActivity {
     private MapLocationRecive mapLocationRecive;
     private BluetoothStateRecive bluetoothStateRecive;
     private AlertDialog alertDialog = null;
+
+
+    /**
+     * 蓝牙开启时
+     * 确定是否连接或者开启界面
+     */
+    private void openEquipmentOrConnect() {
+        if (mBluetoothLeService != null && mBluetoothLeService.isConnect() != null) {
+            mBluetoothLeService.erConnect();
+            return;
+        }
+        List<Equipment> data = SQLUtils.getEqus(IndexActivity.this);
+        if (data == null || data.size() == 0) {
+            showMsg("您没有链接过的设备");
+            EquipmentActivity.openEquipmentActivity(this);
+            return;
+        }
+        Equipment equipment = data.get(data.size() - 1);
+        //正在为您连
+        showMsg(String.format("正在为您链接%s,%s", equipment.getName(), equipment.getNumbering()));
+        IndexActivity.conect(equipment.getNumbering());
+    }
 
     private void registerBroadCasst() {
         if (mapLocationRecive == null) {
@@ -349,22 +380,26 @@ public class IndexActivity extends BaseActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
-                             if(state == 0){
+                            if (state == 0) {
                                 isLinkBlue = true;
-                             }
-
-                            if(state == 4){
-                                if(mBluetoothLeService!=null && mBluetoothLeService.isConnect() !=null) {
-                                   mBluetoothLeService.erConnect();
-                                }else{
-                                    ScanActivity.openScanActivity(IndexActivity.this);
-                                }
+                                showMsg("蓝牙链接成功");
+                            }
+                            if (state == 4) {
+                                //蓝牙打开
+//                                if(mBluetoothLeService!=null && mBluetoothLeService.isConnect() !=null) {
+//                                   mBluetoothLeService.erConnect();
+//                                }else{
+//                                    ScanActivity.openScanActivity(IndexActivity.this);
+//                                }
+                                openEquipmentOrConnect();
                             }
 
-                            if(state == 6){
+                            if (state == 6) {
+                                showMsg("已经关闭蓝牙");
+                                //已经关闭蓝牙
                                 tvEle.setVisibility(View.GONE);
                                 isLinkBlue = false;
+                                arcView.setDataType(CustomArcView.DataType.NONE);
                                 mBluetoothLeService.localBluetoothClose();
                             }
 
@@ -374,19 +409,19 @@ public class IndexActivity extends BaseActivity {
 //                                    int count = (realData[7] * 256 + realData[8])/700;
                                     try {
                                         tvEle.setVisibility(View.VISIBLE);
-
-                                        String elcNumber= new StringBuffer().append(String.format("%02X",realData[7])).append(String.format("%02X",realData[8])).toString();
-                                        int count = (Integer.valueOf(elcNumber,16) - 3500)*100 / 700;
-
-                                        if(count<20){
+                                        String elcNumber = new StringBuffer().append(String.format("%02X", realData[7])).append(String.format("%02X", realData[8])).toString();
+                                        int count = (Integer.valueOf(elcNumber, 16) - 3500) * 100 / 700;
+                                        if (count < 10) {
+                                            tvEle.setImageResource(R.drawable.empty_battery);
+                                        } else if (count < 20) {
                                             tvEle.setImageResource(R.drawable.ele_low);
-                                        }else if(count<40){
+                                        } else if (count < 40) {
                                             tvEle.setImageResource(R.drawable.ele_low2);
-                                        }else if(count<60){
+                                        } else if (count < 60) {
                                             tvEle.setImageResource(R.drawable.ele_medum);
-                                        }else if(count<80){
+                                        } else if (count < 80) {
                                             tvEle.setImageResource(R.drawable.ele_high1);
-                                        }else{
+                                        } else {
                                             tvEle.setImageResource(R.drawable.ele_high2);
                                         }
                                     } catch (Exception e) {
@@ -402,7 +437,7 @@ public class IndexActivity extends BaseActivity {
                                     } else if (2 == tuen) {
                                         mediaPlayerUtils.palyRightMedia();
                                         arcView.setDataType(CustomArcView.DataType.RIGHT);
-                                    }else if(3 == tuen){
+                                    } else if (3 == tuen) {
                                         mediaPlayerUtils.playEnd();
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
@@ -410,7 +445,7 @@ public class IndexActivity extends BaseActivity {
                                                 arcView.setDataType(CustomArcView.DataType.NONE);
                                             }
                                         }, 200);
-                                    }else if(4 == tuen){
+                                    } else if (4 == tuen) {
                                         mediaPlayerUtils.setPlayTime();
                                         runOnUiThread(new Runnable() {
                                             @Override
@@ -423,7 +458,7 @@ public class IndexActivity extends BaseActivity {
                                 }
                                 //55 55 55 55 01 01 00 01 55 55 55 55
                                 if (1 == realData[4]) {
-                                    if(realData[7] == 1) {
+                                    if (realData[7] == 1) {
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
@@ -431,16 +466,16 @@ public class IndexActivity extends BaseActivity {
                                             }
                                         });
                                         mediaPlayerUtils.palyShacheMedia();
-                                    }else{
+                                    } else {
                                         arcView.setDataType(CustomArcView.DataType.NONE);
                                         mediaPlayerUtils.stopSahceMedia();
                                     }
                                 }
 
 
-                                if(13 == realData[4]){
+                                if (13 == realData[4]) {
                                     //警报
-                                    if(alertDialog == null){
+                                    if (alertDialog == null) {
                                         alertDialog = new AlertDialog.Builder(IndexActivity.this)
                                                 .setTitle("警报")
                                                 .setMessage("收到警报信号")
@@ -460,8 +495,10 @@ public class IndexActivity extends BaseActivity {
                                         alertDialog.show();
                                     }
                                 }
-                            }else if(1== state){    //失去通信，断开连接
+                            } else if (1 == state) {    //失去通信，断开连接
                                 tvEle.setVisibility(View.GONE);
+                                arcView.setDataType(CustomArcView.DataType.NONE);
+                                showMsg("蓝牙已经失去连接");
                                 isLinkBlue = false;
                             }
                         }
@@ -528,7 +565,7 @@ public class IndexActivity extends BaseActivity {
             tvHigh.setText("0.0m");
             tvMaxspeed.setText("0.00km/h");
             tvHour.setText("00:00:00");
-        } else if (requestCode == EndConfirmActivity.REQUEST_END_CONFIRM && RESULT_OK == resultCode) {
+        } else if (requestCode == EndConfirmActivity.REQUEST_END_CONFIRM && RESULT_CANCELED== resultCode) {
             mapPreseter.restart();
         } else if (requestCode == ScanActivity.SACN_RESULT_CODE && RESULT_OK == resultCode) {
             isLinkBlue = true;
@@ -545,7 +582,9 @@ public class IndexActivity extends BaseActivity {
             mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
             if (!mBluetoothLeService.initialize()) {
                 Log.e("Load", "Unable to initialize Bluetooth");
-                ToastUtil.showToast(IndexActivity.this, "次设", 1000);
+                ToastUtil.showToast(IndexActivity.this, "当前设备不支持蓝牙", 1000);
+            }else{
+                initBluetoothAdapter();
             }
         }
 
@@ -558,7 +597,10 @@ public class IndexActivity extends BaseActivity {
 
     //连接
     public static void conect(String addrss) {
-        mBluetoothLeService.connect(addrss);
+        if(!mBluetoothLeService.connect(addrss)){
+            ToastUtil.showToast(mContext,"链接失败，请确保蓝牙车灯打开");
+            EquipmentActivity.openEquipmentActivity((Activity) mContext);
+        }
     }
 
     public static void sendData(byte[] data) {
