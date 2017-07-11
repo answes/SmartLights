@@ -141,9 +141,10 @@ public class BluetoothLeService extends Service {
         @Override
         public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
             super.onReadRemoteRssi(gatt, rssi, status);
-            Log.i("Load",rssi+"强度");
-            if(Math.abs(rssi)>=100 && SmartLightsApplication.isAutoClose){
+            Log.i("强度",Math.abs(rssi)+"");
+            if(Math.abs(rssi)>=95 && SmartLightsApplication.isAutoClose){
                 sendValue(BLuetoothData.getCloseAlert());
+                Log.i("Load",rssi+"开启进阶");
             }
         }
     };

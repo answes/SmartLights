@@ -1,6 +1,5 @@
 package com.bigshark.smartlight.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.media.MediaPlayer;
 
@@ -76,6 +75,7 @@ public class MediaPlayerUtils {
     public void palyShacheMedia() {
         if (SmartLightsApplication.isOpenVioce) {
             if(!playShache.isPlaying()){
+                playShache.seekTo(0);
                 playShache.start();
             }
         }
@@ -84,7 +84,7 @@ public class MediaPlayerUtils {
     public void stopSahceMedia(){
         if(SmartLightsApplication.isOpenVioce){
             if(playShache.isPlaying()){
-                playShache.stop();
+                playShache.pause();
             }
         }
     }

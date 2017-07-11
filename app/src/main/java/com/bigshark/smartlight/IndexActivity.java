@@ -597,8 +597,13 @@ public class IndexActivity extends BaseActivity {
 
     //连接
     public static void conect(String addrss) {
-        if(!mBluetoothLeService.connect(addrss)){
-            ToastUtil.showToast(mContext,"链接失败，请确保蓝牙车灯打开");
+        try {
+            if (!mBluetoothLeService.connect(addrss)) {
+                ToastUtil.showToast(mContext, "链接失败，请确保蓝牙车灯打开");
+                EquipmentActivity.openEquipmentActivity((Activity) mContext);
+            }
+        }catch (Exception e){
+            ToastUtil.showToast(mContext, "链接失败，请确保蓝牙车灯打开");
             EquipmentActivity.openEquipmentActivity((Activity) mContext);
         }
     }

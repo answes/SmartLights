@@ -60,12 +60,7 @@ public class EquipmentActivity extends BaseActivity {
         ButterKnife.bind(this);
         initToolbar();
         SupportMultipleScreensUtil.scale(activityEquipment);
-        adapter.setOnItemClickListener(new EquipmentListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClickListener(int postion) {
-                IndexActivity.conect(datas.get(postion).getNumbering());
-            }
-        });
+
         initData();
         if (recive == null) {
             recive = new BluetoothStateRecive(new BluetoothStateRecive.BlueetoothStateChangeListener() {
@@ -92,7 +87,12 @@ public class EquipmentActivity extends BaseActivity {
         rvEquipment.setLayoutManager(new LinearLayoutManager(this));
         adapter = new EquipmentListAdapter(this, datas);
         rvEquipment.setAdapter(adapter);
-
+        adapter.setOnItemClickListener(new EquipmentListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(int postion) {
+                IndexActivity.conect(datas.get(postion).getNumbering());
+            }
+        });
         List<Equipment> sqlDatas = SQLUtils.getEqus(this);
         if(null != sqlDatas && sqlDatas.size() != 0){
             datas.addAll(sqlDatas);
@@ -155,6 +155,7 @@ public class EquipmentActivity extends BaseActivity {
                                 }
                             })
                             .create();
+                    alertDialog.show();
                 }
 
                 break;
