@@ -1,5 +1,6 @@
 package com.bigshark.smartlight.bean;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -36,7 +37,10 @@ public class BLuetoothData {
     private static byte[] openAlert = new byte[]{0x0c, 0x01, 0x00, 0x02};
 
     //关锁
-    private static byte[] closeAlert = new byte[]{0x0c, 0x01, 0x0, 0x01};
+    private static byte[] closeAlert = new byte[]{0x0c, 0x01, 0x00, 0x01};
+
+    //固件版本
+    private static byte[] firmwareVersoin = new byte[]{0x15,0x00,0x00};
 
     /**
      * 获得校验码
@@ -122,6 +126,10 @@ public class BLuetoothData {
         return getData(openAlert);
     }
 
+    public static byte[] getFirmwareVersoin(){
+        return getData(firmwareVersoin);
+    }
+
     public static byte[] getCloseAlert() {
         return getData(closeAlert);
     }
@@ -160,5 +168,15 @@ public class BLuetoothData {
             returnBytes[i] = (arrayList.get(i));
         }
         return returnBytes;
+    }
+
+    /**
+     * 固件升级版本
+     */
+    public static void getFirmwareUp(File file){
+        byte[] fiemwareUp = new byte[7];
+        fiemwareUp[0] = 0x10;
+        String length = Long.toHexString(file.length());
+        
     }
 }
