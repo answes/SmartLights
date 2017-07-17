@@ -62,20 +62,20 @@ public class BLuetoothData {
 //        }
 //        crc = (short) ((~crc) + 1);
 
-        short crc = 0x0000;
+    short crc = 0x0000;
 
         for (int i = 0; i < size; i++) {
-            crc += (((short) buffer[i]) & 0x00FF);
-            crc = (short) ~((crc << 1) & 0xFFFE);
-            crc += 1;
-            if ((i % 8) == 0) {
-                crc ^= 0x1021;
-            }
+        crc += (((short) buffer[i]) & 0x00FF);
+        crc = (short) ~((crc << 1) & 0xFFFE);
+        crc += 1;
+        if ((i % 8) == 0) {
+            crc ^= 0x1021;
         }
-        crc = (short) ((~crc) + 1);
+    }
+    crc = (short) ((~crc) + 1);
 
         return shortToByte(crc);
-    }
+}
 
     /**
      * 注释：short到字节数组的转换！
@@ -86,10 +86,9 @@ public class BLuetoothData {
     public static byte[] shortToByte(short number) {
         int temp = number;
         byte[] b = new byte[2];
-        for (int i = 0; i < b.length; i++) {
-            b[i] = new Integer(temp & 0xff).byteValue();
-            temp = temp >> 8; // 向右移8位
-        }
+        b[1] = new Integer(temp & 0xff).byteValue();
+        temp = temp >> 8; // 向右移8位
+        b[0] = new Integer(temp & 0xff).byteValue();
         return b;
     }
 
@@ -155,7 +154,7 @@ public class BLuetoothData {
             arrayList.add(bytes[i]);
         }
 
-        byte[] checkNumbers = getCheckNumber(bytes,3);
+        byte[] checkNumbers = getCheckNumber(bytes,bytes.length);
         for(int i=1;i>=0;i--){
             arrayList.add(checkNumbers[i]);
         }
@@ -177,6 +176,6 @@ public class BLuetoothData {
         byte[] fiemwareUp = new byte[7];
         fiemwareUp[0] = 0x10;
         String length = Long.toHexString(file.length());
-        
+
     }
 }
