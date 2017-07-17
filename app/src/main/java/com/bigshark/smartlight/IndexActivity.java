@@ -198,11 +198,11 @@ public class IndexActivity extends BaseActivity {
                 startRide();
                 break;
             case R.id.frame_location:
-                if (isStart) {
+//                if (isStart) {
                     MapActivity.openMapActivity(this, mapPreseter.getUplodeRecord(), true, mapPreseter.getSavesLatlng());
-                } else {
-                    showMsg("在骑行状态下打才能查看路径");
-                }
+//                } else {
+//                    showMsg("在骑行状态下打才能查看路径");
+//                }
                 break;
             case R.id.bt_finish:
                 isStart = false;

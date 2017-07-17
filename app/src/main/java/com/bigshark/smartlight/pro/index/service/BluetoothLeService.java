@@ -30,11 +30,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
 
 import com.bigshark.smartlight.SmartLightsApplication;
 import com.bigshark.smartlight.bean.BLuetoothData;
+import com.bigshark.smartlight.pro.mine.view.EquipmentActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,6 +47,8 @@ import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 /**
  * Service for managing connection and data communication with a GATT server hosted on a
@@ -104,6 +108,7 @@ public class BluetoothLeService extends Service {
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
+                countDownTimer.cancel();
                 boolean isTrue = register(gatt,service,write);
                 if(isTrue){
                     startRssi();
@@ -279,8 +284,24 @@ public class BluetoothLeService extends Service {
         Log.d(TAG, "Trying to create a new connection.");
         mBluetoothDeviceAddress = address;
         mConnectionState = STATE_CONNECTING;
+        countDownTimer.start();
         return true;
     }
+
+    /**
+     * 超时处理
+     */
+    private CountDownTimer countDownTimer = new CountDownTimer(5000,1000) {
+        @Override
+        public void onTick(long l) {
+
+        }
+
+        @Override
+        public void onFinish() {
+            BluetoothLeService.this.startActivity(new Intent(BluetoothLeService.this,EquipmentActivity.class).setFlags(FLAG_ACTIVITY_NEW_TASK));
+        }
+    };
 
     public void erConnect(){
         new Timer().schedule(new TimerTask() {
@@ -288,6 +309,7 @@ public class BluetoothLeService extends Service {
             public void run() {
                 final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(mBluetoothDeviceAddress);
                 mBluetoothGatt = device.connectGatt(BluetoothLeService.this, true, mGattCallback);
+                countDownTimer.start();
             }
         },50);
     }

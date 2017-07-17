@@ -15,14 +15,21 @@
         android:layout_height="230px"
         android:src="@mipmap/logo"
         android:layout_marginTop="160px"/>
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="骑格"
+        android:textSize="48px"
+        android:textColor="@color/white"
+        android:layout_marginTop="20px"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content" />
     <EditText
         android:id="@+id/et_phone"
         android:layout_width="match_parent"
         android:layout_height="130px"
         android:layout_marginLeft="100px"
         android:layout_marginRight="100px"
-        android:layout_marginTop="221px"
+        android:layout_marginTop="180px"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/mine_sign_up_phone"
         android:drawablePadding="30px"
