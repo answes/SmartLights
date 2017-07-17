@@ -383,6 +383,7 @@ public class IndexActivity extends BaseActivity {
                             if (state == 0) {
                                 isLinkBlue = true;
                                 showMsg("蓝牙链接成功");
+
                             }
                             if (state == 4) {
                                 //蓝牙打开
@@ -408,6 +409,7 @@ public class IndexActivity extends BaseActivity {
                                     //0x16禁止
 //                                    int count = (realData[7] * 256 + realData[8])/700;
                                     try {
+                                        sendData(BLuetoothData.getFirmwareVersoin());
                                         tvEle.setVisibility(View.VISIBLE);
                                         String elcNumber = new StringBuffer().append(String.format("%02X", realData[7])).append(String.format("%02X", realData[8])).toString();
                                         int count = (Integer.valueOf(elcNumber, 16) - 3500) * 100 / 700;
@@ -495,6 +497,15 @@ public class IndexActivity extends BaseActivity {
                                         alertDialog.show();
                                     }
                                 }
+
+
+                                //固件版本
+                                //55 55 55 55 0x16 0x01 00 01 55 55 55 55
+                                if(realData[4] == 0x16){
+                                    showMsg("当前固件版本为"+realData[7]);
+                                }
+
+
                             } else if (1 == state) {    //失去通信，断开连接
                                 tvEle.setVisibility(View.GONE);
                                 arcView.setDataType(CustomArcView.DataType.NONE);
