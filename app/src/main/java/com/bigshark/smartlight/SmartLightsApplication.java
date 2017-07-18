@@ -7,6 +7,7 @@ import com.android.volley.toolbox.Volley;
 import com.bigshark.smartlight.bean.City;
 import com.bigshark.smartlight.bean.LoginResult;
 import com.bigshark.smartlight.bean.Province;
+import com.bigshark.smartlight.utils.Contact;
 import com.bigshark.smartlight.utils.GetJsonDataUtil;
 import com.bigshark.smartlight.utils.SQLUtils;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
@@ -53,6 +54,7 @@ public class SmartLightsApplication extends Application {
                 // 将该app注册到微信
                 msgApi.registerApp("wx35bd3eeb5d531eaf");
                 initJson();
+                initFireWare();
             }
         }).start();
         initPhoto();
@@ -85,6 +87,11 @@ public class SmartLightsApplication extends Application {
     private void initErrorHandler() {
         CrashHandler handler = CrashHandler.getInstance();
         handler.init(this);
+    }
+
+    private void initFireWare(){
+        Contact.fireWave = new GetJsonDataUtil().getFirewave(this,"fireware.bin");
+        Contact.fireWave.setVersionCode(1);
     }
 
     public void initJson() {

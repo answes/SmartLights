@@ -1,6 +1,7 @@
 package com.bigshark.smartlight.pro.mine.view;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,11 +12,15 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.allen.library.SuperTextView;
+import com.bigshark.smartlight.IndexActivity;
+import com.bigshark.smartlight.MainActivity;
 import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.SmartLightsApplication;
+import com.bigshark.smartlight.bean.BLuetoothData;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.mine.view.navigation.MineNavigationBuilder;
+import com.bigshark.smartlight.utils.Contact;
 import com.bigshark.smartlight.utils.SQLUtils;
 import com.bigshark.smartlight.utils.SupportMultipleScreensUtil;
 import com.bigshark.smartlight.utils.ToastUtil;
@@ -34,6 +39,9 @@ public class SetActivity extends BaseActivity {
     SuperTextView stvChangePsw;
     @BindView(R.id.stv_emptyCache)
     SuperTextView stvEmptyCache;
+    @BindView(R.id.stv_update)
+    SuperTextView stvUpate;
+
     @BindView(R.id.bt_logout)
     Button btLogout;
     @BindView(R.id.activity_set)
@@ -42,7 +50,7 @@ public class SetActivity extends BaseActivity {
     Switch switch1;
     @BindView(R.id.switch_auto)
     Switch switchAuto;
-
+    private ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +85,15 @@ public class SetActivity extends BaseActivity {
         switch1.setChecked(SQLUtils.getConfig(this));
         switchAuto.setChecked(SQLUtils.getAutoConfig(this));
 
+        IndexActivity.onDisdialogMissListener = new IndexActivity.OnDisdialogMissListener() {
+            @Override
+            public void dissmiss() {
+                    if(dialog != null){
+                        dialog.dismiss();
+                        dialog.cancel();
+                    }
+            }
+        };
     }
 
     private void initToolbar() {
@@ -95,7 +112,7 @@ public class SetActivity extends BaseActivity {
         return null;
     }
 
-    @OnClick({R.id.stv_about, R.id.stv_changePsw, R.id.stv_emptyCache, R.id.bt_logout})
+    @OnClick({R.id.stv_about, R.id.stv_changePsw, R.id.stv_emptyCache, R.id.bt_logout,R.id.stv_update})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.stv_about:
@@ -111,10 +128,27 @@ public class SetActivity extends BaseActivity {
                 SQLUtils.clearUser(this);
                 LoginActivity.openLoginActivity(this);
                 break;
+            case R.id.stv_update:
+                try {
+                    IndexActivity.sendData(BLuetoothData.getFirmwareUp(Contact.fireWave));
+                    if(dialog == null){
+                        dialog = ProgressDialog.show(this,"提示","正在升级");
+                    }
+                    dialog.show();
+                }catch (Exception e){
+                    showMsg("请链接蓝牙之后再进行升级");
+                }
+                break;
         }
     }
 
     public static void openSetActivity(Activity activity) {
         activity.startActivity(new Intent(activity, SetActivity.class));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        IndexActivity.onDisdialogMissListener = null;
     }
 }

@@ -77,88 +77,90 @@
         <activity
             android:name=".pro.mine.view.LoginActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            />
         <activity
             android:name=".pro.mine.view.MarketActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            />
         <activity
             android:name=".pro.mine.view.SetActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            />
         <activity
             android:name=".pro.mine.view.ChangePswActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            />
         <activity
             android:name=".pro.market.view.GoodDetailsActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            />
         <activity
             android:name=".pro.market.view.CarActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            />
         <activity
             android:name=".pro.market.view.ConfirmOrederActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            />
         <activity
             android:name=".pro.mine.view.MessgeActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            />
         <activity
             android:name=".pro.mine.view.RideActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            />
         <activity
             android:name=".pro.mine.view.EquipmentActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            />
         <activity
             android:name=".pro.mine.view.RegisteredActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
-        <activity android:name=".IndexActivity" />
+            />
+        <activity android:name=".IndexActivity"
+            android:launchMode="singleTop"
+            />
         <activity
             android:name=".pro.mine.view.FindPswActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            />
         <activity
             android:name=".pro.mine.view.MineDetailsActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            />
         <activity
             android:name=".pro.mine.view.ModifyInfoActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTop" />
         <activity
             android:name=".pro.mine.view.MineActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            />
         <activity
             android:name=".pro.market.view.SelectAddressActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTop" />
         <activity
             android:name=".pro.market.view.AddAndEditAddressActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTop" />
         <activity
             android:name=".pro.market.view.PayActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTop" />
         <activity
             android:name=".pro.index.view.ScanActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTop" />
         <activity
             android:name=".pro.index.view.MapActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTop" />
         <activity
             android:name=".pro.mine.view.OrderDetailActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTop" />
 
         <service android:name="com.amap.api.location.APSService" />
 
@@ -171,7 +173,7 @@
         <activity
             android:name=".pro.mine.view.RideDetailActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
+            />
         <activity android:name=".pro.index.view.SpeedDetailActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".pro.index.view.DeviceControlActivity"
@@ -192,7 +194,7 @@
             android:exported="false"
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <!--<activity android:name=".pro.index.view.NagivaActivity" />-->
+        <activity android:name=".pro.index.view.NagivaActivity" />
         <!--<activity android:name=".pro.index.TestActivity"></activity>-->
     </application>
 

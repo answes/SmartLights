@@ -116,7 +116,18 @@
         app:sBottomLineMargin="130px"
         android:layout_height="130px"/>
 
-
+    <com.allen.library.SuperTextView
+        android:layout_width="match_parent"
+        android:id="@+id/stv_update"
+        app:sLeftTextString="@string/mine_emptyCache"
+        app:sUseRipple="true"
+        app:sLeftTextSize="40px"
+        app:sRightIconRes="@drawable/right_comein"
+        app:sLeftTextMarginLeft="130px"
+        app:sRightIconMarginRight="130px"
+        app:sLeftTextColor="#022222"
+        app:sBottomLineMargin="130px"
+        android:layout_height="130px"/>
 
     <Button
         android:id="@+id/bt_logout"

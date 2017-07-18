@@ -39,11 +39,13 @@ import com.bigshark.smartlight.pro.index.presenter.MapPreseter;
 import com.bigshark.smartlight.pro.index.service.BluetoothLeService;
 import com.bigshark.smartlight.pro.index.view.EndConfirmActivity;
 import com.bigshark.smartlight.pro.index.view.MapActivity;
+import com.bigshark.smartlight.pro.index.view.NagivaActivity;
 import com.bigshark.smartlight.pro.index.view.ScanActivity;
 import com.bigshark.smartlight.pro.index.view.navigation.IndexNavigationBuilder;
 import com.bigshark.smartlight.pro.mine.view.EquipmentActivity;
 import com.bigshark.smartlight.pro.mine.view.MessgeActivity;
 import com.bigshark.smartlight.pro.mine.view.MineActivity;
+import com.bigshark.smartlight.utils.Contact;
 import com.bigshark.smartlight.utils.GPSUtil;
 import com.bigshark.smartlight.utils.MediaPlayerUtils;
 import com.bigshark.smartlight.utils.SQLUtils;
@@ -167,8 +169,7 @@ public class IndexActivity extends BaseActivity {
             public void onClick(View v) {
                 MessgeActivity.openMessgeActivity(IndexActivity.this);
             }
-        })
-                .createAndBind(llContext);
+        }).createAndBind(llContext);
     }
 
     public static void openIndexActivity(Activity a) {
@@ -198,11 +199,11 @@ public class IndexActivity extends BaseActivity {
                 startRide();
                 break;
             case R.id.frame_location:
-//                if (isStart) {
+                if (isStart) {
                     MapActivity.openMapActivity(this, mapPreseter.getUplodeRecord(), true, mapPreseter.getSavesLatlng());
-//                } else {
-//                    showMsg("在骑行状态下打才能查看路径");
-//                }
+                } else {
+                    NagivaActivity.openNagivaActivity(this);
+                }
                 break;
             case R.id.bt_finish:
                 isStart = false;
@@ -383,7 +384,7 @@ public class IndexActivity extends BaseActivity {
                             if (state == 0) {
                                 isLinkBlue = true;
                                 showMsg("蓝牙链接成功");
-
+                                sendData(BLuetoothData.getFirmwareVersoin());
                             }
                             if (state == 4) {
                                 //蓝牙打开
@@ -409,7 +410,6 @@ public class IndexActivity extends BaseActivity {
                                     //0x16禁止
 //                                    int count = (realData[7] * 256 + realData[8])/700;
                                     try {
-                                        sendData(BLuetoothData.getFirmwareVersoin());
                                         tvEle.setVisibility(View.VISIBLE);
                                         String elcNumber = new StringBuffer().append(String.format("%02X", realData[7])).append(String.format("%02X", realData[8])).toString();
                                         int count = (Integer.valueOf(elcNumber, 16) - 3500) * 100 / 700;
@@ -502,11 +502,46 @@ public class IndexActivity extends BaseActivity {
                                 //固件版本
                                 //55 55 55 55 0x16 0x01 00 01 55 55 55 55
                                 if(realData[4] == 0x16){
-                                    showMsg("当前固件版本为"+realData[7]);
+                                    try {
+                                        if (Contact.fireWave.getVersionCode() > realData[7]) {
+//                                            sendData(BLuetoothData.getFirmwareUp(Contact.fireWave));
+                                        } else {
+                                            showMsg("已经是最新版本了");
+                                        }
+                                    }catch (Exception e){
+                                        showMsg("已经是最新版本了");
+                                    }
                                 }
 
+                                if(realData[4]==0x14){
+                                    showMsg("升级失败，重新升级");
+                                    sendData(BLuetoothData.getFirmwareUp(Contact.fireWave));
+                                }
+
+                                if(realData[4] == 0x17){
+                                    if(onDisdialogMissListener!=null){
+                                        onDisdialogMissListener.dissmiss();
+                                    }
+                                    showMsg("固件升级成功");
+                                }
+                                //升级过程中的
+                                //55 55 55 55 0x12 0x02 0x00 0x01 0x00
+                                if(realData[4] == 0x12){
+                                    if(realData[8] == 0x00){
+                                        //发送升级包
+                                        sendPackge(realData[7]);
+                                    }else{
+                                        if(0x01 != realData[8]){
+                                            sendPackge(realData[7]);
+                                        }
+                                        sendData(BLuetoothData.getReplyState());
+                                    }
+                                }
 
                             } else if (1 == state) {    //失去通信，断开连接
+                                if(onDisdialogMissListener!=null){
+                                    onDisdialogMissListener.dissmiss();
+                                }
                                 tvEle.setVisibility(View.GONE);
                                 arcView.setDataType(CustomArcView.DataType.NONE);
                                 showMsg("蓝牙已经失去连接");
@@ -621,5 +656,17 @@ public class IndexActivity extends BaseActivity {
 
     public static void sendData(byte[] data) {
         Log.i("Test", mBluetoothLeService.sendValue(data) + "");
+    }
+    private void sendPackge(int pacge){
+        byte[] datas =  BLuetoothData.getData(Contact.fireWave.getBytes().get(pacge));
+        byte[] sendData = new byte[20];
+        for (int i=0;i<datas.length;i=i+20){
+            System.arraycopy(datas, i, sendData, 0, 20);
+            sendData(sendData);
+        }
+    }
+    public static  OnDisdialogMissListener onDisdialogMissListener;
+    public  interface OnDisdialogMissListener{
+        void dissmiss();
     }
 }

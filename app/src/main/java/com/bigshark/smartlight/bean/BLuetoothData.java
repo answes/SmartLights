@@ -42,6 +42,7 @@ public class BLuetoothData {
     //固件版本
     private static byte[] firmwareVersoin = new byte[]{0x15,0x00,0x00};
 
+    private static byte[] replyState = new byte[]{0x13,0x01,0x00,0x00};
     /**
      * 获得校验码
      *
@@ -137,7 +138,7 @@ public class BLuetoothData {
      * 获得数据
      * @param bytes 指令及内容
      */
-    private static byte[] getData(byte[] bytes){
+    public static byte[] getData(byte[] bytes){
         ArrayList<Byte> arrayList = new ArrayList();
 
         for (int i=0;i<4;i++){
@@ -170,12 +171,21 @@ public class BLuetoothData {
     }
 
     /**
-     * 固件升级版本
+     * 固件升级版本 小端法
      */
-    public static void getFirmwareUp(File file){
-        byte[] fiemwareUp = new byte[7];
-        fiemwareUp[0] = 0x10;
-        String length = Long.toHexString(file.length());
+    public static byte[] getFirmwareUp(FireWave file){
+        //开始固件升级
+        String hexString = Integer.toHexString(file.getLength());
+        byte[] bytes = new byte[]{0x10,0x04,0x00,
+                (byte) Integer.parseInt(hexString.substring(2,4)),
+                (byte) Integer.parseInt(hexString.substring(0,2)),
+                (byte) file.getPackgeSize(),
+                (byte) file.getPackgeSize()
+        };
+       return getData(bytes);
+    }
 
+    public static byte[] getReplyState(){
+        return getData(replyState);
     }
 }
