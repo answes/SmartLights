@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import com.bigshark.smartlight.bean.FireWave;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -41,6 +42,7 @@ public class GetJsonDataUtil {
         FireWave fileWave = new FireWave();
         try {
             AssetManager assetManager = context.getAssets();
+            File file = new File("file:///android_asset/"+fileName);
             List<byte[]> datas = new ArrayList<>();
             inputStream = assetManager.open(fileName);
             long lenth = inputStream.available();
@@ -57,7 +59,7 @@ public class GetJsonDataUtil {
             }
             fileWave.setBytes(datas);
             fileWave.setLength((int) lenth);
-            fileWave.setLength(datas.size());
+            fileWave.setPackgeSize(datas.size());
             inputStream.close();
             return fileWave;
         } catch (IOException e) {

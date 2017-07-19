@@ -11,7 +11,7 @@ import java.util.List;
 public class FireWave {
     private int versionCode;
     private List<byte[]> bytes;
-    private int length;
+    private long length;
     private int packgeSize;
 
     public int getVersionCode() {
@@ -30,11 +30,11 @@ public class FireWave {
         this.bytes = bytes;
     }
 
-    public int getLength() {
+    public long getLength() {
         return length;
     }
 
-    public void setLength(int length) {
+    public void setLength(long length) {
         this.length = length;
     }
 

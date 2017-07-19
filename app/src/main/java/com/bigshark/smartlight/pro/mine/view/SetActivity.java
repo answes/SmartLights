@@ -132,7 +132,7 @@ public class SetActivity extends BaseActivity {
                 try {
                     IndexActivity.sendData(BLuetoothData.getFirmwareUp(Contact.fireWave));
                     if(dialog == null){
-                        dialog = ProgressDialog.show(this,"提示","正在升级");
+                        dialog = ProgressDialog.show(this,"提示","正在升级....");
                     }
                     dialog.show();
                 }catch (Exception e){

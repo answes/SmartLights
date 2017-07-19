@@ -12,24 +12,21 @@ android {
     compileSdkVersion 23
     buildToolsVersion '25.0.0'
     defaultConfig {
+        ndk {
+             abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86","arm64-v8a","x86_64" }
         applicationId "com.bigshark.smartlight"
         minSdkVersion 18
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        signingConfig signingConfigs.config
-
-
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
         }
         debug {
-            signingConfig signingConfigs.config
             debuggable true
         }
     }
@@ -53,7 +50,6 @@ dependencies {
     compile files('libs/wechat-sdk-android-with-mta-1.0.2.jar')
     //compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile files('libs/alipaySingle-20170510.jar')
-    compile files('libs/AMap2DMap_4.2.0_AMapLocation_3.3.0_20170120.jar')
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
@@ -71,5 +67,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
 
-    compile files('libs/AMap2DMap_4.2.0_AMapSearch_5.1.0_AMapLocation_3.4.0_20170517.jar')
+    compile 'com.amap.api:navi-3dmap:latest.integration'
+    compile 'com.amap.api:search:latest.integration'
+    compile 'com.amap.api:location:latest.integration'
 }

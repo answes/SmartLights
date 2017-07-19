@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bigshark.smartlight.bean.BLuetoothData;
 import com.bigshark.smartlight.bean.Equipment;
@@ -503,7 +504,7 @@ public class IndexActivity extends BaseActivity {
                                 //55 55 55 55 0x16 0x01 00 01 55 55 55 55
                                 if(realData[4] == 0x16){
                                     try {
-                                        if (Contact.fireWave.getVersionCode() > realData[7]) {
+                                        if (Contact.fireWave.getVersionCode() <= realData[7]) {
 //                                            sendData(BLuetoothData.getFirmwareUp(Contact.fireWave));
                                         } else {
                                             showMsg("已经是最新版本了");
@@ -655,6 +656,14 @@ public class IndexActivity extends BaseActivity {
     }
 
     public static void sendData(byte[] data) {
+        if(mBluetoothLeService.sendValue(data)){
+
+        }else{
+            Toast.makeText(mContext,"您没有连接蓝牙",1000).show();
+            if(onDisdialogMissListener!=null){
+                onDisdialogMissListener.dissmiss();
+            }
+        }
         Log.i("Test", mBluetoothLeService.sendValue(data) + "");
     }
     private void sendPackge(int pacge){

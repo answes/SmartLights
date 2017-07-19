@@ -175,10 +175,10 @@ public class BLuetoothData {
      */
     public static byte[] getFirmwareUp(FireWave file){
         //开始固件升级
-        String hexString = Integer.toHexString(file.getLength());
+        String hexString = Long.toHexString(file.getLength());
         byte[] bytes = new byte[]{0x10,0x04,0x00,
-                (byte) Integer.parseInt(hexString.substring(2,4)),
-                (byte) Integer.parseInt(hexString.substring(0,2)),
+                (byte) Integer.parseInt(hexString.substring(2,4),16),
+                (byte) Integer.parseInt(hexString.substring(0,2),16),
                 (byte) file.getPackgeSize(),
                 (byte) file.getPackgeSize()
         };

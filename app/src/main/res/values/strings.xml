@@ -17,6 +17,7 @@
     <string name="mine_about">关于我们</string>
     <string name="mine_change_psw">修改密码</string>
     <string name="mine_emptyCache">清空缓存</string>
+    <string name="mine_update">升级蓝牙</string>
     <string name="mine_old_psw">旧密码</string>
     <string name="mine_new_psw">新密码</string>
     <string name="mine_new_psws">重复新密码</string>
