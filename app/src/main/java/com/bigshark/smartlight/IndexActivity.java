@@ -471,11 +471,8 @@ public class IndexActivity extends BaseActivity {
                                         mediaPlayerUtils.palyShacheMedia();
                                     } else {
                                         arcView.setDataType(CustomArcView.DataType.NONE);
-                                        mediaPlayerUtils.stopSahceMedia();
                                     }
                                 }
-
-
                                 if (13 == realData[4]) {
                                     //警报
                                     if (alertDialog == null) {
@@ -656,10 +653,8 @@ public class IndexActivity extends BaseActivity {
     }
 
     public static void sendData(byte[] data) {
-        if(mBluetoothLeService.sendValue(data)){
-
-        }else{
-            Toast.makeText(mContext,"您没有连接蓝牙",1000).show();
+        if(!mBluetoothLeService.sendValue(data)){
+            Toast.makeText(mContext,"您没有连接蓝牙",Toast.LENGTH_SHORT).show();
             if(onDisdialogMissListener!=null){
                 onDisdialogMissListener.dissmiss();
             }

@@ -33,7 +33,6 @@ public class MediaPlayerUtils {
         playerLeft =  MediaPlayer.create(context, R.raw.left);
         playeRight = MediaPlayer.create(context,R.raw.right);
         playShache = MediaPlayer.create(context,R.raw.shache);
-        playShache.setLooping(true);
         playEnd = MediaPlayer.create(context,R.raw.end);
         playTime = MediaPlayer.create(context,R.raw.time);
     }
@@ -75,18 +74,13 @@ public class MediaPlayerUtils {
     public void palyShacheMedia() {
         if (SmartLightsApplication.isOpenVioce) {
             if(!playShache.isPlaying()){
-                playShache.seekTo(0);
                 playShache.start();
             }
         }
     }
 
     public void stopSahceMedia(){
-        if(SmartLightsApplication.isOpenVioce){
-            if(playShache.isPlaying()){
-                playShache.pause();
-            }
-        }
+
     }
 
     public void playEnd(){
