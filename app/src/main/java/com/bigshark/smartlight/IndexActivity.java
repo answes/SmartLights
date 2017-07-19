@@ -56,7 +56,10 @@ import com.bigshark.smartlight.utils.ToastUtil;
 import com.bigshark.smartlight.weight.CustomArcView;
 import com.bigshark.smartlight.weight.TakePhotoPopWin;
 
+import java.io.EOFException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -659,15 +662,56 @@ public class IndexActivity extends BaseActivity {
                 onDisdialogMissListener.dissmiss();
             }
         }
-        Log.i("Test", mBluetoothLeService.sendValue(data) + "");
     }
     private void sendPackge(int pacge){
-        byte[] datas =  BLuetoothData.getData(Contact.fireWave.getBytes().get(pacge));
-        byte[] sendData = new byte[20];
-        for (int i=0;i<datas.length;i=i+20){
-            System.arraycopy(datas, i, sendData, 0, 20);
-            sendData(sendData);
+        byte[] packgeBytes = Contact.fireWave.getBytes().get(pacge-1);
+        byte[] bizBytes = new byte[packgeBytes.length+4];//指令长度 数据长度
+        System.arraycopy(packgeBytes,0,bizBytes,4,packgeBytes.length);
+        //生成数组信息
+        bizBytes[0] = 0x13;
+        String hexString = String.format("%04x", packgeBytes.length);
+        bizBytes[1] = (byte) Integer.parseInt(hexString.substring(2,4),16);
+        bizBytes[2] = (byte) Integer.parseInt(hexString.substring(0,2),16);
+        bizBytes[3] = (byte) pacge;
+
+        ArrayList arrayList = new ArrayList();
+        //加头
+        for (int i=0;i<4;i++){
+            arrayList.add((byte) 0x55);
         }
+        //指令
+        //加入指令代码
+        for(int i=0;i<bizBytes.length;i++){
+            arrayList.add(bizBytes[i]);
+        }
+        byte[] checkNumbers = new byte[]{0x11,0x10};
+        for(int i=1;i>=0;i--){
+            arrayList.add(checkNumbers[i]);
+        }
+        for (int i=0;i<4;i++){
+            arrayList.add((byte) 0xaa);
+        }
+
+        Byte[] returnBytes = new Byte[arrayList.size()];//升级包的指令
+        arrayList.toArray(returnBytes);
+        //sendData
+        for(int i=0;i<returnBytes.length;i= i+20){
+            if(i+20>returnBytes.length){
+                //最后的数字
+                sendData(Byte2byte(Arrays.copyOfRange(returnBytes,i,returnBytes.length)));
+            }else{
+                //之前的
+                sendData(Byte2byte(Arrays.copyOfRange(returnBytes,i,i+20)));
+            }
+        }
+    }
+
+    private byte[] Byte2byte(Byte[] data){
+        byte[] rBytes = new byte[data.length];
+        for(int i=0;i<data.length;i++){
+            rBytes[i] = data[i];
+        }
+        return rBytes;
     }
     public static  OnDisdialogMissListener onDisdialogMissListener;
     public  interface OnDisdialogMissListener{

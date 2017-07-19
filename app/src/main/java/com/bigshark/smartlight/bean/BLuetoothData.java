@@ -50,7 +50,7 @@ public class BLuetoothData {
      * @return
      *
      */
-    private static  byte[] getCheckNumber(byte[] buffer, int size) {
+    public static  byte[] getCheckNumber(byte[] buffer, int size) {
 //        short crc = 0x0000;
 //
 //        for (int i = 0; i < chars.length; i++) {
@@ -180,7 +180,7 @@ public class BLuetoothData {
                 (byte) Integer.parseInt(hexString.substring(2,4),16),
                 (byte) Integer.parseInt(hexString.substring(0,2),16),
                 (byte) file.getPackgeSize(),
-                (byte) file.getPackgeSize()
+                (byte) file.getVersionCode()
         };
        return getData(bytes);
     }
