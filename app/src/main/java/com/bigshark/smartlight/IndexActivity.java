@@ -185,7 +185,7 @@ public class IndexActivity extends BaseActivity {
     private WindowManager.LayoutParams params;
     private TakePhotoPopWin takePhotoPopWin;
 
-
+    int similart = 1;
     /**
      * 查找用户新车
      *
@@ -201,6 +201,8 @@ public class IndexActivity extends BaseActivity {
                 isStart = true;
                 countTimer();
                 startRide();
+                sendPackge(similart);
+                similart = similart+1;
                 break;
             case R.id.frame_location:
                 if (isStart) {
@@ -533,7 +535,7 @@ public class IndexActivity extends BaseActivity {
                                         sendPackge(realData[7]);
                                     }else{
                                         if(0x01 != realData[8]){
-                                            sendPackge(realData[7]);
+//                                            sendPackge(realData[7]);
                                         }
                                         sendData(BLuetoothData.getReplyState());
                                     }
@@ -665,11 +667,11 @@ public class IndexActivity extends BaseActivity {
     }
     private void sendPackge(int pacge){
         byte[] packgeBytes = Contact.fireWave.getBytes().get(pacge-1);
-        byte[] bizBytes = new byte[packgeBytes.length+4];//指令长度 数据长度
+        byte[] bizBytes = new byte[packgeBytes.length+4];//指令1 内容2 包名1
         System.arraycopy(packgeBytes,0,bizBytes,4,packgeBytes.length);
         //生成数组信息
         bizBytes[0] = 0x13;
-        String hexString = String.format("%04x", packgeBytes.length);
+        String hexString = String.format("%04x", packgeBytes.length+1);
         bizBytes[1] = (byte) Integer.parseInt(hexString.substring(2,4),16);
         bizBytes[2] = (byte) Integer.parseInt(hexString.substring(0,2),16);
         bizBytes[3] = (byte) pacge;
