@@ -33,11 +33,14 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.bigshark.smartlight.SmartLightsApplication;
 import com.bigshark.smartlight.bean.BLuetoothData;
 import com.bigshark.smartlight.pro.mine.view.EquipmentActivity;
+import com.bigshark.smartlight.utils.ToastUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -141,6 +144,11 @@ public class BluetoothLeService extends Service {
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicWrite(gatt, characteristic, status);
+            StringBuffer stringBuffer = new StringBuffer();
+            for(byte byteChar : characteristic.getValue())
+                stringBuffer.append(String.format("%02X ", byteChar));
+//            Log.i("Load",stringBuffer.toString());
+            ToastUtil.showToast(BluetoothLeService.this,"写入数据"+stringBuffer.toString());
             sendPackges();
         }
 
@@ -558,10 +566,6 @@ public class BluetoothLeService extends Service {
     }
 
     private static boolean writeValue(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, byte[] bytes) {
-        StringBuffer stringBuffer = new StringBuffer();
-        for(byte byteChar : bytes)
-            stringBuffer.append(String.format("%02X ", byteChar));
-        Log.i("Load",stringBuffer.toString());
         if(gatt == null) {
             Log.e(TAG, "BluetoothAdapter not initialized");
             return false;

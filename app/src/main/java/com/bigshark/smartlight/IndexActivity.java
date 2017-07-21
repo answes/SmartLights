@@ -675,7 +675,13 @@ public class IndexActivity extends BaseActivity {
         bizBytes[1] = (byte) Integer.parseInt(hexString.substring(2,4),16);
         bizBytes[2] = (byte) Integer.parseInt(hexString.substring(0,2),16);
         bizBytes[3] = (byte) pacge;
-        mBluetoothLeService.startSendPackge(BLuetoothData.getData(bizBytes));
+        try {
+            if(!mBluetoothLeService.startSendPackge(BLuetoothData.getData(bizBytes))){
+                showMsg("请链接上蓝牙后重试");
+            }
+        }catch (Exception e){
+            showMsg("请链接上蓝牙后重试");
+        }
     }
 
     private byte[] Byte2byte(Byte[] data){
