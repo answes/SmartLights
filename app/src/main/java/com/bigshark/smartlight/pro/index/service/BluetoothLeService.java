@@ -141,6 +141,7 @@ public class BluetoothLeService extends Service {
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicWrite(gatt, characteristic, status);
+            sendPackges();
         }
 
         @Override
@@ -516,6 +517,40 @@ public class BluetoothLeService extends Service {
         } else {
             return writeValue(mBluetoothGatt, writeCharacteristic, datas);
         }
+    }
+    byte[] pacgekData;
+    private int packgePostion = 0;
+    public boolean startSendPackge(byte[] datas){
+        this.pacgekData = datas;
+        this.packgePostion = 0;
+        if(mBluetoothGatt == null) {
+            Log.e(TAG, "BluetoothAdapter not initialized !");
+            return false;
+        } else if(datas == null) {
+            Log.e(TAG, "datas = null !");
+            return false;
+        }else if(writeCharacteristic == null){
+            return false;
+        }
+        sendPackges();
+        return true;
+    }
+
+    private void sendPackges(){
+            if(packgePostion > pacgekData.length) {
+                if (packgePostion + 20 > pacgekData.length) {
+                    //最后的数字
+                    byte[] send = new byte[pacgekData.length - packgePostion];
+                    System.arraycopy(pacgekData, packgePostion, send, 0, pacgekData.length - packgePostion);
+                    writeValue(mBluetoothGatt, writeCharacteristic, send);
+                } else {
+                    //之前的
+                    byte[] send = new byte[20];
+                    System.arraycopy(pacgekData, packgePostion, send, 0, 20);
+                    writeValue(mBluetoothGatt, writeCharacteristic, send);
+                }
+                this.packgePostion = packgePostion + 20;
+            }
     }
 
     public String isConnect(){

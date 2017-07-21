@@ -390,7 +390,7 @@ public class IndexActivity extends BaseActivity {
                             if (state == 0) {
                                 isLinkBlue = true;
                                 showMsg("蓝牙链接成功");
-                                sendData(BLuetoothData.getFirmwareVersoin());
+                                //sendData(BLuetoothData.getFirmwareVersoin());
                             }
                             if (state == 4) {
                                 //蓝牙打开
@@ -675,37 +675,7 @@ public class IndexActivity extends BaseActivity {
         bizBytes[1] = (byte) Integer.parseInt(hexString.substring(2,4),16);
         bizBytes[2] = (byte) Integer.parseInt(hexString.substring(0,2),16);
         bizBytes[3] = (byte) pacge;
-
-        ArrayList arrayList = new ArrayList();
-        //加头
-        for (int i=0;i<4;i++){
-            arrayList.add((byte) 0x55);
-        }
-        //指令
-        //加入指令代码
-        for(int i=0;i<bizBytes.length;i++){
-            arrayList.add(bizBytes[i]);
-        }
-        byte[] checkNumbers = new byte[]{0x11,0x10};
-        for(int i=1;i>=0;i--){
-            arrayList.add(checkNumbers[i]);
-        }
-        for (int i=0;i<4;i++){
-            arrayList.add((byte) 0xaa);
-        }
-
-        Byte[] returnBytes = new Byte[arrayList.size()];//升级包的指令
-        arrayList.toArray(returnBytes);
-        //sendData
-        for(int i=0;i<returnBytes.length;i= i+20){
-            if(i+20>returnBytes.length){
-                //最后的数字
-                sendData(Byte2byte(Arrays.copyOfRange(returnBytes,i,returnBytes.length)));
-            }else{
-                //之前的
-                sendData(Byte2byte(Arrays.copyOfRange(returnBytes,i,i+20)));
-            }
-        }
+        mBluetoothLeService.startSendPackge(BLuetoothData.getData(bizBytes));
     }
 
     private byte[] Byte2byte(Byte[] data){
