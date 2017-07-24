@@ -43,7 +43,9 @@ import com.bigshark.smartlight.utils.ToastUtil;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -144,12 +146,11 @@ public class BluetoothLeService extends Service {
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicWrite(gatt, characteristic, status);
-            StringBuffer stringBuffer = new StringBuffer();
-            for(byte byteChar : characteristic.getValue())
-                stringBuffer.append(String.format("%02X ", byteChar));
-//            Log.i("Load",stringBuffer.toString());
-            ToastUtil.showToast(BluetoothLeService.this,"写入数据"+stringBuffer.toString());
-            sendPackges();
+            sendTimer.cancel();
+            if(queue.size() != 0) {
+                queue.poll();
+                sendPackges();
+            }
         }
 
         @Override
@@ -526,39 +527,39 @@ public class BluetoothLeService extends Service {
             return writeValue(mBluetoothGatt, writeCharacteristic, datas);
         }
     }
-    byte[] pacgekData;
-    private int packgePostion = 0;
-    public boolean startSendPackge(byte[] datas){
-        this.pacgekData = datas;
-        this.packgePostion = 0;
-        if(mBluetoothGatt == null) {
-            Log.e(TAG, "BluetoothAdapter not initialized !");
-            return false;
-        } else if(datas == null) {
-            Log.e(TAG, "datas = null !");
-            return false;
-        }else if(writeCharacteristic == null){
-            return false;
+
+    private Queue<byte[]> queue =  new LinkedList<>();
+    public void startSendPackge(byte[] datas){
+        for(int i=0;i<datas.length;i=i+20){
+            if(i+20>datas.length){
+                byte[] send = new byte[datas.length - i];
+                System.arraycopy(datas, i, send, 0, datas.length - i);
+                queue.offer(send);
+            }else{
+                byte[] send = new byte[20];
+                System.arraycopy(datas, i, send, 0, 20);
+                queue.add(send);
+            }
         }
         sendPackges();
-        return true;
     }
 
+    CountDownTimer sendTimer = new CountDownTimer(2000L,1000L) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+
+        }
+
+        @Override
+        public void onFinish() {
+            sendPackges();
+        }
+    };
     private void sendPackges(){
-            if(packgePostion > pacgekData.length) {
-                if (packgePostion + 20 > pacgekData.length) {
-                    //最后的数字
-                    byte[] send = new byte[pacgekData.length - packgePostion];
-                    System.arraycopy(pacgekData, packgePostion, send, 0, pacgekData.length - packgePostion);
-                    writeValue(mBluetoothGatt, writeCharacteristic, send);
-                } else {
-                    //之前的
-                    byte[] send = new byte[20];
-                    System.arraycopy(pacgekData, packgePostion, send, 0, 20);
-                    writeValue(mBluetoothGatt, writeCharacteristic, send);
-                }
-                this.packgePostion = packgePostion + 20;
-            }
+        if (queue.size() != 0) {
+            writeValue(mBluetoothGatt, writeCharacteristic, queue.peek());
+            sendTimer.start();
+        }
     }
 
     public String isConnect(){
@@ -566,6 +567,10 @@ public class BluetoothLeService extends Service {
     }
 
     private static boolean writeValue(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, byte[] bytes) {
+        StringBuffer stringBuffer = new StringBuffer();
+        for(byte byteChar : bytes)
+            stringBuffer.append(String.format("%02X ", byteChar));
+        Log.i("Load",stringBuffer.toString());
         if(gatt == null) {
             Log.e(TAG, "BluetoothAdapter not initialized");
             return false;

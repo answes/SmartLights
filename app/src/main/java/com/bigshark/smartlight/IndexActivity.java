@@ -201,8 +201,8 @@ public class IndexActivity extends BaseActivity {
                 isStart = true;
                 countTimer();
                 startRide();
-                sendPackge(similart);
-                similart = similart+1;
+//                sendPackge(similart);
+//                similart = similart+1;
                 break;
             case R.id.frame_location:
                 if (isStart) {
@@ -390,7 +390,6 @@ public class IndexActivity extends BaseActivity {
                             if (state == 0) {
                                 isLinkBlue = true;
                                 showMsg("蓝牙链接成功");
-                                //sendData(BLuetoothData.getFirmwareVersoin());
                             }
                             if (state == 4) {
                                 //蓝牙打开
@@ -507,7 +506,7 @@ public class IndexActivity extends BaseActivity {
                                 if(realData[4] == 0x16){
                                     try {
                                         if (Contact.fireWave.getVersionCode() <= realData[7]) {
-//                                            sendData(BLuetoothData.getFirmwareUp(Contact.fireWave));
+ //                                           sendData(BLuetoothData.getFirmwareUp(Contact.fireWave));
                                         } else {
                                             showMsg("已经是最新版本了");
                                         }
@@ -515,7 +514,15 @@ public class IndexActivity extends BaseActivity {
                                         showMsg("已经是最新版本了");
                                     }
                                 }
-
+                                //55 55 55 55 11 01 00 01
+                                if(realData[4] == 0x11) {
+                                    if(0x01 == realData[7]){
+                                        //sendPackge(0);
+                                        showMsg("准备升级");
+                                    }else{
+                                        showMsg("取消升级");
+                                    }
+                                }
                                 if(realData[4]==0x14){
                                     showMsg("升级失败，重新升级");
                                     sendData(BLuetoothData.getFirmwareUp(Contact.fireWave));
@@ -534,10 +541,11 @@ public class IndexActivity extends BaseActivity {
                                         //发送升级包
                                         sendPackge(realData[7]);
                                     }else{
-                                        if(0x01 != realData[8]){
-//                                            sendPackge(realData[7]);
-                                        }
                                         sendData(BLuetoothData.getReplyState());
+//                                        if(0x01 != realData[8]){
+//                                            sendPackge(realData[7]);
+//                                        }
+
                                     }
                                 }
 
@@ -667,7 +675,7 @@ public class IndexActivity extends BaseActivity {
     }
     private void sendPackge(int pacge){
         byte[] packgeBytes = Contact.fireWave.getBytes().get(pacge-1);
-        byte[] bizBytes = new byte[packgeBytes.length+4];//指令1 内容2 包名1
+        byte[] bizBytes = new byte[packgeBytes.length+4];//指令1 内容2 包名1 2048+2+1+1 = 2052+8 = 2060
         System.arraycopy(packgeBytes,0,bizBytes,4,packgeBytes.length);
         //生成数组信息
         bizBytes[0] = 0x13;
@@ -675,22 +683,15 @@ public class IndexActivity extends BaseActivity {
         bizBytes[1] = (byte) Integer.parseInt(hexString.substring(2,4),16);
         bizBytes[2] = (byte) Integer.parseInt(hexString.substring(0,2),16);
         bizBytes[3] = (byte) pacge;
+        byte[] returnBytes =  BLuetoothData.getData(bizBytes);
         try {
-            if(!mBluetoothLeService.startSendPackge(BLuetoothData.getData(bizBytes))){
-                showMsg("请链接上蓝牙后重试");
-            }
+            mBluetoothLeService.startSendPackge(returnBytes);
         }catch (Exception e){
             showMsg("请链接上蓝牙后重试");
         }
     }
 
-    private byte[] Byte2byte(Byte[] data){
-        byte[] rBytes = new byte[data.length];
-        for(int i=0;i<data.length;i++){
-            rBytes[i] = data[i];
-        }
-        return rBytes;
-    }
+
     public static  OnDisdialogMissListener onDisdialogMissListener;
     public  interface OnDisdialogMissListener{
         void dissmiss();

@@ -12,12 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.navi.AMapNavi;
@@ -65,9 +67,13 @@ public class NagivaActivity extends BaseActivity implements AMapNaviViewListener
     AMapNaviView naviView;
     @BindView(R.id.rootview)
     View rootView;
+    @BindView(R.id.mapview)
+    MapView mapView;
 
     AMapNavi aMapNavi;//骑行路径规划
 
+    @BindView(R.id.ll_input)
+    LinearLayout llInput;
     private boolean isCanNavi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +93,6 @@ public class NagivaActivity extends BaseActivity implements AMapNaviViewListener
             public void onInitNaviSuccess() {
 
             }
-
             @Override
             public void onStartNavi(int i) {
 
@@ -185,7 +190,7 @@ public class NagivaActivity extends BaseActivity implements AMapNaviViewListener
 
             @Override
             public void onCalculateRouteSuccess(int[] ints) {
-
+                aMapNavi.startNavi(NaviType.GPS);
             }
 
             @Override
@@ -224,12 +229,13 @@ public class NagivaActivity extends BaseActivity implements AMapNaviViewListener
             }
         });
         naviView.onCreate(savedInstanceState);
+        mapView.onCreate(savedInstanceState);
         MyLocationStyle myLocationStyle;
         myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
         myLocationStyle.interval(2000); //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
-        naviView.getMap().setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
+        mapView.getMap().setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
         //aMap.getUiSettings().setMyLocationButtonEnabled(true);设置默认定位按钮是否显示，非必需设置。
-        naviView.getMap().setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
+        mapView.getMap().setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
 
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -278,6 +284,10 @@ public class NagivaActivity extends BaseActivity implements AMapNaviViewListener
 
             @Override
             public void onPoiClickListner(int postion) {
+                naviView.setVisibility(View.VISIBLE);
+                list.setVisibility(View.GONE);
+                mapView.setVisibility(View.GONE);
+                llInput.setVisibility(View.GONE);
                 LatLonPoint point = adapter.getTips().get(postion).getPoint();
                 aMapNavi.calculateRideRoute(new NaviLatLng(fromLatLng.latitude,fromLatLng.longitude), new NaviLatLng(point.getLatitude(),point.getLongitude()));
             }
@@ -294,18 +304,21 @@ public class NagivaActivity extends BaseActivity implements AMapNaviViewListener
     protected void onResume() {
         super.onResume();
         naviView.onResume();
+        mapView.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         naviView.onPause();
+        mapView.onPause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         naviView.onDestroy();
+        mapView.onDestroy();
     }
 
 
@@ -325,7 +338,10 @@ public class NagivaActivity extends BaseActivity implements AMapNaviViewListener
 
     @Override
     public void onNaviCancel() {
-
+        showMsg("取消导航");
+        naviView.setVisibility(View.GONE);
+        llInput.setVisibility(View.VISIBLE);
+        mapView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -367,7 +383,8 @@ public class NagivaActivity extends BaseActivity implements AMapNaviViewListener
     public void onGetInputtips(List<Tip> list, int i) {
         if(list != null&&list.size() != 0){
             this.list.setVisibility(View.VISIBLE);
-
+            this.adapter.setData(list);
+            this.adapter.notifyDataSetChanged();
         }
     }
 

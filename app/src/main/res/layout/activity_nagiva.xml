@@ -9,6 +9,8 @@
     tools:context="com.bigshark.smartlight.pro.index.view.NagivaActivity">
 
     <LinearLayout
+        android:id="@+id/ll_input"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -34,18 +36,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list"
+        <com.amap.api.maps.MapView
+            android:id="@+id/mapview"
             android:layout_width="match_parent"
-            android:layout_height="600px"
-            android:visibility="gone"
-            android:listSelector="@color/transparent"/>
-
+            android:layout_height="match_parent">
+        </com.amap.api.maps.MapView>
         <com.amap.api.navi.AMapNaviView
             android:id="@+id/navi_view"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="600px"
+            android:background="@color/white"
+            android:listSelector="@color/transparent"
+            android:visibility="gone" />
     </RelativeLayout>
 </LinearLayout>

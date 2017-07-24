@@ -123,7 +123,7 @@ public class MapPreseter extends BasePresenter<RecordModel> {
             upLoadRecord.setMaxSpeed(maxSpeed);
             upLoadRecord.setK(0.1797 * (time / (1000 * 60)) * 60);
             upLoadRecord.setTime(time);
-            upLoadRecord.setAvSpeed((distance / 1000) / (time / (60 * 60 * 1000)));
+            upLoadRecord.setAvSpeed((distance*3.6) / (time /1000));
             upLoadRecord.setAllspeed(JSON.toJSONString(savesSpeeds));
             if (listener == null) {
                 return;
@@ -197,9 +197,10 @@ public class MapPreseter extends BasePresenter<RecordModel> {
                 if (maxSpeed < aMapLocation.getSpeed()) {
                     maxSpeed = aMapLocation.getSpeed();
                 }
-                if (lastLatLng != null) {
-                    distance = distance + AMapUtils.calculateLineDistance(lastLatLng, location);
+                if (lastLatLng == null) {
+                    lastLatLng = location;
                 }
+                distance =  AMapUtils.calculateLineDistance(lastLatLng, location);
                 height = aMapLocation.getAltitude();
                 lastLatLng = location;
                 endTIme = System.currentTimeMillis();
@@ -219,7 +220,7 @@ public class MapPreseter extends BasePresenter<RecordModel> {
                 upLoadRecord.setK(0.1797 * (time / (1000 * 60)) * 60);
                 upLoadRecord.setTime(time);
                 //距离（x/1000）/时间(h) 1000L * 60 * 60;
-                upLoadRecord.setAvSpeed((distance*3.6) / (time/1000));
+                upLoadRecord.setAvSpeed((distance*3.6) / (time /1000));
 
                 intent.putExtra(MapLocationRecive.EXTRA_DATA, upLoadRecord);
                 context.sendBroadcast(intent);
