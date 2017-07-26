@@ -573,7 +573,7 @@ public class BluetoothLeService extends Service {
                @Override
                public void run() {
                    try {
-                       Thread.sleep(80);
+                       Thread.sleep(30);
                    } catch (InterruptedException e) {
                    }
                    writeValue(mBluetoothGatt, writeCharacteristic, queue.peek());

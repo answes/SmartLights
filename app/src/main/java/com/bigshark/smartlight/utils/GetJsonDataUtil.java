@@ -55,12 +55,12 @@ public class GetJsonDataUtil {
             for(int i=0;i<lenth;i=i+2048){
                 if(i+2048>lenth){
                     byte[] bs = new byte[(int) (lenth-i)];
-                    System.arraycopy(file, i, bs, 0, bs.length);
+                    System.arraycopy(flush, i, bs, 0, bs.length);
                     datas.add(bs);
                 }else{
                     //小于的时候
                     byte[] bs = new byte[2048];
-                    System.arraycopy(file, i, bs, 0, 2048);
+                    System.arraycopy(flush, i, bs, 0, 2048);
                     datas.add(bs);
                 }
             }
