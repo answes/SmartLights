@@ -35,6 +35,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.bigshark.smartlight.IndexActivity;
 import com.bigshark.smartlight.SmartLightsApplication;
 import com.bigshark.smartlight.bean.BLuetoothData;
 import com.bigshark.smartlight.pro.mine.view.EquipmentActivity;
@@ -196,7 +197,6 @@ public class BluetoothLeService extends Service {
                 final StringBuilder stringBuilder = new StringBuilder(data.length);
                 for(byte byteChar : data)
                     stringBuilder.append(String.format("%02X ", byteChar));
-
                 Log.e(TAG, "broadcastUpdate: " + stringBuilder.toString());
                 Bundle bundle = new Bundle();
                 bundle.putByteArray(EXTRA_DATA,data);
@@ -557,6 +557,15 @@ public class BluetoothLeService extends Service {
     };
     private void sendPackges(){
         if (queue.size() != 0) {
+            StringBuffer stringBuffer = new StringBuffer();
+            for(byte byteChar : queue.peek())
+                stringBuffer.append(String.format("%02X ", byteChar));
+            Log.i("Load",stringBuffer.toString());
+            IndexActivity.write("写入:"+stringBuffer+"\n");
+            if(mBluetoothGatt == null) {
+                Log.e(TAG, "BluetoothAdapter not initialized");
+                return;
+            }
             writeValue(mBluetoothGatt, writeCharacteristic, queue.peek());
             sendTimer.start();
         }
@@ -568,9 +577,7 @@ public class BluetoothLeService extends Service {
 
     private static boolean writeValue(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, byte[] bytes) {
         StringBuffer stringBuffer = new StringBuffer();
-        for(byte byteChar : bytes)
-            stringBuffer.append(String.format("%02X ", byteChar));
-        Log.i("Load",stringBuffer.toString());
+
         if(gatt == null) {
             Log.e(TAG, "BluetoothAdapter not initialized");
             return false;

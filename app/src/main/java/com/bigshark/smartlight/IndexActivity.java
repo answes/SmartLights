@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
@@ -57,6 +58,9 @@ import com.bigshark.smartlight.weight.CustomArcView;
 import com.bigshark.smartlight.weight.TakePhotoPopWin;
 
 import java.io.EOFException;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -150,6 +154,12 @@ public class IndexActivity extends BaseActivity {
             blueDatas.addAll(SQLUtils.getEqus(this));
         }
         mContext = this;
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},101
+                    );
+        }
     }
 
     private MapPreseter mapPreseter;
@@ -607,6 +617,31 @@ public class IndexActivity extends BaseActivity {
             } else {
                 showMsg("权限被拒绝，请在软件设置中打开权限");
             }
+        }
+        if(requestCode == 101){
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                showMsg("权限被拒绝，允许写入日志");
+            } else {
+                showMsg("权限被拒绝，请在文件写入权限");
+            }
+        }
+    }
+
+    public static void write(String string){
+        File file = new File(Environment.getExternalStorageDirectory(),"车灯日志.txt");
+        if(!file.exists()){
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            FileWriter fileWriter = new FileWriter(file,true);
+            fileWriter.write(string);
+            fileWriter.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
