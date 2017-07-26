@@ -46,21 +46,28 @@ public class GetJsonDataUtil {
             List<byte[]> datas = new ArrayList<>();
             inputStream = assetManager.open(fileName);
             long lenth = inputStream.available();
-            byte[] flush = new byte[2048];
-            while (inputStream.read(flush)>-1){
-                datas.add(flush);
+            byte[] flush = new byte[(int) lenth];
+            while (inputStream.read(flush)!=-1){
+
             }
-            //删除多余的
-            int sy = (int) (lenth%2048);
-            if(sy !=0){
-                byte[] bs = new byte[sy];
-                System.arraycopy(datas.get(datas.size()-1), 0, bs, 0, sy);
-                datas.set(datas.size()-1,bs);
+            inputStream.close();
+            //copy 数据
+            for(int i=0;i<lenth;i=i+2048){
+                if(i+2048>lenth){
+                    byte[] bs = new byte[(int) (lenth-i)];
+                    System.arraycopy(file, i, bs, 0, bs.length);
+                    datas.add(bs);
+                }else{
+                    //小于的时候
+                    byte[] bs = new byte[2048];
+                    System.arraycopy(file, i, bs, 0, 2048);
+                    datas.add(bs);
+                }
             }
+
             fileWave.setBytes(datas);
             fileWave.setLength((int) lenth);
             fileWave.setPackgeSize(datas.size());
-            inputStream.close();
             return fileWave;
         } catch (IOException e) {
 

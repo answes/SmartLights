@@ -640,6 +640,7 @@ public class IndexActivity extends BaseActivity {
             FileWriter fileWriter = new FileWriter(file,true);
             fileWriter.write(string);
             fileWriter.flush();
+            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
