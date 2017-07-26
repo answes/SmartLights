@@ -50,8 +50,10 @@ import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
@@ -197,7 +199,7 @@ public class BluetoothLeService extends Service {
                 final StringBuilder stringBuilder = new StringBuilder(data.length);
                 for(byte byteChar : data)
                     stringBuilder.append(String.format("%02X ", byteChar));
-                Log.e(TAG, "broadcastUpdate: " + stringBuilder.toString());
+                IndexActivity.write("写入:"+stringBuilder+"\n","蓝牙收到指令.txt");
                 Bundle bundle = new Bundle();
                 bundle.putByteArray(EXTRA_DATA,data);
                 intent.putExtras(bundle);
@@ -555,29 +557,37 @@ public class BluetoothLeService extends Service {
             sendPackges();
         }
     };
+
     private void sendPackges(){
         if (queue.size() != 0) {
             StringBuffer stringBuffer = new StringBuffer();
             for(byte byteChar : queue.peek())
                 stringBuffer.append(String.format("%02X ", byteChar));
             Log.i("Load",stringBuffer.toString());
-            IndexActivity.write("写入:"+stringBuffer+"\n");
+            IndexActivity.write("写入:"+stringBuffer+"\n","蓝牙升级包指令.txt");
             if(mBluetoothGatt == null) {
                 Log.e(TAG, "BluetoothAdapter not initialized");
                 return;
             }
-            writeValue(mBluetoothGatt, writeCharacteristic, queue.peek());
-            sendTimer.start();
+           cachedThreadPool.execute(new Runnable() {
+               @Override
+               public void run() {
+                   try {
+                       Thread.sleep(80);
+                   } catch (InterruptedException e) {
+                   }
+                   writeValue(mBluetoothGatt, writeCharacteristic, queue.peek());
+                   sendTimer.start();
+               }
+           });
         }
     }
 
     public String isConnect(){
         return mBluetoothDeviceAddress;
     }
-
+    ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
     private static boolean writeValue(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, byte[] bytes) {
-        StringBuffer stringBuffer = new StringBuffer();
-
         if(gatt == null) {
             Log.e(TAG, "BluetoothAdapter not initialized");
             return false;

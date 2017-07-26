@@ -627,8 +627,8 @@ public class IndexActivity extends BaseActivity {
         }
     }
 
-    public static void write(String string){
-        File file = new File(Environment.getExternalStorageDirectory(),"车灯日志.txt");
+    public static void write(String string,String fileName){
+        File file = new File(Environment.getExternalStorageDirectory(),fileName);
         if(!file.exists()){
             try {
                 file.createNewFile();
