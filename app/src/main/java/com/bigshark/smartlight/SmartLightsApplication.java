@@ -91,7 +91,7 @@ public class SmartLightsApplication extends Application {
 
     private void initFireWare(){
         Contact.fireWave = new GetJsonDataUtil().getFirewave(this,"fireware.bin");
-        Contact.fireWave.setVersionCode(1);
+        Contact.fireWave.setVersionCode(2);
     }
 
     public void initJson() {

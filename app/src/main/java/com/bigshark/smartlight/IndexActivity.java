@@ -516,7 +516,7 @@ public class IndexActivity extends BaseActivity {
                                 if(realData[4] == 0x16){
                                     try {
                                         if (Contact.fireWave.getVersionCode() <= realData[7]) {
- //                                           sendData(BLuetoothData.getFirmwareUp(Contact.fireWave));
+                                            sendData(BLuetoothData.getFirmwareUp(Contact.fireWave));
                                         } else {
                                             showMsg("已经是最新版本了");
                                         }
@@ -530,6 +530,9 @@ public class IndexActivity extends BaseActivity {
                                         //sendPackge(0);
                                         showMsg("准备升级");
                                     }else{
+                                        if(onDisdialogMissListener!=null){
+                                            onDisdialogMissListener.dissmiss();
+                                        }
                                         showMsg("取消升级");
                                     }
                                 }

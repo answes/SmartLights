@@ -130,13 +130,16 @@ public class SetActivity extends BaseActivity {
                 break;
             case R.id.stv_update:
                 try {
-                    IndexActivity.sendData(BLuetoothData.getFirmwareUp(Contact.fireWave));
+                    IndexActivity.sendData(BLuetoothData.getFirmwareVersoin());
                     if(dialog == null){
                         dialog = ProgressDialog.show(this,"提示","正在升级....");
                     }
                     dialog.show();
                 }catch (Exception e){
                     showMsg("请链接蓝牙之后再进行升级");
+                    if(dialog != null){
+                        dialog.cancel();
+                    }
                 }
                 break;
         }
