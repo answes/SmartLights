@@ -515,29 +515,29 @@ public class IndexActivity extends BaseActivity {
                                 //55 55 55 55 0x16 0x01 00 01 55 55 55 55
                                 if(realData[4] == 0x16){
                                     try {
-                                        if (Contact.fireWave.getVersionCode() <= realData[7]) {
+                                        if (Contact.fireWave.getVersionCode() > realData[7]) {
                                             sendData(BLuetoothData.getFirmwareUp(Contact.fireWave));
                                         } else {
-                                            showMsg("已经是最新版本了");
+                                           ToastUtil.showToast(getApplicationContext(),"已经是最新版本了");
                                         }
                                     }catch (Exception e){
-                                        showMsg("已经是最新版本了");
+                                        ToastUtil.showToast(getApplicationContext(),"已经是最新版本了");
                                     }
                                 }
                                 //55 55 55 55 11 01 00 01
                                 if(realData[4] == 0x11) {
                                     if(0x01 == realData[7]){
                                         //sendPackge(0);
-                                        showMsg("准备升级");
+                                        ToastUtil.showToast(getApplicationContext(),"准备升级，大约需要5分钟");
                                     }else{
                                         if(onDisdialogMissListener!=null){
                                             onDisdialogMissListener.dissmiss();
                                         }
-                                        showMsg("取消升级");
+                                        ToastUtil.showToast(getApplicationContext(),"取消升级，大约需要5分钟");
                                     }
                                 }
                                 if(realData[4]==0x14){
-                                    showMsg("升级失败，重新升级");
+                                    ToastUtil.showToast(getApplicationContext(),"升级失败，重新升级，大约需要5分钟");
                                     sendData(BLuetoothData.getFirmwareUp(Contact.fireWave));
                                 }
 
