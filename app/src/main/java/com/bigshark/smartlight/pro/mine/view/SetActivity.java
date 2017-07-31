@@ -39,8 +39,7 @@ public class SetActivity extends BaseActivity {
     SuperTextView stvChangePsw;
     @BindView(R.id.stv_emptyCache)
     SuperTextView stvEmptyCache;
-    @BindView(R.id.stv_update)
-    SuperTextView stvUpate;
+
 
     @BindView(R.id.bt_logout)
     Button btLogout;
@@ -50,6 +49,9 @@ public class SetActivity extends BaseActivity {
     Switch switch1;
     @BindView(R.id.switch_auto)
     Switch switchAuto;
+    @BindView(R.id.stv_update)
+    SuperTextView stvUpdate;
+
     private ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,18 +131,8 @@ public class SetActivity extends BaseActivity {
                 LoginActivity.openLoginActivity(this);
                 break;
             case R.id.stv_update:
-                try {
-                    IndexActivity.sendData(BLuetoothData.getFirmwareVersoin());
-                    if(dialog == null){
-                        dialog = ProgressDialog.show(this,"提示","正在升级....");
-                    }
-                    dialog.show();
-                }catch (Exception e){
-                    showMsg("请链接蓝牙之后再进行升级");
-                    if(dialog != null){
-                        dialog.cancel();
-                    }
-                }
+                dialog = ProgressDialog.show(this,"提示","正在升级，需要5分钟");
+                IndexActivity.sendData(BLuetoothData.getFirmwareVersoin());
                 break;
         }
     }

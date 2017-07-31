@@ -22,7 +22,7 @@ public class TakePhotoPopWin extends PopupWindow {
 
     private View view;
 
-    private LinearLayout llOpen,llClose,llFind;
+    private LinearLayout llOpen,llClose,llFind,llUpdate;
     private ImageView close;
 
 
@@ -34,6 +34,7 @@ public class TakePhotoPopWin extends PopupWindow {
         llClose = (LinearLayout) view.findViewById(R.id.ll_close);
         llFind = (LinearLayout) view.findViewById(R.id.ll_find);
         close = (ImageView) view.findViewById(R.id.iv_close);
+        llUpdate =  (LinearLayout) view.findViewById(R.id.ll_update);
 
         // 取消按钮
         close.setOnClickListener(new View.OnClickListener() {
@@ -47,7 +48,7 @@ public class TakePhotoPopWin extends PopupWindow {
         llOpen.setOnClickListener(itemsOnClick);
         llClose.setOnClickListener(itemsOnClick);
         llFind.setOnClickListener(itemsOnClick);
-
+        llUpdate.setOnClickListener(itemsOnClick);
         // 设置外部可点击
         this.setOutsideTouchable(true);
         // mMenuView添加OnTouchListener监听判断获取触屏位置如果在选择框外面则销毁弹出框

@@ -119,7 +119,7 @@
     <com.allen.library.SuperTextView
         android:layout_width="match_parent"
         android:id="@+id/stv_update"
-        app:sLeftTextString="@string/mine_update"
+        app:sLeftTextString="蓝牙升级"
         app:sUseRipple="true"
         app:sLeftTextSize="40px"
         app:sRightIconRes="@drawable/right_comein"

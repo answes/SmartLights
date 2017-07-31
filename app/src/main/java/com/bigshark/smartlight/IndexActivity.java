@@ -2,6 +2,7 @@ package com.bigshark.smartlight;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
 import android.content.Context;
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -120,7 +122,7 @@ public class IndexActivity extends BaseActivity {
     private String timeStr = "";
     private List<Equipment> blueDatas = new ArrayList<>();
 
-
+    private ProgressDialog progressDialog;
     private Runnable TimerRunnable = new Runnable() {
 
         @Override
@@ -154,12 +156,16 @@ public class IndexActivity extends BaseActivity {
             blueDatas.addAll(SQLUtils.getEqus(this));
         }
         mContext = this;
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},101
-                    );
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 101
+                );
+            }else{
+                showMsg("请您在应用设置中打开定位权限，否则程序部分功能不可用");
+            }
         }
+        registerBroadCasst();
     }
 
     private MapPreseter mapPreseter;
@@ -211,6 +217,7 @@ public class IndexActivity extends BaseActivity {
                 isStart = true;
                 countTimer();
                 startRide();
+                BluetoothLeService.isStartRide = true;
 //                sendPackge(similart);
 //                similart = similart+1;
                 break;
@@ -222,6 +229,7 @@ public class IndexActivity extends BaseActivity {
                 }
                 break;
             case R.id.bt_finish:
+                BluetoothLeService.isStartRide = false;
                 isStart = false;
                 mapPreseter.stop();
                 isPause = false;
@@ -251,6 +259,7 @@ public class IndexActivity extends BaseActivity {
                             switch (view.getId()) {
                                 case R.id.ll_open:
                                     IndexActivity.sendData(BLuetoothData.getOpenAlert());
+                                    //IndexActivity.sendData(BLuetoothData.getFirmwareVersoin());
                                     takePhotoPopWin.dismiss();
                                     break;
                                 case R.id.ll_close:
@@ -261,7 +270,10 @@ public class IndexActivity extends BaseActivity {
                                     IndexActivity.sendData(BLuetoothData.getFindCar());
                                     takePhotoPopWin.dismiss();
                                     break;
-
+                                case R.id.ll_update:
+                                    IndexActivity.sendData(BLuetoothData.getFirmwareVersoin());
+                                    takePhotoPopWin.dismiss();
+                                    break;
                             }
                         }
                     });
@@ -332,7 +344,6 @@ public class IndexActivity extends BaseActivity {
 
     protected void onResume() {
         super.onResume();
-        registerBroadCasst();
     }
 
     private MapLocationRecive mapLocationRecive;
@@ -393,188 +404,218 @@ public class IndexActivity extends BaseActivity {
             bluetoothStateRecive = new BluetoothStateRecive(new BluetoothStateRecive.BlueetoothStateChangeListener() {
                 @Override
                 public void onReciveData(final int state, final String data, final byte[] realData) {
+                    switch (state){
+                        case 0:
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    isLinkBlue = true;
+                                    showMsg("蓝牙链接成功");
+                                }
+                            });
+                            break;
+                        case 4:
+                            //蓝牙打开
+                            openEquipmentOrConnect();
+                            break;
+                        case 6:
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showMsg("已经关闭蓝牙");
+                                    //已经关闭蓝牙
+                                    tvEle.setVisibility(View.GONE);
+                                    isLinkBlue = false;
+                                    arcView.setDataType(CustomArcView.DataType.NONE);
+                                    mBluetoothLeService.localBluetoothClose();
+                                    if(progressDialog != null){
+                                        progressDialog.cancel();
+                                        progressDialog = null;
+                                    }
+                                }
+                            });
+                            break;
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (state == 0) {
-                                isLinkBlue = true;
-                                showMsg("蓝牙链接成功");
-                            }
-                            if (state == 4) {
-                                //蓝牙打开
-//                                if(mBluetoothLeService!=null && mBluetoothLeService.isConnect() !=null) {
-//                                   mBluetoothLeService.erConnect();
-//                                }else{
-//                                    ScanActivity.openScanActivity(IndexActivity.this);
-//                                }
-                                openEquipmentOrConnect();
-                            }
+                        case 3:
+                            //蓝牙数据接收
+                            switch (realData[4]){
+                                case 3:
+                                    //电量
+                                   runOnUiThread(new Runnable() {
+                                       @Override
+                                       public void run() {
+                                           try {
+                                               tvEle.setVisibility(View.VISIBLE);
+                                               String elcNumber = new StringBuffer().append(String.format("%02X", realData[7])).append(String.format("%02X", realData[8])).toString();
+                                               int count = (Integer.valueOf(elcNumber, 16) - 3500) * 100 / 700;
+                                               if (count < 10) {
+                                                   tvEle.setImageResource(R.drawable.empty_battery);
+                                               } else if (count < 20) {
+                                                   tvEle.setImageResource(R.drawable.ele_low);
+                                               } else if (count < 40) {
+                                                   tvEle.setImageResource(R.drawable.ele_low2);
+                                               } else if (count < 60) {
+                                                   tvEle.setImageResource(R.drawable.ele_medum);
+                                               } else if (count < 80) {
+                                                   tvEle.setImageResource(R.drawable.ele_high1);
+                                               } else {
+                                                   tvEle.setImageResource(R.drawable.ele_high2);
+                                               }
+                                           } catch (Exception e) {
 
-                            if (state == 6) {
-                                showMsg("已经关闭蓝牙");
-                                //已经关闭蓝牙
-                                tvEle.setVisibility(View.GONE);
-                                isLinkBlue = false;
-                                arcView.setDataType(CustomArcView.DataType.NONE);
-                                mBluetoothLeService.localBluetoothClose();
-                            }
+                                           }
+                                       }
+                                   });
+                                    break;
 
-                            if (3 == state) {
-                                if (3 == realData[4]) {
-                                    //0x16禁止
-//                                    int count = (realData[7] * 256 + realData[8])/700;
-                                    try {
-                                        tvEle.setVisibility(View.VISIBLE);
-                                        String elcNumber = new StringBuffer().append(String.format("%02X", realData[7])).append(String.format("%02X", realData[8])).toString();
-                                        int count = (Integer.valueOf(elcNumber, 16) - 3500) * 100 / 700;
-                                        if (count < 10) {
-                                            tvEle.setImageResource(R.drawable.empty_battery);
-                                        } else if (count < 20) {
-                                            tvEle.setImageResource(R.drawable.ele_low);
-                                        } else if (count < 40) {
-                                            tvEle.setImageResource(R.drawable.ele_low2);
-                                        } else if (count < 60) {
-                                            tvEle.setImageResource(R.drawable.ele_medum);
-                                        } else if (count < 80) {
-                                            tvEle.setImageResource(R.drawable.ele_high1);
-                                        } else {
-                                            tvEle.setImageResource(R.drawable.ele_high2);
+                                case 5:
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            int tuen = realData[7];
+                                            if (1 == tuen) {
+                                                mediaPlayerUtils.palyLeftMedia();
+                                                arcView.setDataType(CustomArcView.DataType.LEFT);
+                                            } else if (2 == tuen) {
+                                                mediaPlayerUtils.palyRightMedia();
+                                                arcView.setDataType(CustomArcView.DataType.RIGHT);
+                                            } else if (3 == tuen) {
+                                                mediaPlayerUtils.playEnd();
+                                                new Handler().postDelayed(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        arcView.setDataType(CustomArcView.DataType.NONE);
+                                                    }
+                                                }, 200);
+                                            } else if (4 == tuen) {
+                                                mediaPlayerUtils.setPlayTime();
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        arcView.setDataType(CustomArcView.DataType.NONE);
+                                                    }
+                                                });
+                                            }
+
                                         }
-                                    } catch (Exception e) {
-
-                                    }
-                                }
-                                //转向
-                                if (5 == realData[4]) {
-                                    int tuen = realData[7];
-                                    if (1 == tuen) {
-                                        mediaPlayerUtils.palyLeftMedia();
-                                        arcView.setDataType(CustomArcView.DataType.LEFT);
-                                    } else if (2 == tuen) {
-                                        mediaPlayerUtils.palyRightMedia();
-                                        arcView.setDataType(CustomArcView.DataType.RIGHT);
-                                    } else if (3 == tuen) {
-                                        mediaPlayerUtils.playEnd();
-                                        new Handler().postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                arcView.setDataType(CustomArcView.DataType.NONE);
-                                            }
-                                        }, 200);
-                                    } else if (4 == tuen) {
-                                        mediaPlayerUtils.setPlayTime();
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                arcView.setDataType(CustomArcView.DataType.NONE);
-                                            }
-                                        });
-                                    }
-
-                                }
-                                //55 55 55 55 01 01 00 01 55 55 55 55
-                                if (1 == realData[4]) {
-                                    if (realData[7] == 1) {
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
+                                    });
+                                    break;
+                                case 1:
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if (realData[7] == 1) {
                                                 arcView.setDataType(CustomArcView.DataType.SHACHE);
+                                                mediaPlayerUtils.palyShacheMedia();
+                                            } else {
+                                                arcView.setDataType(CustomArcView.DataType.NONE);
                                             }
-                                        });
-                                        mediaPlayerUtils.palyShacheMedia();
-                                    } else {
-                                        arcView.setDataType(CustomArcView.DataType.NONE);
-                                    }
-                                }
-                                if (13 == realData[4]) {
-                                    //警报
-                                    if (alertDialog == null) {
-                                        alertDialog = new AlertDialog.Builder(IndexActivity.this)
-                                                .setTitle("警报")
-                                                .setMessage("收到警报信号")
-                                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        alertDialog = null;
-                                                        dialog.cancel();
-                                                    }
-                                                }).setPositiveButton("忽略", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.cancel();
-                                                        sendData(BLuetoothData.getOpenAlert());
-                                                    }
-                                                }).create();
-                                        alertDialog.show();
-                                    }
-                                }
-
-
-                                //固件版本
-                                //55 55 55 55 0x16 0x01 00 01 55 55 55 55
-                                if(realData[4] == 0x16){
-                                    try {
-                                        if (Contact.fireWave.getVersionCode() > realData[7]) {
-                                            sendData(BLuetoothData.getFirmwareUp(Contact.fireWave));
-                                        } else {
-                                           ToastUtil.showToast(getApplicationContext(),"已经是最新版本了");
                                         }
-                                    }catch (Exception e){
-                                        ToastUtil.showToast(getApplicationContext(),"已经是最新版本了");
-                                    }
-                                }
-                                //55 55 55 55 11 01 00 01
-                                if(realData[4] == 0x11) {
-                                    if(0x01 == realData[7]){
-                                        //sendPackge(0);
-                                        ToastUtil.showToast(getApplicationContext(),"准备升级，大约需要5分钟");
+                                    });
+                                    break;
+                                case 13:
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if (alertDialog == null) {
+                                                alertDialog = new AlertDialog.Builder(IndexActivity.this)
+                                                        .setTitle("警报")
+                                                        .setMessage("收到警报信号")
+                                                        .setNegativeButton("忽略", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                alertDialog = null;
+                                                                dialog.cancel();
+                                                            }
+                                                        }).setPositiveButton("开锁", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                dialog.cancel();
+                                                                sendData(BLuetoothData.getOpenAlert());
+                                                            }
+                                                        }).create();
+                                                alertDialog.show();
+                                            }
+                                        }
+                                    });
+                                    break;
+                                case 0x16:
+                                    if (Contact.fireWave.getVersionCode() > realData[7]) {
+                                        sendData(BLuetoothData.getFirmwareUp(Contact.fireWave));
                                     }else{
-                                        if(onDisdialogMissListener!=null){
-                                            onDisdialogMissListener.dissmiss();
-                                        }
-                                        ToastUtil.showToast(getApplicationContext(),"取消升级，大约需要5分钟");
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ToastUtil.showToast(getApplicationContext(),"已经是最新版本了");
+                                                    if(onDisdialogMissListener != null){
+                                                        onDisdialogMissListener.dissmiss();;
+                                                    }
+                                                }
+                                            });
                                     }
-                                }
-                                if(realData[4]==0x14){
-                                    ToastUtil.showToast(getApplicationContext(),"升级失败，重新升级，大约需要5分钟");
-                                    sendData(BLuetoothData.getFirmwareUp(Contact.fireWave));
-                                }
 
-                                if(realData[4] == 0x17){
-                                    if(onDisdialogMissListener!=null){
-                                        onDisdialogMissListener.dissmiss();
-                                    }
-                                    showMsg("固件升级成功");
-                                }
-                                //升级过程中的
-                                //55 55 55 55 0x12 0x02 0x00 0x01 0x00
-                                if(realData[4] == 0x12){
+                                    break;
+                                case 0x11:
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if(0x01 == realData[7]){
+                                                //sendPackge(0);
+                                               progressDialog = ProgressDialog.show(IndexActivity.this,"提示","升级，大概需要五分钟...");
+                                            }else{
+                                                if(progressDialog !=null)
+                                                     progressDialog.cancel();
+                                                if(onDisdialogMissListener != null){
+                                                    onDisdialogMissListener.dissmiss();
+                                                }
+                                                showMsg("取消升级");
+                                            }
+                                        }
+                                    });
+                                    break;
+                                case 0x14:
+                                    sendData(BLuetoothData.getFirmwareUp(Contact.fireWave));
+                                    break;
+                                case 0x17:
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if(progressDialog !=null)
+                                                progressDialog.cancel();
+
+                                            if(onDisdialogMissListener != null){
+                                                onDisdialogMissListener.dissmiss();
+                                            }
+                                            showMsg("升级成功");
+                                        }
+                                    });
+                                    break;
+                                case 0x12:
                                     if(realData[8] == 0x00){
-                                        //发送升级包
                                         sendPackge(realData[7]);
                                     }else{
                                         sendData(BLuetoothData.getReplyState());
-//                                        if(0x01 != realData[8]){
-//                                            sendPackge(realData[7]);
-//                                        }
-
+                                    }
+                                    break;
+                            }
+                            break;
+                        case 1:
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if(progressDialog !=null)
+                                        progressDialog.cancel();
+                                    showMsg("失去连接");
+                                    if(onDisdialogMissListener != null){
+                                        onDisdialogMissListener.dissmiss();
                                     }
                                 }
+                            });
+                            break;
+                    }
 
-                            } else if (1 == state) {    //失去通信，断开连接
-                                if(onDisdialogMissListener!=null){
-                                    onDisdialogMissListener.dissmiss();
-                                }
-                                tvEle.setVisibility(View.GONE);
-                                arcView.setDataType(CustomArcView.DataType.NONE);
-                                showMsg("蓝牙已经失去连接");
-                                isLinkBlue = false;
-                            }
                         }
                     });
-                }
-            });
         }
 
         registerReceiver(bluetoothStateRecive, BluetoothStateRecive.makeGattUpdateIntentFilter());
@@ -587,6 +628,7 @@ public class IndexActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unRegisterBroadCast();
         mapPreseter.finish(null);
         unbindService(mServiceConnection);
         mBluetoothLeService = null;
@@ -597,8 +639,10 @@ public class IndexActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        unRegisterBroadCast();
+
     }
+
+
 
     private void unRegisterBroadCast() {
         if (mapLocationRecive != null) {
@@ -623,31 +667,14 @@ public class IndexActivity extends BaseActivity {
         }
         if(requestCode == 101){
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                showMsg("权限被拒绝，允许写入日志");
+                showMsg("权限被拒绝，请允许定位权限");
             } else {
-                showMsg("权限被拒绝，请在文件写入权限");
+                showMsg("权限被拒绝，请在设置中设置定位权限");
             }
         }
     }
 
-    public static void write(String string,String fileName){
-        File file = new File(Environment.getExternalStorageDirectory(),fileName);
-        if(!file.exists()){
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            FileWriter fileWriter = new FileWriter(file,true);
-            fileWriter.write(string);
-            fileWriter.flush();
-            fileWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -712,7 +739,16 @@ public class IndexActivity extends BaseActivity {
             }
         }
     }
-    private void sendPackge(int pacge){
+    private void sendPackge(final int pacge){
+        if(pacge > Contact.fireWave.getBytes().size()){
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showMsg("应发送最后一个包"+pacge);
+                }
+            });
+            return;
+        }
         byte[] packgeBytes = Contact.fireWave.getBytes().get(pacge-1);
         byte[] bizBytes = new byte[packgeBytes.length+4];//指令1 内容2 包名1 2048+2+1+1 = 2052+8 = 2060
         System.arraycopy(packgeBytes,0,bizBytes,4,packgeBytes.length);

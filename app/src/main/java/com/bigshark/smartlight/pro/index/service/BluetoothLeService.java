@@ -64,7 +64,7 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
  */
 public class BluetoothLeService extends Service {
     private final static String TAG = BluetoothLeService.class.getSimpleName();
-
+    public static boolean isStartRide = false;
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
     private String mBluetoothDeviceAddress;
@@ -160,12 +160,22 @@ public class BluetoothLeService extends Service {
         public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
             super.onReadRemoteRssi(gatt, rssi, status);
             Log.i("强度",Math.abs(rssi)+"");
+            if(isStartRide){
+                return;
+            }
             if(Math.abs(rssi)>=95 && SmartLightsApplication.isAutoClose){
-                sendValue(BLuetoothData.getCloseAlert());
-                Log.i("Load",rssi+"开启进阶");
+                if(isCanLoad) {
+                    sendValue(BLuetoothData.getCloseAlert());
+                }
+                isCanLoad = true;
+                Log.i("Load",rssi+"开启警戒");
+            }else{
+                isCanLoad = false;
             }
         }
     };
+
+    private  boolean isCanLoad = false;
 
     private void broadcastUpdate(final String action) {
         final Intent intent = new Intent(action);
@@ -199,7 +209,7 @@ public class BluetoothLeService extends Service {
                 final StringBuilder stringBuilder = new StringBuilder(data.length);
                 for(byte byteChar : data)
                     stringBuilder.append(String.format("%02X ", byteChar));
-                IndexActivity.write("写入:"+stringBuilder+"\n","蓝牙收到指令.txt");
+                //IndexActivity.write("写入:"+stringBuilder+"\n","蓝牙收到指令.txt");
                 Bundle bundle = new Bundle();
                 bundle.putByteArray(EXTRA_DATA,data);
                 intent.putExtras(bundle);
@@ -564,7 +574,7 @@ public class BluetoothLeService extends Service {
             for(byte byteChar : queue.peek())
                 stringBuffer.append(String.format("%02X ", byteChar));
             Log.i("Load",stringBuffer.toString());
-            IndexActivity.write("写入:"+stringBuffer+"\n","蓝牙升级包指令.txt");
+            //IndexActivity.write("写入:"+stringBuffer+"\n","蓝牙升级包指令.txt");
             if(mBluetoothGatt == null) {
                 Log.e(TAG, "BluetoothAdapter not initialized");
                 return;
