@@ -131,7 +131,7 @@ public class EquipmentActivity extends BaseActivity {
                     final AlertDialog alertDialog = new AlertDialog.Builder(this)
                             .setTitle("提示")
                             .setMessage("尊敬的客户，android4.0以上蓝牙扫描时需要GPS定位。请您在设置中打开GPS，并允许“骑格”使用。")
-                            .setPositiveButton("去设置", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     Intent GPSIntent = new Intent();

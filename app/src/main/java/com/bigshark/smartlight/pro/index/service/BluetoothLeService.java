@@ -163,12 +163,13 @@ public class BluetoothLeService extends Service {
             if(isStartRide){
                 return;
             }
-            if(Math.abs(rssi)>=95 && SmartLightsApplication.isAutoClose){
+            if(Math.abs(rssi)>=85 && SmartLightsApplication.isAutoClose){
                 if(isCanLoad) {
                     sendValue(BLuetoothData.getCloseAlert());
+                    Log.i("Load",rssi+"开启警戒");
+                    isCanLoad = false;
                 }
                 isCanLoad = true;
-                Log.i("Load",rssi+"开启警戒");
             }else{
                 isCanLoad = false;
             }
@@ -309,11 +310,11 @@ public class BluetoothLeService extends Service {
         countDownTimer.start();
         return true;
     }
-
+    public static  boolean isCanOpenDevice = false;
     /**
      * 超时处理
      */
-    private CountDownTimer countDownTimer = new CountDownTimer(5000,1000) {
+    private CountDownTimer countDownTimer = new CountDownTimer(10000,1000) {
         @Override
         public void onTick(long l) {
 
@@ -321,7 +322,12 @@ public class BluetoothLeService extends Service {
 
         @Override
         public void onFinish() {
-            BluetoothLeService.this.startActivity(new Intent(BluetoothLeService.this,EquipmentActivity.class).setFlags(FLAG_ACTIVITY_NEW_TASK));
+           // ToastUtil.showToast(BluetoothLeService.this,"连接超时，请在设备管理中添加设备");
+            if(isCanOpenDevice) {
+                BluetoothLeService.this.startActivity(new Intent(BluetoothLeService.this, EquipmentActivity.class).setFlags(FLAG_ACTIVITY_NEW_TASK));
+            }else{
+                ToastUtil.showToast(BluetoothLeService.this,"连接超时，请在设备管理中添加设备");
+            }
         }
     };
 

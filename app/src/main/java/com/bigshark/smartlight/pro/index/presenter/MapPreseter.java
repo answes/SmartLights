@@ -188,11 +188,13 @@ public class MapPreseter extends BasePresenter<RecordModel> {
                 LatLng location = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
                 savesLatlng.add(location);
                 long newTime = System.currentTimeMillis();
-                int times = 1;
-                if(times == 1 |(newTime - speedTime) > 60000){
-                    savesSpeeds.add(new Speed(String.valueOf(aMapLocation.getSpeed()),times));
-                    speedTime = newTime;
-                    times++;
+                if(aMapLocation.getSpeed() !=0) {
+                    int times = 1;
+                    if (times == 1 | (newTime - speedTime) > 60000) {
+                        savesSpeeds.add(new Speed(String.valueOf(aMapLocation.getSpeed()), times));
+                        speedTime = newTime;
+                        times++;
+                    }
                 }
                 if (maxSpeed < aMapLocation.getSpeed()) {
                     maxSpeed = aMapLocation.getSpeed();

@@ -18,6 +18,7 @@ import com.bigshark.smartlight.R;
 import com.bigshark.smartlight.mvp.presenter.impl.MVPBasePresenter;
 import com.bigshark.smartlight.pro.base.view.BaseActivity;
 import com.bigshark.smartlight.pro.index.broadcast.BluetoothStateRecive;
+import com.bigshark.smartlight.pro.index.service.BluetoothLeService;
 import com.bigshark.smartlight.pro.index.view.adapter.viewhold.BluetoothScanAdapter;
 import com.bigshark.smartlight.pro.market.view.navigation.GoodDetailsNavigationBuilder;
 import com.bigshark.smartlight.utils.SQLUtils;
@@ -142,6 +143,8 @@ public class ScanActivity extends BaseActivity {
             @Override
             public void onItemClick(final int potsion) {
                 adapter.stopLeScan(callback);
+                BluetoothLeService.isCanOpenDevice = false;
+                showMsg("正在连接蓝牙车灯，请等待。");
                 new Handler().post(new Runnable() {
                     @Override
                     public void run() {

@@ -19,7 +19,7 @@ public class MediaPlayerUtils {
     private MediaPlayer playerLeft;
     private MediaPlayer playeRight;
     private MediaPlayer playEnd;
-    private MediaPlayer playShache;
+    //private MediaPlayer playShache;
     private MediaPlayer playTime;
 
 
@@ -32,7 +32,7 @@ public class MediaPlayerUtils {
     public void init() {
         playerLeft =  MediaPlayer.create(context, R.raw.left);
         playeRight = MediaPlayer.create(context,R.raw.right);
-        playShache = MediaPlayer.create(context,R.raw.shache);
+//        playShache = MediaPlayer.create(context,R.raw.shache);
         playEnd = MediaPlayer.create(context,R.raw.end);
         playTime = MediaPlayer.create(context,R.raw.time);
     }
@@ -40,10 +40,10 @@ public class MediaPlayerUtils {
     public void release() {
         playerLeft.release();
         playeRight.release();
-        playShache.release();
+//        playShache.release();
         playEnd.release();
         playTime.release();
-        playShache.release();
+//        playShache.release();
     }
 
     /**
@@ -73,9 +73,9 @@ public class MediaPlayerUtils {
      */
     public void palyShacheMedia() {
         if (SmartLightsApplication.isOpenVioce) {
-            if(!playShache.isPlaying()){
-                playShache.start();
-            }
+//            if(!playShache.isPlaying()){
+//                playShache.start();
+//            }
         }
     }
 
