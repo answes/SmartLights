@@ -1,13 +1,19 @@
 package com.bigshark.smartlight.pro.mine.view;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -80,7 +86,13 @@ public class EquipmentActivity extends BaseActivity {
             });
         }
         registerReceiver(recive, BluetoothStateRecive.makeGattUpdateIntentFilter());
-
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 101
+                );
+            }
+        }
     }
 
     private void initData() {
@@ -198,5 +210,15 @@ public class EquipmentActivity extends BaseActivity {
             return true;
         }
         return false;
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == 101){
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                showMsg("定位权限获得成功");
+            } else {
+                showMsg("权限被拒绝，请在设置中设置定位权限");
+            }
+        }
     }
 }

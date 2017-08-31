@@ -1,8 +1,14 @@
 package com.bigshark.smartlight.pro.mine.view;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
@@ -67,6 +73,13 @@ public class LoginActivity extends BaseActivity {
                 }
             }
         });
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 101
+                );
+            }
+        }
     }
 
     private void initToolbar() {
@@ -147,5 +160,16 @@ public class LoginActivity extends BaseActivity {
 
     public static void openLoginActivity(Activity activity){
         activity.startActivity(new Intent(activity,LoginActivity.class));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == 101){
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                showMsg("定位权限获得成功");
+            } else {
+                showMsg("权限被拒绝，请在设置中设置定位权限");
+            }
+        }
     }
 }
